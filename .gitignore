@@ -33,3 +33,14 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+.DS_Store
+*~
+*.pyc
+*.pyo
+venv
+redis-*
+data/*
+dump.rdb
+redweb/
+tests/load-test/results

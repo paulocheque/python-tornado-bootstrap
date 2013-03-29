@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block alertbox %}
+  {% if alert is not None %}
+    <div class='alert alert-notice alert-block'>
+      {{alert}}
+    </div>
+  {% end %}
+{% end %}
+
+
+{% block js %}
+  <script language="JavaScript">
+
+    // confirm that the two passwords match before the user can submit
+    function pwConfirm(){
+      if ($('#password1').val() != $('#password2').val() || $('#password1').val().trim() == ''){
+        $('#pw_button').val('New passwords must match')
+                       .attr('disabled', 'disabled');
+      } else {
+        $('#pw_button').val('Change password')
+                       .removeAttr('disabled');
+      }
+    }
+  </script>
+{% end %}
+
+{% block content %}
+  <div span='row'>
+    <ul>
+      <li>Email address: {{current_user.email}}</li>
+      <li>Registered on: {{current_user.registered_on}}</li>
+    </ul>
+  </div>
+  <div span='row'>
+    <div class='span6'>
+      <h2>Reset your password</h2>
+      <form name="pw_reset" action="/change_password" method="POST">
+        <input type="password" class="input-medium" placeholder="Current password" id="password_current" name="password_current"><br>
+        <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password" id="password1" name="password"><br>
+        <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password again" id="password2" name="password2"><br>
+        <input class="btn btn-danger" value="Change password" type='submit' id="pw_button">
+      </form>
+    </div>
+  </div>
+
+{% end %}
