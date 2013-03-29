@@ -42,6 +42,7 @@ task :server => [] do
 end
 
 task :mongo => [] do
+  sh "mkdir -p data/db"
   sh "mongod --dbpath=data/db"
 end
 
