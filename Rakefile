@@ -18,11 +18,16 @@ def colorize(text, color)
   end
 end
 
+task :clean => [] do
+  sh "rm -rf *.pyc *.pyo"
+  sh "rm -rf data"
+end
+
 task :install => [] do
   sh "python --version"
   sh "ruby --version"
   sh "easy_install pip"
-  sh "virtualenv venv"
+  sh "virtualenv venv --distribute"
   # sh "source venv/bin/activate"
   sh "pip install -r requirements.txt"
   # sh "pip install -r requirements-test.txt"
@@ -52,17 +57,40 @@ task :dashboard => [] do
   sh "rq-dashboard"
 end
 
+task :monitor => [] do
+  sh "redis-cli info"
+  sh "redis-cli ping"
+  # sh "redis-cli (get key) (set key value)"
+end
+
 task :test => [] do
   sh "nosetests"
 end
 
 task :load_test => [] do
+  # sh "multimech-newproject tests/load-test"
   sh "multimech-run tests/load-test"
   sh "python tests/benchmarks/your_file.py"
 end
 
 task :heroku => [] do
+  sh "heroku login"
   sh "heroku config"
+
+  # heroku apps:create YOUR_APP
+  # heroku addons:add newrelic
+  # newrelic-admin generate-config YOUR_ID newrelic.ini
+  # heroku addons:add papertrail
+  # heroku addons:add loggly
+  # heroku addons:add redistogo
+  # heroku domains:add YOUR_DOMAIN
+
+  # heroku ps:scale web=1
+  # heroku ps
+  # heroku open
+  # heroku logs
+  # heroku logs -t -p worker
+  # heroku run python
 end
 
 task :deploy => [] do

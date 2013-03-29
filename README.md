@@ -17,3 +17,4 @@ python-tornado-bootstrap
 * https://newrelic.com/docs/python/python-agent-and-uwsgi
 
 * http://twitter.github.com/bootstrap/
+* www.favicon.cc
