@@ -1,8 +1,6 @@
 # coding: utf-8
 import tornado.web
 
-from settings import *
-
 
 class AdminMenu(tornado.web.RequestHandler):
     def head(self, text, level=2):
@@ -28,10 +26,4 @@ class AdminMenu(tornado.web.RequestHandler):
         self.write(self.head('Example', level=2))
         self.write(self.link('/admin'))
         self.write(self.form('/form', dict(attr='')))
-
-        self.write(self.head('Production', level=1))
-        self.write(self.link('http://%s.herokuapp.com/admin/' % HEROKU_APP_NAME))
-        self.write(self.link('https://heroku.newrelic.com/accounts/%s/applications/%s' % \
-                             (HEROKU_NEW_RELIC_ACCOUNT, HEROKU_NEW_RELIC_APP)))
-        self.write(self.link('http://dashboard.heroku.com'))
         self.write('</body></html>')

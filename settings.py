@@ -3,11 +3,6 @@ import os
 
 DEBUG = False
 
-APP_NAME = 'Your App'
-
-HEROKU_APP_NAME = ''
-HEROKU_NEW_RELIC_ACCOUNT = ''
-HEROKU_NEW_RELIC_APP = ''
 
 TORNADO_SETTINGS = dict(
     gzip=True,

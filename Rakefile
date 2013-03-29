@@ -73,24 +73,28 @@ task :load_test => [] do
   sh "python tests/benchmarks/your_file.py"
 end
 
+task :heroku_create => [] do
+  app = nil
+  domain = nil
+  sh "heroku apps:create #{app}" if app
+  sh "heroku addons:add newrelic"
+  # sh "newrelic-admin generate-config YOUR_ID newrelic.ini"
+  sh "heroku addons:add papertrail"
+  sh "heroku addons:add loggly"
+  sh "heroku addons:add redistogo"
+  sh "heroku domains:add #{domain}" if domain
+end
+
 task :heroku => [] do
   sh "heroku login"
   sh "heroku config"
 
-  # heroku apps:create YOUR_APP
-  # heroku addons:add newrelic
-  # newrelic-admin generate-config YOUR_ID newrelic.ini
-  # heroku addons:add papertrail
-  # heroku addons:add loggly
-  # heroku addons:add redistogo
-  # heroku domains:add YOUR_DOMAIN
-
-  # heroku ps:scale web=1
-  # heroku ps
-  # heroku open
-  # heroku logs
-  # heroku logs -t -p worker
-  # heroku run python
+  sh "heroku ps:scale web=1"
+  sh "heroku ps"
+  sh "heroku open"
+  sh "heroku logs"
+  sh "heroku logs -t -p worker"
+  # sh "heroku run python"
 end
 
 task :deploy => [] do
