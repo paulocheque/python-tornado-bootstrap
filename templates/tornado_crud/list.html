@@ -2,57 +2,27 @@
 
 
 {% block content %}
-<form class="form-horizontal" action="/passwords" method="post">
-<fieldset>
 
-<!-- Form Name -->
-<h2>New password record</h2>
-
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label">Application</label>
-  <div class="controls">
-    <input id="app" name="app" type="text" placeholder="app" class="input-xlarge" required="">
-    <p class="help-block"></p>
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label">Login</label>
-  <div class="controls">
-    <input id="login" name="login" type="text" placeholder="login" class="input-xlarge" required="">
-    <p class="help-block">It will be encrypted</p>
-  </div>
-</div>
-
-<!-- Password input-->
-<div class="control-group">
-  <label class="control-label">Password</label>
-  <div class="controls">
-    <input id="password" name="password" type="password" placeholder="password" class="input-xlarge" required="">
-    <p class="help-block">It will be encrypted</p>
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label">Tags</label>
-  <div class="controls">
-    <input id="tags" name="tags" type="text" placeholder="tag1,tag2,tag3..." class="input-xlarge">
-    <p class="help-block">Separate tags by commas</p>
-  </div>
-</div>
-
-<!-- Button -->
-<div class="control-group">
-  <label class="control-label"></label>
-  <div class="controls">
-    <button id="add" name="add" class="btn btn-primary">Add</button>
-  </div>
-</div>
-
-</fieldset>
-</form>
+<table id="table_objs" class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>etc</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+            <td>etc</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+            <td>etc</td>
+        </tr>
+    </tbody>
+</table>
 
 {% end %}
