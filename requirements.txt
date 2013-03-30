@@ -2,6 +2,7 @@ tornado==2.4.1
 gunicorn==0.17.2
 wsgiref==0.1.2
 #uWSGI==1.4.4
+tornado-rest-handler==0.0.2
 
 mongoengine==0.7.9
 pymongo==2.4.2
