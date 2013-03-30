@@ -47,33 +47,37 @@
           <a class="brand" href="/">Your App</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              {% if current_user is not None%}
-                <li><a href="/account">Account</a></li>
-              {% end %}
               {% if current_user is not None %}
-                </ul>
-                <a href="/logout" class='navbar-text pull-right'>Log Out {{ current_user.email }}</a>
+                <li><a href="/account">Account</a></li>
+                <li><a href="/your-link">Your Link</a></li>
               {% else %}
                 <li><a href="/register">Register</a></li>
               {% end %}
-              </ul>
-              {% if current_user is None %}
+            </ul>
+
+            {% if current_user is not None %}
+                <a href="/logout" class='navbar-text pull-right'>Log Out {{ current_user.email }}</a>
+            {% else %}
                 <form class="navbar-form pull-right" action="/login" method="POST">
                   <input class="span2" type="text" placeholder="Email" name='email'>
                   <input class="span2" type="password" placeholder="Password" name='password'>
                   <button type="submit" class="btn">Sign in</button>
                 </form>
-              {% end %}
+            {% end %}
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
     <div class="container">
-      <!-- alert box -->
-        {% block alertbox %}{% end %}
+      {% if alert is not None %}
+        <div class='alert alert-notice alert-block'>
+          {{ alert }}
+        </div>
+      {% end %}
+
       <!-- Main hero unit for a primary marketing message or call to action -->
-        {% block hero %}{% end %}
+      {% block hero %}{% end %}
 
       <!-- Example row of columns -->
       <div class="row">

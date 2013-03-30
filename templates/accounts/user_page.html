@@ -1,13 +1,4 @@
-{% extends "base.html" %}
-
-{% block alertbox %}
-  {% if alert is not None %}
-    <div class='alert alert-notice alert-block'>
-      {{alert}}
-    </div>
-  {% end %}
-{% end %}
-
+{% extends "../base.html" %}
 
 {% block js %}
   <script language="JavaScript">
@@ -28,8 +19,8 @@
 {% block content %}
   <div span='row'>
     <ul>
-      <li>Email address: {{current_user.email}}</li>
-      <li>Registered on: {{current_user.registered_on}}</li>
+      <li>Email address: {{ current_user.email }}</li>
+      <li>Registered on: {{ current_user.registered_on }}</li>
     </ul>
   </div>
   <div span='row'>

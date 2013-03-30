@@ -24,21 +24,27 @@ class AccountsHandler(tornado.web.RequestHandler):
         except IndexError:
             return None
 
+    def render(self, template_name, **kwargs):
+        kwargs['current_user'] = self.get_current_user()
+        if 'alert' not in kwargs:
+            kwargs['alert'] = None
+        super(AccountsHandler, self).render(template_name, **kwargs)
+
 
 class RegisterHandler(AccountsHandler):
     def get(self):
-        self.render('register.html', just_registered=False, page='register')
+        self.render('accounts/register.html', just_registered=False)
 
     def post(self):
         email = self.get_argument('email', None)
         pw = self.get_argument('password', None)
 
         if email is None or pw is None:
-            self.render('main.html')
+            self.render('accounts/register.html', alert='Email and password must not be blank')
             return
 
         if len(User.objects(email=email)) > 0:
-            self.render('main.html', hey='%s is already registered' % email, page='register')
+            self.render('accounts/register.html', alert='%s is already registered' % email)
             return
 
         user = User(
@@ -50,7 +56,7 @@ class RegisterHandler(AccountsHandler):
 
         # log them in by setting the cookie
         self.set_secure_cookie('user', user.email)
-        self.render('register.html', just_registered=True, current_user=user, page='register')
+        self.redirect('/')
 
 
 class LoginHandler(AccountsHandler):
@@ -63,7 +69,7 @@ class LoginHandler(AccountsHandler):
 
         user = User.objects(email=email, password=pw)
         if len(user) != 1:
-            self.render('main.html', hey='Bad login. Try again', page=None, tests=[])
+            self.render('accounts/register.html', alert='Bad login! Are you registered?')
             return
         user = user[0]
         self.set_secure_cookie('user', user.email)
@@ -90,9 +96,72 @@ class ResetPasswordHandler(AccountsHandler):
                 alert_text = 'Your password, public key, and private key have been changed!'
         else:
             alert_text = 'Password change failed!'
-        self.render('user_page.html', page='account', alert=alert_text)
+        self.render('accounts/user_page.html', alert=alert_text)
 
 
 class UserPageHandler(AccountsHandler):
     def get(self):
-        self.render('user_page.html', alert=None)
+        self.render('accounts/user_page.html', alert=None)
+
+
+class CrudHandler(AccountsHandler):
+    def template_dir(self):
+        return 'tornado_crud/'
+
+    def obj_type(self):
+        return None
+
+    def fields(self):
+        return [k for k,v in User._fields.iteritems() if v.required]
+
+    def exclude(self):
+        return []
+
+    def objs(self):
+        return self.obj_type().objects
+
+    def obj(self, obj_id):
+        return self.obj_type().objects.filter(id=obj_id).first()
+
+    def render(self, template_name, **kwargs):
+        super(CrudHandler, self).render(self.template_dir() + template_name, **kwargs)
+
+    def get(self, obj_id=None, edit=False):
+        if self.request.uri.endswith('/new'):
+            self.render('edit.html', obj=None)
+        if obj_id:
+            obj = self.obj(obj_id)
+            if obj:
+                if edit:
+                    self.render('edit.html', obj=obj)
+                else:
+                    data = self.get_arguments('obj_data')
+                    self.render('show.html', obj=obj)
+            else:
+                self.render('list.html', objs=self.objs(), message='Object not found')
+        else:
+            self.render('list.html', objs=self.objs())
+
+    def put(self, obj_id):
+        data = self.get_argument('obj_data')
+        obj = self.obj(obj_id)
+        if obj:
+            self.render(self.template_dir + 'list.html')
+        else:
+            raise tornado.web.HTTPError(404, 'Object not found')
+
+    def post(self):
+        data = self.get_argument('obj_data')
+        success = True
+        if success:
+            self.render(self.template_dir + 'list.html', message='Object added successfully')
+        else:
+            self.render(self.template_dir + 'edit.html', obj=obj, errors=[])
+
+    def delete(self, obj_id):
+        obj = self.obj(obj_id)
+        if obj:
+            self.render('list.html', message='Object deleted successfully')
+        else:
+            raise tornado.web.HTTPError(404, 'Object not found')
+

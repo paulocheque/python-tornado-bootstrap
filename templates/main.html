@@ -1,23 +1,5 @@
 {% extends "base.html" %}
 
-{% block hero %}
-  <div class="hero-unit">
-    <p>
-      {% if current_user is not None %}
-        You're logged in as {{ current_user.email }}.
-      {% else %}
-        <h1>Welcome!</h1>
-        <p>
-          Yay
-        </p>
-        <p>
-          Yay
-        </p>
-      {% end %}
-    </p>
-  </div>
-{% end %}
-
 {% block content %}
 <div class="row">
   <div class="span6">
@@ -34,4 +16,22 @@
       <li>Item 2</li>
   </div>
 </div>
+{% end %}
+
+{% block hero %}
+  <div class="hero-unit">
+    <p>
+      {% if current_user is not None %}
+        You're logged in as {{ current_user.email }}.
+      {% else %}
+        <h1>Welcome!</h1>
+        <p>
+          Yay
+        </p>
+        <p>
+          Yay
+        </p>
+      {% end %}
+    </p>
+  </div>
 {% end %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "../base.html" %}
 
 {% block css %}
       .form-signin {
@@ -36,13 +36,5 @@
         <button class="btn btn-large btn-primary" type="submit">Create account</button>
 
       </form>
-  {% end %}
-{% end %}
-
-
-{% block hero %}
-  {% if just_registered == True and current_user is not None %}
-    <h1>Welcome!</h1>
-    You're registered as <strong>{{current_user.email}}</strong>. Have fun!
   {% end %}
 {% end %}

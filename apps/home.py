@@ -1,8 +1,9 @@
 # coding: utf-8
 import tornado.web
 
+from apps.accounts.handlers import AccountsHandler
 
-class Home(tornado.web.RequestHandler):
+class Home(AccountsHandler):
     def get(self):
         self.render('main.html')
 
