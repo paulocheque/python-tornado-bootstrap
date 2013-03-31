@@ -23,8 +23,7 @@ logging.basicConfig(
     datefmt='%H:%M:%S'
 )
 
-
-application = tornado.web.Application(routes([
+TORNADO_ROUTES = [
     (r'/?', Home),
     (r'/admin?', AdminMenu),
 
@@ -37,10 +36,10 @@ application = tornado.web.Application(routes([
 
     # rest_routes(Example, prefix='examples', handler=CustomExampleHandler),
 
-    (r'/(favicon\.ico)', tornado.web.StaticFileHandler, dict(path=os.path.dirname(__file__) + '/static')),
     (r'/.*\.(ico|png|jpg|gif|css|js|html)', tornado.web.StaticFileHandler, dict(path=os.path.dirname(__file__) + '/static')),
-    ]), **TORNADO_SETTINGS
-)
+]
+
+application = tornado.web.Application(routes(TORNADO_ROUTES), **TORNADO_SETTINGS)
 
 
 if __name__ == "__main__":
