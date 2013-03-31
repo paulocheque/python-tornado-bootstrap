@@ -1,5 +1,7 @@
 # coding: utf-8
 from datetime import datetime
+import re
+import sha
 
 from mongoengine import *
 
@@ -7,6 +9,7 @@ from mongoengine import *
 class User(Document):
     email = StringField(required=True)
     password = StringField(required=True)
+    second_password = StringField(required=False)
     registered_on = DateTimeField(required=True, default=datetime.utcnow())
 
     def validate_password(self):
@@ -22,21 +25,26 @@ class User(Document):
         if errors:
             raise ValidationError('ValidationError', errors=errors)
 
+    def encrypt_password(self, password):
+        return sha.sha(password).hexdigest()
+
     def save(self, encrypt_pass=False, **kwargs):
         if encrypt_pass:
             self.validate_password()
-            self.password = sha.sha(self.password).hexdigest()
+            self.password = self.encrypt_password(self.password)
+            if self.second_password:
+                self.second_password = self.encrypt_password(self.second_password)
         super(User, self).save(**kwargs)
 
     def authenticate(self, email, password):
         if password:
-            pw = sha.sha(password).hexdigest()
+            pw = self.encrypt_password(password)
             return User.objects(email=email, password=pw)
         return []
 
     def change_password(self, current_password, new_password):
         errors = {}
-        if sha.sha(current_password).hexdigest() != self.password:
+        if self.encrypt_password(current_password) != self.password:
             errors['password'] = ValidationError('The current password is wrong', field_name='password')
         if current_password != self.password:
             errors['password'] = ValidationError('New password must not be the same as the old one', field_name='password')

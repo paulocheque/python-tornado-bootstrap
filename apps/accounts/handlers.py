@@ -41,8 +41,9 @@ class RegisterHandler(AccountsHandler):
     def post(self):
         email = self.get_argument('email', None)
         pw = self.get_argument('password', None)
+        second_password = self.get_argument('second_password', None)
 
-        if email is None or pw is None:
+        if email is None or pw is None or second_password is None:
             self.render('accounts/register.html', alert='Email and password must not be blank.')
             return
 
@@ -51,7 +52,7 @@ class RegisterHandler(AccountsHandler):
             return
 
         try:
-            user = User(email=email, password=pw)
+            user = User(email=email, password=pw, second_password=second_password)
             user.save(encrypt_pass=True)
             self.set_secure_cookie('user', user.email)
             self.redirect('/')
