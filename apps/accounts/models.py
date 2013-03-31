@@ -25,26 +25,24 @@ class User(Document):
         if errors:
             raise ValidationError('ValidationError', errors=errors)
 
-    def encrypt_password(self, password):
-        return sha.sha(password).hexdigest()
-
     def save(self, encrypt_pass=False, **kwargs):
         if encrypt_pass:
             self.validate_password()
-            self.password = self.encrypt_password(self.password)
+            self.password = User.encrypt_password(self.password)
             if self.internal_password:
-                self.internal_password = self.encrypt_password(self.internal_password)
+                self.internal_password = User.encrypt_password(self.internal_password)
         super(User, self).save(**kwargs)
 
-    def authenticate(self, email, password):
+    @classmethod
+    def authenticate(cls, email, password):
         if password:
-            pw = self.encrypt_password(password)
+            pw = User.encrypt_password(password)
             return User.objects(email=email, password=pw)
         return []
 
     def change_password(self, current_password, new_password):
         errors = {}
-        if self.encrypt_password(current_password) != self.password:
+        if User.encrypt_password(current_password) != self.password:
             errors['password'] = ValidationError('The current password is wrong', field_name='password')
         if current_password != self.password:
             errors['password'] = ValidationError('New password must not be the same as the old one', field_name='password')
@@ -52,6 +50,10 @@ class User(Document):
             raise ValidationError('ValidationError', errors=errors)
         self.password = new_password
         self.save(encrypt_pass=True)
+
+    @classmethod
+    def encrypt_password(cls, password):
+        return sha.sha(password).hexdigest()
 
     @classmethod
     def is_valid_password(cls, password):
