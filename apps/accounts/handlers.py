@@ -29,6 +29,12 @@ class AccountsHandler(tornado.web.RequestHandler):
             kwargs['alert'] = None
         super(AccountsHandler, self).render(template_name, **kwargs)
 
+    def raise403(self):
+        raise tornado.web.HTTPError(403, 'Not enough permissions to perform this action')
+
+    def raise404(self):
+        raise tornado.web.HTTPError(404, 'Object not found')
+
 
 class AccountsRestHandler(MongoEngineRestHandler, AccountsHandler):
     pass
@@ -41,9 +47,9 @@ class RegisterHandler(AccountsHandler):
     def post(self):
         email = self.get_argument('email', None)
         pw = self.get_argument('password', None)
-        second_password = self.get_argument('second_password', None)
+        internal_password = self.get_argument('internal_password', None)
 
-        if email is None or pw is None or second_password is None:
+        if email is None or pw is None or internal_password is None:
             self.render('accounts/register.html', alert='Email and password must not be blank.')
             return
 
@@ -52,7 +58,7 @@ class RegisterHandler(AccountsHandler):
             return
 
         try:
-            user = User(email=email, password=pw, second_password=second_password)
+            user = User(email=email, password=pw, internal_password=internal_password)
             user.save(encrypt_pass=True)
             self.set_secure_cookie('user', user.email)
             self.redirect('/')

@@ -9,7 +9,7 @@ from mongoengine import *
 class User(Document):
     email = StringField(required=True)
     password = StringField(required=True)
-    second_password = StringField(required=False)
+    internal_password = StringField(required=False)
     registered_on = DateTimeField(required=True, default=datetime.utcnow())
 
     def validate_password(self):
@@ -32,8 +32,8 @@ class User(Document):
         if encrypt_pass:
             self.validate_password()
             self.password = self.encrypt_password(self.password)
-            if self.second_password:
-                self.second_password = self.encrypt_password(self.second_password)
+            if self.internal_password:
+                self.internal_password = self.encrypt_password(self.internal_password)
         super(User, self).save(**kwargs)
 
     def authenticate(self, email, password):

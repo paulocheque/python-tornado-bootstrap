@@ -8,6 +8,7 @@ import tornado.web
 
 from settings import *
 import db # connect to databases
+from tornado_rest_handler import routes, rest_routes
 
 # apps
 from apps.home import Home
@@ -23,9 +24,10 @@ logging.basicConfig(
 )
 
 
-application = tornado.web.Application([
+application = tornado.web.Application(routes([
     (r'/?', Home),
     (r'/admin?', AdminMenu),
+
 
     (r"/register", RegisterHandler),
     (r"/login", LoginHandler),
@@ -33,13 +35,11 @@ application = tornado.web.Application([
     (r"/change_password", ResetPasswordHandler),
     (r"/account", UserPageHandler),
 
-    # (r'/example/?', Example),
-    # (r'/example/(\d{1,3})/?', Example),
-    # (r'/example/([a-zA-Z0-9-]{3,20})/?', Example),
+    # rest_routes(Example, prefix='examples', handler=CustomExampleHandler),
 
     (r'/(favicon\.ico)', tornado.web.StaticFileHandler, dict(path=os.path.dirname(__file__) + '/static')),
     (r'/.*\.(ico|png|jpg|gif|css|js|html)', tornado.web.StaticFileHandler, dict(path=os.path.dirname(__file__) + '/static')),
-    ], **TORNADO_SETTINGS
+    ]), **TORNADO_SETTINGS
 )
 
 

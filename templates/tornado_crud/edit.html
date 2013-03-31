@@ -6,7 +6,12 @@
 <fieldset>
 
 <!-- Form Name -->
-<h2>New password record</h2>
+{% if obj is None %}
+<h1>New Record</h1>
+{% else %}
+<h1>Editing Record</h1>
+{% end %}
+
 
 <!-- Text input-->
 <div class="control-group">
