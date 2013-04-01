@@ -83,6 +83,8 @@ task :heroku_create => [] do
   sh "heroku addons:add papertrail"
   sh "heroku addons:add loggly"
   sh "heroku addons:add redistogo"
+  sh "heroku addons:add mongohq"
+  # sh "heroku addons:add mongolab"
   sh "heroku domains:add #{domain}" if domain
 end
 

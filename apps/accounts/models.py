@@ -7,7 +7,7 @@ from mongoengine import *
 
 
 class User(Document):
-    email = StringField(required=True)
+    email = EmailField(required=True)
     password = StringField(required=True)
     internal_password = StringField(required=False)
     registered_on = DateTimeField(required=True, default=datetime.utcnow())
