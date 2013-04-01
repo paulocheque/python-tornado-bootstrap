@@ -45,3 +45,4 @@ data/*
 dump.rdb
 redweb/
 tests/load-test/results
+environment
