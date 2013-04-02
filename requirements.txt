@@ -1,4 +1,4 @@
-tornado==2.4.1
+tornado==3.0
 gunicorn==0.17.2
 wsgiref==0.1.2
 #uWSGI==1.4.4
