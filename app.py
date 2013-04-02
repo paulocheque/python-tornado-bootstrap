@@ -19,7 +19,7 @@ from apps.accounts.handlers import *
 logging.basicConfig(
     stream=sys.stdout,
     level=logging.DEBUG,
-    format='"%(asctime)s %(levelname)8s %(name)s - %(message)s"',
+    format=''%(asctime)s %(levelname)8s %(name)s - %(message)s'',
     datefmt='%H:%M:%S'
 )
 
@@ -28,21 +28,19 @@ TORNADO_ROUTES = [
     (r'/admin?', AdminMenu),
 
 
-    (r"/register", RegisterHandler),
-    (r"/login", LoginHandler),
-    (r"/logout", LogoutHandler),
-    (r"/change_password", ResetPasswordHandler),
-    (r"/account", UserPageHandler),
+    (r'/register', RegisterHandler),
+    (r'/login', LoginHandler),
+    (r'/logout', LogoutHandler),
+    (r'/change_password', ResetPasswordHandler),
+    (r'/account', UserPageHandler),
 
     # rest_routes(Example, prefix='examples', handler=CustomExampleHandler),
-
-    (r'/.*\.(ico|png|jpg|gif|css|js|html)', tornado.web.StaticFileHandler, dict(path=os.path.dirname(__file__) + '/static')),
 ]
 
 application = tornado.web.Application(routes(TORNADO_ROUTES), **TORNADO_SETTINGS)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # http://www.tornadoweb.org/documentation/wsgi.html
     # to use with newrelic
     import newrelic.agent
