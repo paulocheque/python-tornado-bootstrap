@@ -18,6 +18,10 @@ def colorize(text, color)
   end
 end
 
+def virtual_env(command, env="env")
+  sh "source #{env}/bin/activate && #{command}"
+end
+
 task :clean => [] do
   sh "rm -rf *.pyc *.pyo"
   sh "rm -rf data"
@@ -27,18 +31,15 @@ task :install => [] do
   sh "python --version"
   sh "ruby --version"
   sh "easy_install pip"
-  sh "virtualenv venv --distribute"
-  # sh "source venv/bin/activate"
-  sh "pip install -r requirements.txt"
-  # sh "pip install -r requirements-test.txt"
+  sh "virtualenv env --distribute"
+  virtual_env("pip install -r requirements.txt")
+  virtual_env("pip install -r requirements-test.txt")
   sh "brew install mongo"
   sh "brew install redis"
 end
 
 task :server => [] do
-  # sh "source venv/bin/activate"
-  sh "foreman start"
-  #sh "python app.py"
+  virtual_env("foreman start")
 end
 
 task :mongo => [] do
@@ -65,13 +66,13 @@ task :monitor => [] do
 end
 
 task :test => [] do
-  sh "nosetests"
+  virtual_env("nosetests")
 end
 
 task :load_test => [] do
-  # sh "multimech-newproject tests/load-test"
-  sh "multimech-run tests/load-test"
-  sh "python tests/benchmarks/your_file.py"
+  # virtual_env("multimech-newproject tests/load-test")
+  virtual_env("multimech-run tests/load-test")
+  virtual_env("python tests/benchmarks/your_file.py")
 end
 
 task :heroku_create => [] do
