@@ -39,6 +39,7 @@ nosetests.xml
 *.pyc
 *.pyo
 env
+env3
 venv
 redis-*
 data/*
