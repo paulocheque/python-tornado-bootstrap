@@ -98,7 +98,14 @@ task :heroku => [] do
   sh "heroku open"
   sh "heroku logs"
   sh "heroku logs -t -p worker"
-  # sh "heroku run python"
+end
+
+task :logs => [] do
+  sh "heroku logs --tail"
+end
+
+task :console => [] do
+  sh "heroku run python"
 end
 
 task :deploy => [] do
