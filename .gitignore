@@ -39,8 +39,10 @@ nosetests.xml
 *.pyc
 *.pyo
 env
+env27
 env3
-venv
+env32
+env33
 redis-*
 data/*
 dump.rdb
