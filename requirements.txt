@@ -3,7 +3,10 @@ gunicorn==0.17.2
 wsgiref==0.1.2
 #uWSGI==1.4.4
 
-git+git://github.com/paulocheque/tornado-rest-handler.git#egg=tornado-rest-handler
+#git+git://github.com/paulocheque/python-rest-handler.git#egg=python-rest-handler
+#git+git://github.com/paulocheque/tornado-rest-handler.git#egg=tornado-rest-handler
+git+https://github.com/paulocheque/python-rest-handler.git#egg=python-rest-handler
+git+https://github.com/paulocheque/tornado-rest-handler.git#egg=tornado-rest-handler
 
 mongoengine==0.7.9
 pymongo==2.4.2
