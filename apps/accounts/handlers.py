@@ -5,7 +5,7 @@
 from datetime import datetime
 
 import tornado.web
-from tornado_rest_handler import MongoEngineRestHandler
+from tornado_rest_handler import TornadoRestHandler
 
 from models import *
 
@@ -29,14 +29,8 @@ class AccountsHandler(tornado.web.RequestHandler):
             kwargs['alert'] = None
         super(AccountsHandler, self).render(template_name, **kwargs)
 
-    def raise403(self):
-        raise tornado.web.HTTPError(403, 'Not enough permissions to perform this action')
 
-    def raise404(self):
-        raise tornado.web.HTTPError(404, 'Object not found')
-
-
-class AccountsRestHandler(MongoEngineRestHandler, AccountsHandler):
+class RestAccountsHandler(AccountsHandler, TornadoRestHandler):
     pass
 
 
