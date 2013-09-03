@@ -34,34 +34,44 @@
   <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn navbar-btn" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Your App</a>
-          <div class="navbar-collapse collapse">
-            <ul class="nav">
-              {% if current_user is not None %}
-                <li><a href="/account">Account</a></li>
-                <li><a href="/your-link">Your Link</a></li>
-              {% else %}
-                <li><a href="/register">Register</a></li>
-              {% end %}
-            </ul>
+      <div class="container">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Your App</a>
+        <div class="nav-collapse collapse navbar-responsive-collapse" style="max-height:50px;">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Links <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/">Link 1</a></li>
+                <li><a href="/">Link 2</a></li>
+                <li class="divider"></li>
+                <li><a href="http://facebook.com/">Facebook page</a></li>
+              </ul>
+            </li>
 
             {% if current_user is not None %}
-                <a href="/logout" class='navbar-text pull-right'>Log Out {{ current_user.email }}</a>
+              <ul class="nav navbar-nav pull-right">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><li><a href="/account">Settings</a></li></li>
+                    <li><a href="/logout" class="pull-right">Log Out {{ current_user.email }}</a></li>
+                  </ul>
+                </li>
+              </ul>
             {% else %}
-                <form class="navbar-form pull-right" action="/login" method="POST">
-                  <input class="col-md-2" type="text" placeholder="Email" name='email'>
-                  <input class="col-md-2" type="password" placeholder="Password" name='password'>
-                  <button type="submit" class="btn">Sign in</button>
-                </form>
+              <li><a href="/register">Register</a></li>
+              <form class="navbar-form pull-right" action="/login" method="POST">
+                <input class="col-md-2" type="text" placeholder="Email" name='email'>
+                <input class="col-md-2" type="password" placeholder="Password" name='password'>
+                <button type="submit" class="btn">Sign in</button>
+              </form>
             {% end %}
-          </div><!--/.nav-collapse -->
+          </ul>
         </div>
       </div>
     </div>
