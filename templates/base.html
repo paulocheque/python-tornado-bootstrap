@@ -42,9 +42,11 @@
 
         <a class="navbar-brand" href="/">Your App</a>
 
-        {% if current_user is not None and False %}
-        <div class="nav-collapse collapse navbar-responsive-collapse" style="max-height:50px;">
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
+          {% if not current_user or current_user == 'None' %}
+            <li><a href="/register">Register</a></li>
+          {% else %}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Links <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -54,9 +56,12 @@
                 <li><a href="http://facebook.com/">Facebook page</a></li>
               </ul>
             </li>
+          {% end %}
           </ul>
 
           <ul class="nav navbar-nav pull-right">
+          {% if not current_user or current_user == 'None' %}
+          {% else %}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -65,20 +70,16 @@
               </ul>
             </li>
           </ul>
-        {% else %}
-        <div class="nav-collapse collapse navbar-responsive-collapse" style="max-height:50px;">
-          <ul class="nav navbar-nav">
-            <li><a href="/register">Register</a></li>
+          {% end %}
           </ul>
-          <div class="nav pull-right">
+
+          {% if not current_user or current_user == 'None' %}
             <form class="navbar-form pull-right" action="/login" method="POST">
               <input class="col-md-2" type="text" placeholder="Email" name='email'>
               <input class="col-md-2" type="password" placeholder="Password" name='password'>
               <button type="submit" class="btn">Sign in</button>
             </form>
-          </div>
-        </div>
-        {% end %}
+          {% end %}
         </div>
       </div>
     </div>
