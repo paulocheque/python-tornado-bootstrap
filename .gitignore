@@ -42,6 +42,11 @@ env27
 env30
 env32
 env33
+env2.6
+env2.7
+env3.0
+env3.2
+env3.3
 
 load-tests/*
 redis-*

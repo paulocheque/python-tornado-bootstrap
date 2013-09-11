@@ -30,7 +30,7 @@ end
 
 task :clean => [] do
   sh "rm -rf ~*"
-  sh "rm -rf *.pyc *.pyo"
+  sh "find . -name '*.pyc' -delete"
   sh "rm -rf data/"
   sh "rm -rf *.egg-info"
   sh "rm -rf dist/"
@@ -137,5 +137,7 @@ end
 task :deploy => [] do
   sh "git push heroku master"
 end
+
+task :all => [:dev_env, :dependencies, :tests]
 
 task :default => [:tests]

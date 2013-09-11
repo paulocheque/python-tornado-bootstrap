@@ -4,6 +4,10 @@ wsgiref==0.1.2
 #uWSGI==1.4.4
 #bottle==0.11.6
 
+python-dateutil==2.1
+requests==1.2.3
+six==1.4.1
+
 #git+git://github.com/paulocheque/python-rest-handler.git#egg=python-rest-handler
 #git+git://github.com/paulocheque/tornado-rest-handler.git#egg=tornado-rest-handler
 #git+https://github.com/paulocheque/python-rest-handler.git#egg=python-rest-handler
