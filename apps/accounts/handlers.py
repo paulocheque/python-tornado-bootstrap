@@ -11,6 +11,9 @@ from models import *
 
 
 class AccountsHandler(tornado.web.RequestHandler):
+    def post_login_redirect_url(self):
+        return self.get_argument('next', self.settings.get('post_login_redirect_url', '/'))
+
     def get_current_user(self):
         email = self.get_secure_cookie("user")
         if email is None:
