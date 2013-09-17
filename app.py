@@ -7,12 +7,13 @@ import tornado.ioloop
 import tornado.web
 
 from settings import *
-import db # connect to databases
+import db_connection # connect to databases
 from tornado_rest_handler import routes, rest_routes
 
 # apps
 from apps.home import Home
 from apps.admin import AdminMenu
+from apps.accounts.social import *
 from apps.accounts.handlers import *
 
 
@@ -27,6 +28,8 @@ TORNADO_ROUTES = [
     (r'/?', Home),
     (r'/admin?', AdminMenu),
 
+    (r'/auth/facebook', FacebookLoginHandler),
+    (r'/auth/google', GoogleLoginHandler),
 
     (r'/register', RegisterHandler),
     (r'/login', LoginHandler),
