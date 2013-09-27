@@ -80,7 +80,7 @@ class LoginHandler(AccountsHandler):
 class LogoutHandler(AccountsHandler):
     def get(self):
         self.clear_cookie('user')
-        self.redirect('/')
+        self.redirect(self.post_login_redirect_url())
 
 
 class ResetPasswordHandler(AccountsHandler):
