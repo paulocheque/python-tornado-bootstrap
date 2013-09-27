@@ -138,6 +138,11 @@ task :deploy => [] do
   sh "git push heroku master"
 end
 
+task :compress_js do
+  sh "sudo npm install uglify-js -g"
+  sh "uglifyjs static/js/*.js -o x.min.js --source-map x.min.js.map -p relative -c -m"
+end
+
 task :all => [:dev_env, :dependencies, :tests]
 
 task :default => [:tests]
