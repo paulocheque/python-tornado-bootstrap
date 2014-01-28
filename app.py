@@ -8,7 +8,6 @@ import tornado.web
 
 from settings import *
 import db_connection # connect to databases
-from tornado_rest_handler import routes, rest_routes
 
 # apps
 from apps.home import Home
@@ -37,10 +36,12 @@ TORNADO_ROUTES = [
     (r'/change_password', ResetPasswordHandler),
     (r'/account', UserPageHandler),
 
-    # rest_routes(Example, prefix='examples', handler=CustomExampleHandler),
+    # (r'/api/model/?', ModelCrudHandler),
+    # (r'/api/model/([0-9a-fA-F]{24,})/?', ModelCrudHandler),
+    # (r'/api/model/count/?', ModelCrudHandler),
 ]
 
-application = tornado.web.Application(routes(TORNADO_ROUTES), **TORNADO_SETTINGS)
+application = tornado.web.Application(TORNADO_ROUTES, **TORNADO_SETTINGS)
 
 
 if __name__ == '__main__':

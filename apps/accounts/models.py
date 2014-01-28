@@ -9,8 +9,10 @@ from mongoengine import *
 class User(Document):
     email = EmailField(required=True)
     password = StringField(required=True)
+    secret_key = StringField(required=True)
+
     internal_password = StringField(required=False)
-    registered_on = DateTimeField(required=True, default=datetime.utcnow())
+    registered_on = DateTimeField(required=True, default=datetime.utcnow)
 
     def validate_password(self):
         errors = {}
@@ -31,6 +33,7 @@ class User(Document):
             self.password = User.encrypt_password(self.password)
             if self.internal_password:
                 self.internal_password = User.encrypt_password(self.internal_password)
+        created = self.id is None
         super(User, self).save(**kwargs)
 
     @classmethod
@@ -65,3 +68,7 @@ class User(Document):
         if not re.match('.*[!@#$%&*()_+-={}|/?;:,.<>\\\[\]]+', password): return False
         return True
 
+# Migration
+users = User.objects.filter(secret_key=None)
+for u in users:
+    u.save()

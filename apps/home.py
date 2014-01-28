@@ -5,5 +5,7 @@ from apps.accounts.handlers import AccountsHandler
 
 class Home(AccountsHandler):
     def get(self):
-        self.render('main.html')
-
+        if self.get_current_user():
+            self.render('main.html')
+        else:
+            self.render('main.html')

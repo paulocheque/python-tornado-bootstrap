@@ -74,11 +74,17 @@
           </ul>
 
           {% if not current_user or current_user == 'None' %}
-            <form class="navbar-form pull-right" action="/login" method="POST">
-              <input class="col-md-2" type="text" placeholder="Email" name='email'>
-              <input class="col-md-2" type="password" placeholder="Password" name='password'>
-              <button type="submit" class="btn">Sign in</button>
-            </form>
+            <div class="navbar-collapse collapse">
+              <form class="navbar-form navbar-right" role="form" action="/login" method="POST">
+                <div class="form-group">
+                  <input type="text" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="password" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+              </form>
+            </div>
           {% end %}
         </div>
       </div>
@@ -91,23 +97,17 @@
         </div>
       {% end %}
 
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      {% block hero %}{% end %}
-
-      <!-- Example row of columns -->
       <div class="row">
         {% block content %}{% end %}
       </div>
 
-      <hr>
+      <hr/>
+    </div>
 
-    </div> <!-- /container -->
-
-    <!-- Le javascript
-    ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/code.min.js"></script>
     {% block js %}{%end%}
 
   </body>
