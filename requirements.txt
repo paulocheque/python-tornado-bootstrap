@@ -24,7 +24,7 @@ git+git://github.com/ui/rq-scheduler.git#egg=rq-scheduler
 
 #git+git://github.com/tnm/redweb.git#egg=redweb
 
-newrelic==1.13.1.31
+newrelic==2.10.1.9
 
 simplejson==3.3.0
 jsonpickle==0.6.1

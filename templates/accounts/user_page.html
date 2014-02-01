@@ -17,22 +17,28 @@
 {% end %}
 
 {% block content %}
-  <div span='row'>
+<div class="page-header">
+  <h1>Account information <small>management</small></h1>
+</div>
+
+<div span='row'>
+  <div class='col-md-6'>
     <ul>
       <li>Email address: {{ current_user.email }}</li>
       <li>Registered on: {{ current_user.registered_on }}</li>
     </ul>
   </div>
-  <div span='row'>
-    <div class='col-md-6'>
-      <h2>Reset your password</h2>
-      <form name="pw_reset" action="/change_password" method="POST">
-        <input type="password" class="input-medium" placeholder="Current password" id="password_current" name="password_current"><br>
-        <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password" id="password1" name="password"><br>
-        <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password again" id="password2" name="password2"><br>
-        <input class="btn btn-danger" value="Change password" type='submit' id="pw_button">
-      </form>
-    </div>
-  </div>
+</div>
 
+<div span='row'>
+  <div class='col-md-6'>
+    <h2>Reset your password</h2>
+    <form name="pw_reset" action="/change_password" method="POST">
+      <input type="password" class="input-medium" placeholder="Current password" id="password_current" name="password_current"><br>
+      <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password" id="password1" name="password"><br>
+      <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password again" id="password2" name="password2"><br>
+      <input class="btn btn-danger" value="Change password" type='submit' id="pw_button">
+    </form>
+  </div>
+</div>
 {% end %}

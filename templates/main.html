@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="page-header">
+  <h1>Title</h1>
+</div>
+
 <div class="row">
   <div class="col-md-6">
     <h3>Left items</h3>
@@ -16,22 +20,4 @@
       <li>Item 2</li>
   </div>
 </div>
-{% end %}
-
-{% block hero %}
-  <div class="jumbotron">
-    <p>
-      {% if current_user is not None %}
-        You're logged in as {{ current_user.email }}.
-      {% else %}
-        <h1>Welcome!</h1>
-        <p>
-          Yay
-        </p>
-        <p>
-          Yay
-        </p>
-      {% end %}
-    </p>
-  </div>
 {% end %}
