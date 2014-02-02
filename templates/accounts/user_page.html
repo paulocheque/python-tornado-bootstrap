@@ -6,11 +6,9 @@
     // confirm that the two passwords match before the user can submit
     function pwConfirm(){
       if ($('#password1').val() != $('#password2').val() || $('#password1').val().trim() == ''){
-        $('#pw_button').val('New passwords must match')
-                       .attr('disabled', 'disabled');
+        $('#pw_button').val('New passwords must match').attr('disabled', 'disabled');
       } else {
-        $('#pw_button').val('Change password')
-                       .removeAttr('disabled');
+        $('#pw_button').val('Change password').removeAttr('disabled');
       }
     }
   </script>
@@ -22,16 +20,14 @@
 </div>
 
 <div span='row'>
-  <div class='col-md-6'>
+  <div class='col-md-12'>
     <ul>
       <li>Email address: {{ current_user.email }}</li>
       <li>Registered on: {{ current_user.registered_on }}</li>
     </ul>
   </div>
-</div>
 
-<div span='row'>
-  <div class='col-md-6'>
+  <div class='col-md-12'>
     <h2>Reset your password</h2>
     <form name="pw_reset" action="/change_password" method="POST">
       <input type="password" class="input-medium" placeholder="Current password" id="password_current" name="password_current"><br>

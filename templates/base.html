@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://weblibraries.s3.amazonaws.com/jquery.pnotify.default.css">
+    <link rel="stylesheet" href="http://weblibraries.s3.amazonaws.com/jquery.pnotify.default.icons.css">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -51,9 +53,6 @@
             <li><a href="http://facebook.com/">Facebook page</a></li>
           </ul>
           <ul class="nav navbar-nav">
-          {% if not current_user or current_user == 'None' %}
-            <li><a href="/register">Register</a></li>
-          {% else %}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Links <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -63,11 +62,13 @@
                 <li><a href="http://facebook.com/">Facebook page</a></li>
               </ul>
             </li>
-          {% end %}
           </ul>
 
           <ul class="nav navbar-nav pull-right">
           {% if not current_user or current_user == 'None' %}
+            <li><a href="/register">Register</a></li>
+            <li><a href="/auth/facebook" class="btn btn-default btn-xs"><i class="fa fa-facebook-square"></i> Login with Facebook</a></li>
+            <li><a href="/auth/google" class="btn btn-default btn-xs"><i class="fa fa-google-plus-square"></i> Login with Google</a></li>
           {% else %}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account <b class="caret"></b></a>
@@ -105,7 +106,9 @@
       {% end %}
 
       <div class="row">
+        <div class="col-lg-12 col-md-12">
         {% block content %}{% end %}
+        </div>
       </div>
 
       <hr/>
@@ -117,6 +120,7 @@
     <script src="http://weblibraries.s3.amazonaws.com/jquery.pnotify.min.js"></script>
     <script src="http://weblibraries.s3.amazonaws.com/jquery.maskedinput.min.js"></script>
     <script src="http://weblibraries.s3.amazonaws.com/jquery.tablesorter.min.js"></script>
+    <script src="http://weblibraries.s3.amazonaws.com/moment.min.js"></script>
     <script src="http://weblibraries.s3.amazonaws.com/ba-linkify.min.js"></script>
     <script src="http://weblibraries.s3.amazonaws.com/hmac-sha256.min.js"></script>
     <script src="http://weblibraries.s3.amazonaws.com/enc-base64.min.js"></script>
