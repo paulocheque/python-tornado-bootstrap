@@ -85,7 +85,7 @@ class RestHandler(ApiHandler):
             initial = int(self.get_argument('initial', default=0))
             amount = int(self.get_argument('amount', default=50))
             amount = max(amount, initial) # amount < initial validation
-            amount = min(amount, initial+50) # more than 50 records protection
+            amount = min(amount, initial+500) # more than 500 records protection
             objs = self.data_manager.read_list(initial=initial, amount=amount)
             self.answer(objs)
 
