@@ -55,8 +55,8 @@ task :dependencies => [:dev_env] do
   # envs = ["env26", "env27", "env32", "env33"]
   envs = ["env27"]
   envs.each { |env|
-    virtual_env("pip install -r requirements.txt --upgrade --no-deps", "#{env}")
-    virtual_env("pip install -r requirements-test.txt --upgrade --no-deps", "#{env}")
+    virtual_env("pip install -r requirements.txt", "#{env}")
+    virtual_env("pip install -r requirements-test.txt", "#{env}")
   }
 end
 
@@ -111,6 +111,7 @@ task :heroku_create => [] do
   sh "heroku addons:add loggly"
   sh "heroku addons:add redistogo"
   sh "heroku addons:add mongohq"
+  sh "heroku addons:add scheduler"
   # sh "heroku addons:add mongolab"
   sh "heroku domains:add #{DOMAIN}" if DOMAIN
 end

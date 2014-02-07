@@ -7,7 +7,9 @@ import tornado.ioloop
 import tornado.web
 
 from settings import *
-import db_connection # connect to databases
+ # connect to databases
+import connect_mongo
+import connect_redis
 
 # apps
 from apps.home import Home

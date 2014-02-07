@@ -10,6 +10,7 @@ six==1.4.1
 
 mongoengine==0.8.7
 pymongo==2.6.3
+pil==1.1.7
 
 redis==2.8.0
 
@@ -29,3 +30,5 @@ newrelic==2.10.1.9
 simplejson==3.3.0
 jsonpickle==0.6.1
 #git+git://github.com/paulocheque/jsonpickle.git#egg=jsonpickle
+
+py-social==0.0.1

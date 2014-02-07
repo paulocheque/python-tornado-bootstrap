@@ -1,16 +1,34 @@
+#!/usr/bin/env bash
+import logging
 import os
 
-import redis
 from rq import Worker, Queue, Connection
 
-listen = ['high', 'default', 'low']
+import connect_mongo
+import connect_redis
 
-redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 
-conn = redis.from_url(redis_url)
+def task_timeout_handler(job, exc_type, exc_value, traceback):
+    logging.error('Worker error handler')
+    logging.error('%s %s %s' % (exc_type, exc_value, traceback))
+    # if exc_type == DequeueTimeout or exc_type == JobTimeoutException:
+    #     pass # Timeout
+    # else:
+    #     pass # Unknown
+
+
+# http://python-rq.org/
+# https://github.com/nvie/rq/
+# http://python-rq.org/docs/
+# http://python-rq.org/docs/results/
+# http://python-rq.org/docs/exceptions/
+def listen_queue(queues=['default']):
+    redis_connection = connect_redis.connect_to_redis()
+    with Connection(redis_connection):
+        worker = Worker(map(Queue, queues))
+        worker.push_exc_handler(task_timeout_handler)
+        worker.work()
 
 
 if __name__ == '__main__':
-    with Connection(conn):
-        worker = Worker(map(Queue, listen))
-        worker.work()
+    listen_queue()
