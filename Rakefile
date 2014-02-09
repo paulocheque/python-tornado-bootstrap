@@ -112,6 +112,7 @@ task :heroku_create => [] do
   sh "heroku addons:add redistogo"
   sh "heroku addons:add mongohq"
   sh "heroku addons:add scheduler"
+  sh "heroku addons:add sendgrid"
   # sh "heroku addons:add mongolab"
   sh "heroku domains:add #{DOMAIN}" if DOMAIN
 end
