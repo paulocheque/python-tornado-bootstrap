@@ -29,6 +29,8 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 class CachedBaseHandler(BaseHandler):
+    expire_timeout = 60 * 60 * 24 # in seconds
+
     def prepare(self):
         cached = redis_connection.get(self.request.uri)
         if cached is not None:
@@ -37,7 +39,8 @@ class CachedBaseHandler(BaseHandler):
             self.finish()
 
     def render_string(self, template_name, **kwargs):
-        html_generated = super(CacheBaseHandler, self).render_string(template_name, **kwargs)
+        html_generated = super(CachedBaseHandler, self).render_string(template_name, **kwargs)
         redis_connection.set(self.request.uri, html_generated)
+        redis_connection.expire(self.request.uri, self.expire_timeout)
         # print('Page %s cached' % self.request.uri)
         return html_generated
