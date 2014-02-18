@@ -32,14 +32,17 @@ class CachedBaseHandler(BaseHandler):
     expire_timeout = 60 * 60 * 24 # in seconds
 
     def prepare(self):
-        cached = redis_connection.get(self.request.uri)
-        if cached is not None:
-            # print('Read cached page for %s' % self.request.uri)
-            self.write(cached)
-            self.finish()
+        ignore_cache = self.get_argument('ignore_cache', None)
+        if not ignore_cache:
+            cached = redis_connection.get(self.request.uri)
+            if cached is not None:
+                # print('Read cached page for %s' % self.request.uri)
+                self.write(cached)
+                self.finish()
 
     def render_string(self, template_name, **kwargs):
         html_generated = super(CachedBaseHandler, self).render_string(template_name, **kwargs)
+        # redis_connection.setex(self.request.uri, self.expire_timeout, html_generated)
         redis_connection.set(self.request.uri, html_generated)
         redis_connection.expire(self.request.uri, self.expire_timeout)
         # print('Page %s cached' % self.request.uri)
