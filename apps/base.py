@@ -32,8 +32,9 @@ class CachedBaseHandler(BaseHandler):
     expire_timeout = 60 * 60 * 24 # in seconds
 
     def prepare(self):
+        dev_mode = 'localhost' in self.request.host
         ignore_cache = self.get_argument('ignore_cache', None)
-        if not ignore_cache:
+        if not ignore_cache and not dev_mode:
             cached = redis_connection.get(self.request.uri)
             if cached is not None:
                 # print('Read cached page for %s' % self.request.uri)
