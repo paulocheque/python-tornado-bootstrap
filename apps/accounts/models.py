@@ -1,5 +1,6 @@
 # coding: utf-8
 from datetime import datetime
+import os
 import re
 import sha
 
@@ -11,7 +12,6 @@ class User(Document):
     password = StringField(required=True)
     secret_key = StringField(required=True)
 
-    internal_password = StringField(required=False)
     registered_on = DateTimeField(required=True, default=datetime.utcnow)
 
     def validate_password(self):
@@ -31,10 +31,13 @@ class User(Document):
         if encrypt_pass:
             self.validate_password()
             self.password = User.encrypt_password(self.password)
-            if self.internal_password:
-                self.internal_password = User.encrypt_password(self.internal_password)
         created = self.id is None
+        if not self.secret_key:
+            self.generate_secret_key()
         super(User, self).save(**kwargs)
+
+    def generate_secret_key(self):
+        self.secret_key = os.urandom(24).encode('base64').strip()
 
     @classmethod
     def authenticate(cls, email, password):
