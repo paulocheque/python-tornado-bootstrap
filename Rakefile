@@ -1,6 +1,3 @@
-APP = nil
-DOMAIN = nil
-
 def colorize(text, color)
   color_codes = {
     :black    => 30,
@@ -104,17 +101,25 @@ task :monitor => [] do
 end
 
 task :heroku_create => [] do
-  sh "heroku apps:create #{APP}" if APP
-  sh "heroku addons:add newrelic"
+  SERVER = "server"
+  WORKER = "worker"
+  DOMAIN = nil
+
+  # sh "heroku apps:create #{SERVER}" if SERVER
+  # sh "heroku apps:create #{WORKER}" if WORKER
+  sh "heroku addons:add newrelic --app #{SERVER}"
+  sh "heroku addons:add newrelic --app #{WORKER}"
   # sh "newrelic-admin generate-config YOUR_ID newrelic.ini"
-  sh "heroku addons:add papertrail"
-  sh "heroku addons:add loggly"
-  sh "heroku addons:add redistogo"
-  sh "heroku addons:add mongohq"
-  sh "heroku addons:add scheduler"
-  sh "heroku addons:add sendgrid"
-  # sh "heroku addons:add mongolab"
-  sh "heroku domains:add #{DOMAIN}" if DOMAIN
+  sh "heroku addons:add papertrail --app #{SERVER}"
+  sh "heroku addons:add papertrail --app #{WORKER}"
+  # sh "heroku addons:add loggly --app #{SERVER}"
+  # sh "heroku addons:add loggly --app #{WORKER}"
+  sh "heroku addons:add redistogo --app #{SERVER}"
+  sh "heroku addons:add mongohq --app #{SERVER}"
+  sh "heroku addons:add scheduler --app #{WORKER}"
+  sh "heroku addons:add sendgrid --app #{WORKER}"
+  # sh "heroku addons:add mongolab --app #{SERVER}"
+  # sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if DOMAIN
 end
 
 task :heroku => [] do
@@ -137,7 +142,29 @@ task :console => [] do
 end
 
 task :deploy => [] do
+  SERVER = "server"
+  WORKER = "worker"
+
+  REDISTOGO_URL = `heroku config:get REDISTOGO_URL --app #{SERVER}`
+  REDISTOGO_URL.strip!
+  sh "heroku config:set REDIS_URL=#{REDISTOGO_URL} REDISTOGO_URL=#{REDISTOGO_URL} --app #{WORKER}"
+
+  MONGOHQ_URL = `heroku config:get MONGOHQ_URL --app #{SERVER}`
+  MONGOHQ_URL.strip!
+  sh "heroku config:set MONGOHQ_URL=#{MONGOHQ_URL} --app #{WORKER}"
+
   sh "git push heroku master"
+  sh "heroku ps:scale web=1 --app #{SERVER}"
+  sh "heroku ps:scale worker=0 --app #{SERVER}"
+
+  sh "git push heroku2 master"
+  sh "heroku ps:scale web=0 --app #{WORKER}"
+  sh "heroku ps:scale worker=1 --app #{WORKER}"
+
+  sh "heroku ps --app #{SERVER}"
+  sh "heroku ps --app #{WORKER}"
+  sh "heroku config --app #{SERVER}"
+  sh "heroku config --app #{WORKER}"
 end
 
 task :compress_js do
