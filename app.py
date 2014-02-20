@@ -11,6 +11,14 @@ from settings import *
 import connect_mongo
 import connect_redis
 
+# http://stackoverflow.com/questions/8143141/using-flask-and-tornado-together
+from flask import Flask
+from rq_dashboard import RQDashboard
+rq_dashboard_app = Flask(__name__)
+rq_dashboard_app.config['REDIS_URL'] = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+RQDashboard(rq_dashboard_app, '/rq')
+tr = tornado.wsgi.WSGIContainer(rq_dashboard_app)
+
 # apps
 from apps.home import Home
 from apps.admin import AdminMenu
@@ -41,6 +49,8 @@ TORNADO_ROUTES = [
     # (r'/api/model/?', ModelCrudHandler),
     # (r'/api/model/([0-9a-fA-F]{24,})/?', ModelCrudHandler),
     # (r'/api/model/count/?', ModelCrudHandler),
+
+    (r'.*', tornado.web.FallbackHandler, dict(fallback=tr)),
 ]
 
 application = tornado.web.Application(TORNADO_ROUTES, **TORNADO_SETTINGS)

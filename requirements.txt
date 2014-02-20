@@ -13,10 +13,10 @@ pymongo==2.6.3
 pil==1.1.7
 
 redis==2.8.0
-
 #rq==0.3.11
 git+git://github.com/nvie/rq.git#egg=rq
 
+flask==0.10.1
 #rq-dashboard==0.3.3
 git+git://github.com/nvie/rq-dashboard.git#egg=rq-dashboard
 
