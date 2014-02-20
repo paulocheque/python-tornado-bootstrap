@@ -4,8 +4,10 @@ from apps.accounts.models import User # FIXME need refactoring
 
 
 class MongoEngineDataManager(object):
-    def __init__(self, model):
+    def __init__(self, model, user=None, ip=None):
         self.model = model
+        self.user = user
+        self.ip = ip
 
     def read_list(self, initial=0, amount=50):
         return self.model.objects.all()[initial:initial+amount]
@@ -42,10 +44,6 @@ class MongoEngineDataManager(object):
 
 
 class MongoEngineDataManagerPerUser(MongoEngineDataManager):
-    def __init__(self, model, user):
-        super(MongoEngineDataManagerPerUser, self).__init__(model)
-        self.user = user
-
     def read_list(self, initial=0, amount=50):
         objs = super(MongoEngineDataManagerPerUser, self).read_list(initial=initial, amount=amount)
         return objs(user=self.user)
