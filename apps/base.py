@@ -18,11 +18,20 @@ class BaseHandler(tornado.web.RequestHandler):
         except IndexError:
             return None
 
+    def redirect(self, url, alert=None, alert_type=None, permanent=False, status=None):
+        if alert:
+            alert = urllib.pathname2url(alert)
+            url = '%s?alert=%s' % (url, alert)
+            if alert_type:
+                url = '%s&alert_type=%s' % (url, alert_type)
+        super(BaseHandler, self).redirect(url, permanent=permanent, status=status)
+
     def render(self, template_name, **kwargs):
         if 'alert' not in kwargs:
-            kwargs['alert'] = None
+            kwargs['alert'] = self.get_argument('alert', None)
         if 'alert_type' not in kwargs:
-            kwargs['alert_type'] = None
+            # alert-success, alert-info, alert-warning, alert-danger
+            kwargs['alert_type'] = self.get_argument('alert_type', 'alert-info')
         if 'current_user' not in kwargs:
             kwargs['current_user'] = self.get_current_user()
         return super(BaseHandler, self).render(template_name, **kwargs)
