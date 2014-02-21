@@ -33,7 +33,7 @@ logging.basicConfig(
 )
 
 TORNADO_ROUTES = [
-    (r'/?', Home),
+    (r'/?', HomeHandler),
 
     (r'/auth/facebook', FacebookLoginHandler),
     (r'/auth/google', GoogleLoginHandler),

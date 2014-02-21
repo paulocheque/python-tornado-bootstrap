@@ -4,7 +4,7 @@ import tornado.web
 from apps.accounts.handlers import AccountsHandler
 
 
-class Home(AccountsHandler):
+class HomeHandler(AccountsHandler):
     def get(self):
         if self.get_current_user():
             self.render('main.html')
