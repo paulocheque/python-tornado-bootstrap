@@ -20,10 +20,9 @@ RQDashboard(rq_dashboard_app, '/rq')
 tr = tornado.wsgi.WSGIContainer(rq_dashboard_app)
 
 # apps
-from apps.home import Home
-from apps.admin import AdminMenu
 from apps.accounts.social import *
 from apps.accounts.handlers import *
+from apps.app.handlers import *
 
 
 logging.basicConfig(
