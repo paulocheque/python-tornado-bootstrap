@@ -42,14 +42,12 @@ task :install => [] do
 end
 
 task :dev_env => [] do
-  # create_virtual_env("env26", "python2.6")
   create_virtual_env("env27", "python2.7")
-  # create_virtual_env("env32", "python3.2")
   # create_virtual_env("env33", "python3.3")
 end
 
 task :dependencies => [:dev_env] do
-  # envs = ["env26", "env27", "env32", "env33"]
+  # envs = ["env27", "env33"]
   envs = ["env27"]
   envs.each { |env|
     virtual_env("pip install -r requirements.txt", "#{env}")
@@ -57,20 +55,9 @@ task :dependencies => [:dev_env] do
   }
 end
 
-task :tests => [] do
-  # virtual_env("nosetests", "env26")
+task :tests => [] do # no dependencies for performance
   virtual_env("nosetests", "env27")
-  # virtual_env("nosetests", "env32")
   # virtual_env("nosetests", "env33")
-end
-
-task :create_load_test => [] do
-  virtual_env("multimech-newproject load-tests")
-  virtual_env("pip install -r requirements-load-test.txt")
-end
-
-task :load_test => [] do
-  virtual_env("multimech-run load-tests")
 end
 
 task :server => [] do
@@ -100,71 +87,69 @@ task :monitor => [] do
   # sh "redis-cli (get key) (set key value)"
 end
 
-task :heroku_create => [] do
+namespace :heroku do
   SERVER = "server"
   WORKER = "worker"
   DOMAIN = nil
 
-  # sh "heroku apps:create #{SERVER}" if SERVER
-  # sh "heroku apps:create #{WORKER}" if WORKER
-  sh "heroku addons:add newrelic --app #{SERVER}"
-  sh "heroku addons:add newrelic --app #{WORKER}"
-  # sh "newrelic-admin generate-config YOUR_ID newrelic.ini"
-  sh "heroku addons:add papertrail --app #{SERVER}"
-  sh "heroku addons:add papertrail --app #{WORKER}"
-  # sh "heroku addons:add loggly --app #{SERVER}"
-  # sh "heroku addons:add loggly --app #{WORKER}"
-  sh "heroku addons:add redistogo --app #{SERVER}"
-  sh "heroku addons:add mongohq --app #{SERVER}"
-  sh "heroku addons:add scheduler --app #{WORKER}"
-  sh "heroku addons:add sendgrid --app #{WORKER}"
-  # sh "heroku addons:add mongolab --app #{SERVER}"
-  # sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if DOMAIN
-end
+  task :create => [] do
+    # sh "heroku apps:create #{SERVER}" if SERVER
+    # sh "heroku apps:create #{WORKER}" if WORKER
+    sh "heroku addons:add newrelic --app #{SERVER}"
+    sh "heroku addons:add newrelic --app #{WORKER}"
+    # sh "newrelic-admin generate-config YOUR_ID newrelic.ini"
+    sh "heroku addons:add papertrail --app #{SERVER}"
+    sh "heroku addons:add papertrail --app #{WORKER}"
+    # sh "heroku addons:add loggly --app #{SERVER}"
+    # sh "heroku addons:add loggly --app #{WORKER}"
+    sh "heroku addons:add redistogo --app #{SERVER}"
+    sh "heroku addons:add mongohq --app #{SERVER}"
+    sh "heroku addons:add scheduler --app #{WORKER}"
+    sh "heroku addons:add sendgrid --app #{WORKER}"
+    # sh "heroku addons:add mongolab --app #{SERVER}"
+    # sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if DOMAIN
+  end
 
-task :heroku => [] do
-  sh "heroku login"
-  sh "heroku config"
+  task :status => [] do
+    sh "heroku login"
+    sh "heroku config"
 
-  sh "heroku ps:scale web=1"
-  sh "heroku ps"
-  sh "heroku open"
-  sh "heroku logs"
-  sh "heroku logs -t -p worker"
-end
+    sh "heroku ps"
+    sh "heroku open"
+    sh "heroku logs"
+    sh "heroku logs -t -p worker"
+  end
 
-task :logs => [] do
-  sh "heroku logs --tail"
-end
+  task :logs => [] do
+    sh "heroku logs --tail"
+  end
 
-task :console => [] do
-  sh "heroku run python"
-end
+  task :console => [] do
+    sh "heroku run python"
+  end
 
-task :deploy => [] do
-  SERVER = "server"
-  WORKER = "worker"
+  task :deploy => [] do
+    REDISTOGO_URL = `heroku config:get REDISTOGO_URL --app #{SERVER}`
+    REDISTOGO_URL.strip!
+    sh "heroku config:set REDIS_URL=#{REDISTOGO_URL} REDISTOGO_URL=#{REDISTOGO_URL} --app #{WORKER}"
 
-  REDISTOGO_URL = `heroku config:get REDISTOGO_URL --app #{SERVER}`
-  REDISTOGO_URL.strip!
-  sh "heroku config:set REDIS_URL=#{REDISTOGO_URL} REDISTOGO_URL=#{REDISTOGO_URL} --app #{WORKER}"
+    MONGOHQ_URL = `heroku config:get MONGOHQ_URL --app #{SERVER}`
+    MONGOHQ_URL.strip!
+    sh "heroku config:set MONGOHQ_URL=#{MONGOHQ_URL} --app #{WORKER}"
 
-  MONGOHQ_URL = `heroku config:get MONGOHQ_URL --app #{SERVER}`
-  MONGOHQ_URL.strip!
-  sh "heroku config:set MONGOHQ_URL=#{MONGOHQ_URL} --app #{WORKER}"
+    sh "git push heroku master"
+    sh "heroku ps:scale web=1 --app #{SERVER}"
+    sh "heroku ps:scale worker=0 --app #{SERVER}"
 
-  sh "git push heroku master"
-  sh "heroku ps:scale web=1 --app #{SERVER}"
-  sh "heroku ps:scale worker=0 --app #{SERVER}"
+    sh "git push heroku2 master"
+    sh "heroku ps:scale web=0 --app #{WORKER}"
+    sh "heroku ps:scale worker=1 --app #{WORKER}"
 
-  sh "git push heroku2 master"
-  sh "heroku ps:scale web=0 --app #{WORKER}"
-  sh "heroku ps:scale worker=1 --app #{WORKER}"
-
-  sh "heroku ps --app #{SERVER}"
-  sh "heroku ps --app #{WORKER}"
-  sh "heroku config --app #{SERVER}"
-  sh "heroku config --app #{WORKER}"
+    sh "heroku ps --app #{SERVER}"
+    sh "heroku ps --app #{WORKER}"
+    sh "heroku config --app #{SERVER}"
+    sh "heroku config --app #{WORKER}"
+  end
 end
 
 task :compress_js do
