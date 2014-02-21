@@ -6,6 +6,9 @@ logging.getLogger().setLevel(logging.INFO)
 
 from fabric.api import task
 
+from apps.app.tasks import *
+
+
 @task
 def task1():
-    print('task 1')
+    a_task()
