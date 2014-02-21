@@ -112,20 +112,22 @@ namespace :heroku do
 
   task :status => [] do
     sh "heroku login"
-    sh "heroku config"
+    sh "heroku config --app #{SERVER}"
+    sh "heroku config --app #{WORKER}"
 
-    sh "heroku ps"
+    sh "heroku ps --app #{SERVER}"
+    sh "heroku ps --app #{WORKER}"
     sh "heroku open"
-    sh "heroku logs"
     sh "heroku logs -t -p worker"
   end
 
   task :logs => [] do
-    sh "heroku logs --tail"
+    sh "heroku logs --tail --app #{SERVER}"
+    sh "heroku logs --tail --app #{WORKER}"
   end
 
   task :console => [] do
-    sh "heroku run python"
+    sh "heroku run python --app #{WORKER}"
   end
 
   task :deploy => [] do
