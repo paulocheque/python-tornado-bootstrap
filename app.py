@@ -35,7 +35,6 @@ logging.basicConfig(
 
 TORNADO_ROUTES = [
     (r'/?', Home),
-    (r'/admin?', AdminMenu),
 
     (r'/auth/facebook', FacebookLoginHandler),
     (r'/auth/google', GoogleLoginHandler),
