@@ -1,5 +1,5 @@
 # coding: utf-8
-from apps.api import ApiHandler
+from .api import ApiHandler
 from apps.accounts.models import User # FIXME need refactoring
 
 
