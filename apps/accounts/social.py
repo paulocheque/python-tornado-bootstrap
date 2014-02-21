@@ -1,7 +1,7 @@
 import tornado.auth
 import apps.accounts.handlers
 
-from apps.accounts.models import User
+from .models import User
 
 
 class BaseSocialHandler(apps.accounts.handlers.AccountsHandler):

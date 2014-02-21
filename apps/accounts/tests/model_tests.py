@@ -1,8 +1,8 @@
 # coding: utf-8
-
 import unittest
 
-from apps.accounts.models import User
+from ..models import User
+
 
 class UserTests(unittest.TestCase):
     def test_valid_password(self):

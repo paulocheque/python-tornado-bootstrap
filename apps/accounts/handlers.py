@@ -6,7 +6,7 @@ from datetime import datetime
 
 import tornado.web
 
-from models import *
+from .models import *
 
 
 class AccountsHandler(tornado.web.RequestHandler):
