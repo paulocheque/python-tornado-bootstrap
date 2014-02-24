@@ -6,7 +6,7 @@ import base64
 
 import tornado.web
 
-from utils import documents_to_json
+from .serializer import documents_to_json
 
 from apps.accounts.models import User # FIXME need refactoring
 
