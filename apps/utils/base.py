@@ -1,4 +1,6 @@
 # coding: utf-8
+import urllib
+
 import tornado.web
 
 from apps.accounts.models import User
