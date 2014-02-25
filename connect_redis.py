@@ -1,6 +1,8 @@
 # coding: utf-8
-import redis
 import os
+
+import redis
+from rq import Queue
 
 
 class RedisConnection(object):
@@ -19,3 +21,9 @@ def connect_to_redis():
             print('Connecting to DEV redis')
         RedisConnection.connection = redis.from_url(redis_url)
         return RedisConnection.connection
+
+
+def default_queue():
+    redis_connection = connect_to_redis()
+    queue = Queue('default', connection=redis_connection)
+    return queue

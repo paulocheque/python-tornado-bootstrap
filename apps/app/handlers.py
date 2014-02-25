@@ -1,10 +1,10 @@
 # coding: utf-8
 import tornado.web
 
-from apps.accounts.handlers import AccountsHandler
+from apps.utils.base import BaseHandler
 
 
-class HomeHandler(AccountsHandler):
+class HomeHandler(BaseHandler):
     def get(self):
         if self.get_current_user():
             self.render('main.html')
