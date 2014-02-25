@@ -1,8 +1,8 @@
 # coding: utf-8
 import unittest
 
-import connect_mongo
-from ..models import User
+from apps.utils.tests.base import MongoEngineTestCase
+from ..models import *
 
 
 class UserTests(unittest.TestCase):
