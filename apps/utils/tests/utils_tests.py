@@ -4,7 +4,7 @@ import unittest
 from mongoengine import *
 from bson import Binary
 
-from utils import *
+from ..serializer import *
 
 
 class SerializableTests(unittest.TestCase):
