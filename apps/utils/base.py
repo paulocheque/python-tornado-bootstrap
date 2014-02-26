@@ -10,6 +10,23 @@ redis_connection = connect_redis.connect_to_redis()
 
 
 class BaseHandler(tornado.web.RequestHandler):
+    def check_permission(self, action):
+        user = self.get_current_user()
+        admin = self.is_admin_user()
+        if action in self.perm_public or (user and action in self.perm_user) or (admin and action in self.perm_admin):
+            pass # ok
+        else:
+            self.raise403()
+
+    def raise401(self):
+        raise tornado.web.HTTPError(401, 'Not enough permissions to perform this action')
+
+    def raise403(self):
+        raise tornado.web.HTTPError(403, 'Not enough permissions to perform this action')
+
+    def raise404(self):
+        raise tornado.web.HTTPError(404, 'Object not found')
+
     def get_current_user(self):
         email = self.get_secure_cookie('user')
         if email is None:
@@ -43,6 +60,7 @@ class CachedBaseHandler(BaseHandler):
     expire_timeout = 60 * 60 * 24 # in seconds
 
     def prepare(self):
+        super(CachedBaseHandler, self).prepare()
         dev_mode = 'localhost' in self.request.host
         ignore_cache = self.get_argument('ignore_cache', None)
         if not ignore_cache and not dev_mode:

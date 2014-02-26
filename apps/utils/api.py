@@ -6,37 +6,19 @@ import base64
 
 import tornado.web
 
+from .base import BaseHandler
 from .serializer import documents_to_json
-
 from apps.accounts.models import User # FIXME need refactoring
 
 
-class ApiHandler(tornado.web.RequestHandler):
+class ApiHandler(BaseHandler):
     def answer(self, data):
         self.set_header("Content-Type", "application/json")
         data_json = documents_to_json(data)
         self.write(data_json)
 
-    def raise401(self):
-        raise tornado.web.HTTPError(401, 'Not enough permissions to perform this action')
-
-    def raise403(self):
-        raise tornado.web.HTTPError(403, 'Not enough permissions to perform this action')
-
-    def raise404(self):
-        raise tornado.web.HTTPError(404, 'Object not found')
-
-    def get_current_user(self):
-        email = self.get_secure_cookie('user')
-        if email is None:
-            return None
-        user = User.objects(email=email)
-        try:
-            return user[0]
-        except IndexError:
-            return None
-
     def prepare(self):
+        super(ApiHandler, self).prepare()
         self.authenticate()
 
     def authenticate(self):
