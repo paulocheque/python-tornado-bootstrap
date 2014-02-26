@@ -7,6 +7,8 @@ logging.getLogger().setLevel(logging.INFO)
 
 from fabric.api import task
 
+import connect_mongo
+from apps.accounts.models import User
 from apps.app.tasks import *
 
 
@@ -16,5 +18,4 @@ def task1():
 
 @task
 def report():
-    from apps.accounts.models import User
     print('%s users' % User.objects.count())
