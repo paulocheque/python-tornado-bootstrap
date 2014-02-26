@@ -93,7 +93,7 @@ def encodeBinaryAsBase64(document):
 
 
 def document_to_data_obj(document):
-    if isinstance(data, Document):
+    if isinstance(document, Document):
         document = encodeBinaryAsBase64(document)
         data_obj = dict(document.to_mongo()) if hasattr(document, 'to_mongo') else document
         return data_obj
