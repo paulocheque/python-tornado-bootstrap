@@ -152,6 +152,10 @@ namespace :heroku do
     sh "heroku config --app #{SERVER}"
     sh "heroku config --app #{WORKER}"
   end
+
+  task :report do
+    sh "heroku run fab report --app #{WORKER}"
+  end
 end
 
 task :compress_js do
