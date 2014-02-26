@@ -14,11 +14,11 @@ class BaseHandler(tornado.web.RequestHandler):
         email = self.get_secure_cookie('user')
         if email is None:
             return None
-        user = User.objects(email=email)
-        try:
-            return user[0]
-        except IndexError:
-            return None
+        return User.objects(email=email).first()
+
+    def is_admin_user(self):
+        user = self.get_current_user()
+        return user and user.admin
 
     def redirect(self, url, alert=None, alert_type=None, permanent=False, status=None):
         if alert:
