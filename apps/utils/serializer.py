@@ -72,7 +72,9 @@ def to_json(dicts, properties=None, encoder_class=DefaultEncoder):
         for key, value in dicts.items():
             if isinstance(value, Binary):
                 dicts[key] = str(value).encode('base64')
-    else:
+    elif isinstance(dicts, (str, unicode)):
+        pass
+    elif isinstance(dicts, (list, set)):
         for d in dicts:
             for key, value in d.items():
                 if isinstance(value, Binary):
@@ -93,22 +95,29 @@ def encodeBinaryAsBase64(document):
 
 
 def document_to_data_obj(document):
-    if isinstance(document, Document):
-        document = encodeBinaryAsBase64(document)
-        data_obj = dict(document.to_mongo()) if hasattr(document, 'to_mongo') else document
-        return data_obj
-    else:
-        return document
+    document = encodeBinaryAsBase64(document)
+    data_obj = dict(document.to_mongo()) if hasattr(document, 'to_mongo') else document
+    return data_obj
 
 
-def documents_to_json(docs):
-    is_iterable = isinstance(docs, collections.Iterable) and hasattr(docs, '__iter__') and not hasattr(docs, 'to_mongo')
-    if is_iterable:
-        data_obj = [document_to_data_obj(d) for d in docs]
+def data_to_native_objects(data): # {}, [{}], Document or [Document]
+    is_iterable = isinstance(data, collections.Iterable) and hasattr(data, '__iter__') and not hasattr(data, 'to_mongo')
+    if isinstance(data, Document):
+        data_obj = document_to_data_obj(data)
+    elif isinstance(data, dict):
+        data_obj = data
+    elif isinstance(data, (str, unicode)):
+        data_obj = data
+    elif is_iterable:
+        data_obj = [data_to_native_objects(d) for d in data]
     else:
-        data_obj = document_to_data_obj(docs)
-    data_json = to_json(data_obj)
-    return data_json
+        data_obj = data
+    return data_obj
+
+
+def data_to_json(data):
+    data_obj = data_to_native_objects(data)
+    return to_json(data_obj)
 
 
 def to_dict(obj, properties=None, exclude=[]):

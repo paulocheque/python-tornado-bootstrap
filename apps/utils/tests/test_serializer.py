@@ -48,33 +48,55 @@ class DocumentToJsonTests(unittest.TestCase):
         class X(Document):
             a = StringField()
         obj = X(a=u'abc')
-        documents_to_json(obj)
-
-    def test_list_of_objects(self):
-        class X(Document):
-            a = StringField()
-        obj1 = X(a=u'abc')
-        obj2 = X(a=u'abc')
-        documents_to_json([obj1, obj2])
+        document_to_data_obj(obj)
 
     def test_obj_with_binary(self):
         class X(Document):
             a = BinaryField()
         obj = X(a=u'abc')
-        documents_to_json(obj)
+        document_to_data_obj(obj)
 
     def test_obj_with_string_unicode(self):
         class X(Document):
             a = StringField()
         obj1 = X(a=u'\x80abc')
-        obj2 = X(a=u'\x80abc')
-        documents_to_json(obj1)
-        documents_to_json([obj1, obj2])
+        document_to_data_obj(obj1)
 
     def test_obj_with_binary_unicode(self):
         class X(Document):
             a = BinaryField()
         obj1 = X(a=u'\x80abc')
-        obj2 = X(a=u'\x80abc')
-        documents_to_json(obj1)
-        documents_to_json([obj1, obj2])
+        document_to_data_obj(obj1)
+
+
+class DataToJsonTests(unittest.TestCase):
+    def test_dict(self):
+        self.assertEquals('{}', data_to_json({}))
+
+    def test_lits_of_dicts(self):
+        self.assertEquals('[]', data_to_json([]))
+        self.assertEquals('[{}]', data_to_json([{}]))
+        self.assertEquals('[{}, {}]', data_to_json([{}, {}]))
+
+    def test_document(self):
+        class X(Document):
+            a = StringField()
+        self.assertEquals('{"a": "123"}', data_to_json(X(a='123')))
+
+    def test_document_with_binary(self):
+        class X(Document):
+            a = BinaryField()
+        self.assertEquals(True, len(data_to_json(X(a=u'\x80123'))) > 20) # base64 string
+
+    def test_list_of_documents(self):
+        class X(Document):
+            a = StringField()
+        self.assertEquals('[{"a": "123"}, {"a": "123"}]', data_to_json([X(a='123'), X(a='123')]))
+
+    def test_mixed_list(self):
+        class X(Document):
+            a = StringField()
+        self.assertEquals('[{"a": "123"}, {}]', data_to_json([X(a='123'), {}]))
+
+    def test_string(self):
+        self.assertEquals('"x"', data_to_json('x'))
