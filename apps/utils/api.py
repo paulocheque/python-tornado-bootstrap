@@ -5,16 +5,20 @@ import hashlib
 import base64
 
 import tornado.web
+from mongoengine import Document
 
 from .base import BaseHandler
-from .serializer import documents_to_json
+from .serializer import documents_to_json, to_json
 from apps.accounts.models import User # FIXME need refactoring
 
 
 class ApiHandler(BaseHandler):
     def answer(self, data):
         self.set_header("Content-Type", "application/json")
-        data_json = documents_to_json(data)
+        if isinstance(data, Document):
+            data_json = documents_to_json(data)
+        else:
+            data_json = to_json(data)
         self.write(data_json)
 
     def prepare(self):
