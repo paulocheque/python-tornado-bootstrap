@@ -125,8 +125,28 @@
       {% end %}
 
       <div class="row">
-        <div class="col-lg-12 col-md-12">
-        {% block content %}{% end %}
+        <div class="col-xs-8 col-md-8 col-lg-8">
+          <script type="text/javascript">
+            bb_bid = "1693003";
+            bb_lang = "en-US";
+            bb_name = "custom";
+            bb_limit = "8";
+            bb_format = "bbb";
+          </script>
+          <script type="text/javascript" src="http://static.boo-box.com/javascripts/embed.js"></script>
+
+          {% block content %}{% end %}
+        </div>
+
+        <div class="col-xs-4 col-md-4 col-lg-4">
+          <script type="text/javascript">
+            bb_bid = "1693003";
+            bb_lang = "en-US";
+            bb_name = "custom";
+            bb_limit = "6";
+            bb_format = "bbn";
+          </script>
+          <script type="text/javascript" src="http://static.boo-box.com/javascripts/embed.js"></script>
         </div>
       </div>
 
