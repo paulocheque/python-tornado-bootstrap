@@ -29,7 +29,7 @@ simplejson==3.3.0
 jsonpickle==0.6.1
 #git+git://github.com/paulocheque/jsonpickle.git#egg=jsonpickle
 
-py-social==0.0.1
+py-social==0.1.0
 
 newrelic==2.10.1.9
 sendgrid==0.2.5
