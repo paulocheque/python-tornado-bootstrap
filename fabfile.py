@@ -28,3 +28,4 @@ def task1():
 @task
 def report():
     print('%s users' % User.objects.count())
+    print('-' * 50)

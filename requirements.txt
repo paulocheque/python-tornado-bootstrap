@@ -23,8 +23,6 @@ git+git://github.com/nvie/rq-dashboard.git#egg=rq-dashboard
 #rq-scheduler==0.3.6
 git+git://github.com/ui/rq-scheduler.git#egg=rq-scheduler
 
-#git+git://github.com/tnm/redweb.git#egg=redweb
-
 simplejson==3.3.0
 jsonpickle==0.6.1
 #git+git://github.com/paulocheque/jsonpickle.git#egg=jsonpickle

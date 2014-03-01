@@ -67,8 +67,13 @@
           <ul class="nav navbar-nav pull-right">
           {% if not current_user or current_user == 'None' %}
             <li><a href="/register">Register</a></li>
-            <li><a href="/auth/facebook" class="btn btn-default btn-xs"><i class="fa fa-facebook-square"></i> Login with Facebook</a></li>
-            <li><a href="/auth/google" class="btn btn-default btn-xs"><i class="fa fa-google-plus-square"></i> Login with Google</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Login<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/auth/facebook" class=""><i class="fa fa-facebook-square"></i> Facebook login</a></li>
+                <li><a href="/auth/google" class=""><i class="fa fa-google-plus-square"></i> Google login</a></li>
+              </ul>
+            </li>
           {% else %}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account <b class="caret"></b></a>

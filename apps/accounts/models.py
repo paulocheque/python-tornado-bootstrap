@@ -7,12 +7,15 @@ import sha
 from mongoengine import *
 
 
+SOCIAL_CHOICES = (('GH', 'GitHub'), ('F', 'Facebook'), ('G', 'Google'), ('T', 'Twitter'), ('FF', 'FriendFinder'), )
+
 class User(Document):
-    email = EmailField(required=True)
-    password = StringField() # social login
-    secret_key = StringField(required=True)
+    email = EmailField(required=True, max_length=1024)
+    password = StringField(max_length=1024) # social login
+    secret_key = StringField(required=True, max_length=1024)
     admin = BooleanField()
 
+    social = StringField(required=False, choices=SOCIAL_CHOICES, max_length=2)
     registered_on = DateTimeField(required=True, default=datetime.utcnow)
 
     @classmethod

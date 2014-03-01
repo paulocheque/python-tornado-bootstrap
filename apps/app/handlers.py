@@ -9,4 +9,4 @@ class HomeHandler(BaseHandler):
         if self.get_current_user():
             self.render('main.html')
         else:
-            self.redirect('/', alert='You have to login first', alert_type='alert-info')
+            self.render('main.html', alert='You have to login first', alert_type='alert-info')
