@@ -1,40 +1,42 @@
 {% extends "../base.html" %}
 
-{% block css %}
-      .form-signin {
-        max-width: 300px;
-        padding: 19px 29px 29px;
-        margin: 0 auto 20px;
-        background-color: #fff;
-        border: 1px solid #e5e5e5;
-        -webkit-border-radius: 5px;
-           -moz-border-radius: 5px;
-                border-radius: 5px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-      }
-      .form-signin .form-signin-heading,
-      .form-signin .checkbox {
-        margin-bottom: 10px;
-      }
-      .form-signin input[type="text"],
-      .form-signin input[type="password"] {
-        font-size: 16px;
-        height: auto;
-        margin-bottom: 15px;
-        padding: 7px 9px;
-      }
+{% block content %}
+  <div class="page-header">
+    <h1>Registration <small>(new account)</small></h1>
+  </div>
+  {% if current_user is None %}
+      <form id="form-create" class="form-create form" role="form" action="/register" method="POST">
+          <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="email@dns.com" class="input-xlarge form-control" required="" autofocus/>
+          </div>
+          <div class="form-group">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="" class="input-xlarge form-control" required="" autocomplete="off"/>
+          </div>
+          <button type="submit" class="btn btn-primary" style="vertical-align: bottom;">Sign up</button>
+      </form>
+      <div class="control-group">
+          <label class="control-label"></label>
+          <div class="controls">
+            <button type="button" id="btnRandomPassword" class="btn btn-info btn-inverse btnRandomPassword" onclick="">New Random Password</button>
+            <input id="generated-password" class="input-xsmall generated-password"/>
+          </div>
+      </div>
+  {% end %}
 {% end %}
 
-{% block content %}
-  {% if current_user is None %}
-      <form class="form-signin" action='/register' method='POST'>
-        <h2 class="form-signin-heading">Sign up</h2>
-        <input type="text" class="input-block-level" placeholder="Email address" name="email">
-        <input type="password" class="input-block-level" placeholder="Password" name="password">
-        <button class="btn btn-large btn-primary" type="submit">Create account</button>
 
-      </form>
-  {% end %}
+{% block js %}
+    <script language="JavaScript">
+    $(document).ready(function() {
+        $("#btnRandomPassword").click(function() {
+            var password = randomPassword(10, '#aA!');
+            $("#password").val(password);
+            $("#password").effect("highlight", {color:"#aaccff"}, 1000);
+            $("#generated-password").val(password);
+        });
+        $("#btnRandomPassword").click();
+    });
+  </script>
 {% end %}

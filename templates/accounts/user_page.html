@@ -19,22 +19,48 @@
   <h1>Account information <small>management</small></h1>
 </div>
 
-<div span='row'>
-  <div class='col-md-12'>
-    <ul>
-      <li>Email address: {{ current_user.email }}</li>
-      <li>Registered on: {{ current_user.registered_on }}</li>
-    </ul>
-  </div>
+<div class='col-md-12'>
+  <ul>
+    <li>Email address: {{ current_user.email }}</li>
+    <li>Registered on: {{ current_user.registered_on }}</li>
+  </ul>
+</div>
 
-  <div class='col-md-12'>
-    <h2>Reset your password</h2>
-    <form name="pw_reset" action="/change_password" method="POST">
-      <input type="password" class="input-medium" placeholder="Current password" id="password_current" name="password_current"><br>
-      <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password" id="password1" name="password"><br>
-      <input type="password" onKeyUp="pwConfirm()" class="input-medium" placeholder="New password again" id="password2" name="password2"><br>
-      <input class="btn btn-danger" value="Change password" type='submit' id="pw_button">
-    </form>
+<div class='col-md-12'>
+  <h2>Reset your password</h2>
+
+  <form id="form-create" class="form-create form" role="form" action="/change_password" method="POST">
+      <div class="form-group">
+          <label for="current_password">Current Password</label>
+          <input id="current_password" name="current_password" type="password" placeholder="" class="input-xlarge form-control" required="" autocomplete="off"/>
+      </div>
+      <div class="form-group">
+          <label for="new_password">New Password</label>
+          <input id="new_password" name="new_password" type="password" placeholder="" class="input-xlarge form-control" required="" autocomplete="off"/>
+      </div>
+      <button type="submit" class="btn btn-primary" style="vertical-align: bottom;">Change password</button>
+  </form>
+  <div class="control-group">
+      <label class="control-label"></label>
+      <div class="controls">
+        <button type="button" id="btnRandomPassword" class="btn btn-info btn-inverse btnRandomPassword" onclick="">New Random Password</button>
+        <input id="generated-password" class="input-xsmall generated-password"/>
+      </div>
   </div>
 </div>
+{% end %}
+
+
+{% block js %}
+    <script language="JavaScript">
+    $(document).ready(function() {
+        $("#btnRandomPassword").click(function() {
+            var password = randomPassword(10, '#aA!');
+            $("#new_password").val(password);
+            $("#password").effect("highlight", {color:"#aaccff"}, 1000);
+            $("#generated-password").val(password);
+        });
+        $("#btnRandomPassword").click();
+    });
+  </script>
 {% end %}

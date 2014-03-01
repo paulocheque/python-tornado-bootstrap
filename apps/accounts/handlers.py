@@ -23,9 +23,8 @@ class RegisterHandler(AccountsHandler):
     def post(self):
         email = self.get_argument('email', None)
         pw = self.get_argument('password', None)
-        internal_password = self.get_argument('internal_password', None)
 
-        if email is None or pw is None or internal_password is None:
+        if email is None or pw is None:
             self.render('accounts/register.html', alert='Email and password must not be blank.')
             return
 
@@ -34,7 +33,7 @@ class RegisterHandler(AccountsHandler):
             return
 
         try:
-            user = User(email=email, password=pw, internal_password=internal_password)
+            user = User(email=email, password=pw)
             user.save(encrypt_pass=True)
             self.set_secure_cookie('user', user.email)
             self.redirect(self.post_login_redirect_url())
@@ -64,11 +63,11 @@ class LogoutHandler(AccountsHandler):
 
 class ResetPasswordHandler(AccountsHandler):
     def post(self):
-        current_password = self.get_argument('password_current', None)
-        new_password = self.get_argument('password', None)
+        current_password = self.get_argument('current_password', None)
+        new_password = self.get_argument('new_password', None)
         try:
             self.current_user.change_password(current_password, new_password)
-            self.redirect(self.post_login_redirect_url())
+            self.redirect(self.post_login_redirect_url(), alert='Password changed successfully')
         except ValidationError as e:
             self.render('accounts/user_page.html', alert=str(e))
 
