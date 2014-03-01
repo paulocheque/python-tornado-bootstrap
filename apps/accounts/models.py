@@ -35,6 +35,7 @@ class User(Document):
 
     @classmethod
     def is_valid_password(cls, password):
+        if not password: return False
         if len(password) < 10 or len(password) > 1024: return False
         if re.match('.*\s+', password): return False
         if not re.match('.*[a-z]+', password): return False
@@ -45,8 +46,8 @@ class User(Document):
 
     def pre_save(self, encrypt_pass=False):
         created = self.id is None
-        self.validate_password()
         if encrypt_pass:
+            self.validate_password() # validate only for non-social logins
             self.password = User.encrypt_password(self.password)
         if not self.secret_key:
             self.secret_key = User.generate_secret_key()
