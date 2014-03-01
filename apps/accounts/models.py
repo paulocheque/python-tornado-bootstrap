@@ -43,14 +43,21 @@ class User(Document):
         if not re.match('.*[!@#$%&*()_+-={}|/?;:,.<>\\\[\]]+', password): return False
         return True
 
-    def save(self, encrypt_pass=False, **kwargs):
+    def pre_save(self, encrypt_pass=False):
+        created = self.id is None
         if encrypt_pass:
             self.validate_password()
             self.password = User.encrypt_password(self.password)
-        created = self.id is None
         if not self.secret_key:
             self.secret_key = User.generate_secret_key()
+
+    def save(self, encrypt_pass=False, **kwargs):
+        self.pre_save(encrypt_pass=encrypt_pass)
         super(User, self).save(**kwargs)
+
+    def get_or_create(encrypt_pass=False, write_concern=None, auto_save=True, *q_objs, **query):
+        self.pre_save(encrypt_pass=encrypt_pass)
+        return super(User, self).get_or_create(write_concern=write_concern, auto_save=auto_save, *q_objs, **query)
 
     def validate_password(self):
         errors = {}
