@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 from StringIO import StringIO
@@ -27,3 +28,4 @@ def send_admin_mail(subject, body):
         sg.send(message)
     except Exception as e:
         logging.error(str(e))
+        logging.exception(e)
