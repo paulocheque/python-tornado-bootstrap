@@ -17,7 +17,10 @@
         padding-top: 60px;
         padding-bottom: 40px;
       }
-
+      ul.social-icons {
+          font-size: 15px;
+          padding-top: 2px;
+      }
       {% block css %}{% end %}
     </style>
 
@@ -43,9 +46,18 @@
         <a class="navbar-brand" href="/">Your App</a>
 
         <div class="navbar-collapse collapse navbar-responsive-collapse">
+          <ul class="nav navbar-nav social-icons">
+            <li><a href="http://github.com/" class="nav-right img-rounded glyphicon fa fa-lg fa-github-square" target="_blank"></a></li>
+
+            <li><a href="http://twitter.com/" class="nav-right img-rounded fa fa-lg fa-twitter-square" target="_blank"></a></li>
+
+            <li><a href="http://facebook.com/" class="nav-right img-rounded fa fa-lg fa-facebook-square" target="_blank"></a></li>
+
+            <li><a href="https://plus.google.com/b/" class="nav-right img-rounded fa fa-lg fa-google-plus-square" target="_blank"></a></li>
+          </ul>
+
           <ul class="nav navbar-nav">
             <li><a href="/">Link 1</a></li>
-            <li><a href="http://facebook.com/">Facebook page</a></li>
           </ul>
           <ul class="nav navbar-nav">
             <li class="dropdown">
@@ -152,6 +164,58 @@
 
       <hr/>
     </div>
+
+    <nav class="navbar navbar-inverse navbar-bottom" role="navigation">
+      <div class="container">
+          <div class="row" style="height:50px;">
+            <div class="col-lg-12 text-center">
+              @EightSecrets
+
+              <a href="http://github.com/" class="img-rounded fa fa-github-square" target="_blank"></a>
+
+              <a href="http://twitter.com/" class="img-rounded fa fa-twitter-square" target="_blank"></a>
+
+              <a href="http://facebook.com/" class="img-rounded fa fa-facebook-square" target="_blank"></a>
+
+              <a href="https://plus.google.com/b/" class="img-rounded fa fa-google-plus-square" target="_blank"></a>
+            </div>
+          </div>
+
+          <div class="row" style="height:50px;">
+            <div class="col-lg-3">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Title 1</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Title 2</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Title 3</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Title 4</h3>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </nav>
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://weblibraries.s3.amazonaws.com/jquery-2.0.3.min.js"></script>

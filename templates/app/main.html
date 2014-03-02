@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "../base.html" %}
 
 {% block content %}
 
@@ -13,7 +13,14 @@
         <li>Login or Social login</li>
         <li>Edit title, menu etc</li>
       </ul>
-      <a href="/register" class="btn btn-primary btn-large">Sign up</a>
+
+      <p>
+          <a href="/register" class="btn btn-info btn-block">Sign up</a>
+
+          <a href="/auth/facebook" class="btn btn-primary btn-block btn-custom"><i class="glyphicon icon-facebook-sign"></i> Login with Facebook</a>
+
+          <a href="/auth/google" class="btn btn-primary btn-block btn-custom"><i class="glyphicon icon-google-plus-sign"></i> Login with Google</a>
+      </p>
   </p>
 </div>
 
