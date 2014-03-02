@@ -27,5 +27,8 @@ def task1():
 
 @task
 def report():
+    print(colorize('=' * 80))
+    print(colorize('Report'))
+    print(colorize('=' * 80))
     print('%s users' % User.objects.count())
     print('-' * 50)
