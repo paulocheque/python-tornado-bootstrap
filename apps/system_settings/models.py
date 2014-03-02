@@ -15,7 +15,7 @@ class SystemSettings(Document):
     # ex2 = StringField(choices=(('A'),('A')), max_length=2)
 
     @classmethod
-    def get(self):
+    def get(cls):
         if SystemSettings.memory_cache is not None:
             return SystemSettings.memory_cache
         else:
@@ -24,9 +24,16 @@ class SystemSettings(Document):
             return ss
 
     @classmethod
-    def refresh(self):
+    def refresh(cls):
         SystemSettings.memory_cache = None
         return SystemSettings.get()
+
+    @classmethod
+    def show(cls):
+        ss = SystemSettings.get()
+        for k, v in vars(ss)['_data'].items():
+            if k != 'singleton' and k != 'id':
+                print('%s: %s' % (k, v))
 
     def __str__(self):
         return '[%s] ' % self.date_updated
