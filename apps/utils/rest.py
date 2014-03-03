@@ -34,6 +34,7 @@ class MongoEngineDataManager(object):
             for key, value in data.items():
                 update_query['set__%s' % key] = value
             obj.update(**update_query)
+            obj.reload()
         return obj
 
     def delete(self, identifier):
