@@ -31,6 +31,21 @@ TORNADO_SETTINGS = dict(
     github_secret=os.environ.get('GITHUB_SECRET', ''),
     github_scope=os.environ.get('GITHUB_SCOPE', ''),
 
-    twitter_consumer_key=os.environ.get('TWITTER_CONSUMER_KEY', ''),
-    twitter_consumer_secret=os.environ.get('TWITTER_CONSUMER_SECRET', ''),
+    twitter_api_key=os.environ.get('TWITTER_API_KEY', ''),
+    twitter_api_secret=os.environ.get('TWITTER_API_SECRET', ''),
+    twitter_consumer_key=os.environ.get('TWITTER_CONSUMER_KEY', ''), # twitter_api_key
+    twitter_consumer_secret=os.environ.get('TWITTER_CONSUMER_SECRET', ''), # twitter_api_secret
+    twitter_access_token=os.environ.get('TWITTER_ACCESS_TOKEN', ''),
+    twitter_access_token_secret=os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', ''),
 )
+
+os.environ['FACEBOOK_API_KEY'] = TORNADO_SETTINGS['facebook_api_key']
+os.environ['FACEBOOK_SECRET'] = TORNADO_SETTINGS['facebook_secret']
+os.environ['FACEBOOK_API_SECRET'] = TORNADO_SETTINGS['facebook_secret']
+
+os.environ['TWITTER_API_KEY'] = TORNADO_SETTINGS['twitter_api_key']
+os.environ['TWITTER_API_SECRET'] = TORNADO_SETTINGS['twitter_api_secret']
+os.environ['TWITTER_CONSUMER_KEY'] = TORNADO_SETTINGS['twitter_consumer_key']
+os.environ['TWITTER_CONSUMER_SECRET'] = TORNADO_SETTINGS['twitter_consumer_secret']
+os.environ['TWITTER_ACCESS_TOKEN'] = TORNADO_SETTINGS['twitter_access_token']
+os.environ['TWITTER_ACCESS_TOKEN_SECRET'] = TORNADO_SETTINGS['twitter_access_token_secret']
