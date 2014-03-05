@@ -17,6 +17,7 @@ class MyDoc(Document):
 
     def save(self, **kwargs):
         self.tags = smart_split(self.tags)
+        self.tags = to_lower_case(self.tags)
         return super(MyDoc, self).save(**kwargs)
 
     def async_task(self):
