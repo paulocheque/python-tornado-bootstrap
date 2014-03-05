@@ -3,21 +3,21 @@ from datetime import datetime, timedelta
 
 from mongoengine import *
 
+from apps.utils.common import *
+
 import connect_redis
-
-
-def split_by_commas(text):
-    if isinstance(text, (str, unicode)):
-        text = text.split(',')
-        text = map(lambda x: x.strip(), text)
-    return text
 
 
 class MyDoc(Document):
     a = EmailField(required=True)
     b = StringField()
     c = StringField()
+    tags = ListField(StringField(max_length=20))
     date_created = DateTimeField(default=datetime.utcnow)
+
+    def save(self, **kwargs):
+        self.tags = smart_split(self.tags)
+        return super(MyDoc, self).save(**kwargs)
 
     def async_task(self):
         queue = connect_redis.default_queue()
