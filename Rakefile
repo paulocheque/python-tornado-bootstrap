@@ -162,6 +162,40 @@ task :compress_js do
   sh "uglifyjs static/js/*.js -o static/js/code.min.js --source-map code.min.js.map -p relative -c -m"
 end
 
+# brew install imagemagick
+# http://www.imagemagick.org/Usage/resize/#resize
+task :logos do
+  # Square
+  Dir.chdir("static/img") do
+    LOGO_SQUARE = "logo-1024x1024.png"
+    sh "convert #{LOGO_SQUARE} -resize 512x512\! logo-512x512.png" # FB logo
+    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-180x180.png" # FB logo
+    sh "convert #{LOGO_SQUARE} -resize 144x144\! logo-144x144.png"
+    sh "convert #{LOGO_SQUARE} -resize 114x114\! logo-114x114.png"
+    sh "convert #{LOGO_SQUARE} -resize 72x72\! logo-72x72.png"
+    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-57x57.png"
+    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-32x32.png"
+    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-16x16.png" # FB app small logo
+    # Mobile Portrait
+    LOGO_PORTRAIT = "logo-1024x1024.png"
+    sh "convert #{LOGO_PORTRAIT} -resize 1536x2008\! logo-1536x2008.png"
+    sh "convert #{LOGO_PORTRAIT} -resize 640x1136\! logo-640x1136.png"
+    sh "convert #{LOGO_PORTRAIT} -resize 768x1004\! logo-768x1004.png"
+    sh "convert #{LOGO_PORTRAIT} -resize 640x960\! logo-640x960.png"
+    sh "convert #{LOGO_PORTRAIT} -resize 320x480\! logo-320x480.png"
+    # Mobile Landscape
+    LOGO_LANDSCAPE = "logo-1024x1024.png"
+    sh "convert #{LOGO_LANDSCAPE} -resize 2048x1496\! logo-2048x1496.png"
+    sh "convert #{LOGO_LANDSCAPE} -resize 1024x748\! logo-1024x748.png"
+    # Banners
+    LOGO_BANNER = "logo-1024x1024.png"
+    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-800x150.png" # FB app cover image
+    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-400x150.png" # FB cover image
+    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-155x100.png" # FB app web banner
+    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-140x40.png" # Site logo
+  end
+end
+
 task :all => [:dev_env, :dependencies, :tests]
 
 task :default => [:tests]
