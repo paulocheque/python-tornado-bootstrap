@@ -16,8 +16,7 @@ class MyDoc(Document):
     date_created = DateTimeField(default=datetime.utcnow)
 
     def save(self, **kwargs):
-        self.tags = smart_split(self.tags)
-        self.tags = to_lower_case(self.tags)
+        self.tags = taggify(self.tags)
         return super(MyDoc, self).save(**kwargs)
 
     def async_task(self):
