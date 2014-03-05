@@ -7,6 +7,7 @@ def smart_split(text, comma=','):
         text = text.split(comma)
         text = map(lambda x: x.strip(), text)
         text = filter(str, text)
+        text = list(set(text))
     return text
 
 

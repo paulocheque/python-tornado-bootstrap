@@ -15,6 +15,7 @@ class SmartSplitTests(unittest.TestCase):
         self.assertEquals(['a', 'b'], smart_split(u'a,b'))
         self.assertEquals(['a', 'b'], smart_split('a,b,'))
         self.assertEquals(['a', 'b'], smart_split(' a , b ,'))
+        self.assertEquals(['a', 'b'], smart_split(' a , b , a,b'))
 
 
 class ToLowerCaseTests(unittest.TestCase):
