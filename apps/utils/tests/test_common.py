@@ -4,17 +4,17 @@ import unittest
 from ..common import *
 
 
-class SplitByCommansTests(unittest.TestCase):
+class SmartSplitTests(unittest.TestCase):
     def test_1(self):
-        self.assertEquals(None, split_by_commas(None))
-        self.assertEquals([], split_by_commas(''))
-        self.assertEquals(['a'], split_by_commas('a'))
-        self.assertEquals(['a'], split_by_commas(u'a'))
-        self.assertEquals(['a'], split_by_commas(['a']))
-        self.assertEquals(['a', 'b'], split_by_commas('a,b'))
-        self.assertEquals(['a', 'b'], split_by_commas(u'a,b'))
-        self.assertEquals(['a', 'b'], split_by_commas('a,b,'))
-        self.assertEquals(['a', 'b'], split_by_commas(' a , b ,'))
+        self.assertEquals(None, smart_split(None))
+        self.assertEquals([], smart_split(''))
+        self.assertEquals(['a'], smart_split('a'))
+        self.assertEquals(['a'], smart_split(u'a'))
+        self.assertEquals(['a'], smart_split(['a']))
+        self.assertEquals(['a', 'b'], smart_split('a,b'))
+        self.assertEquals(['a', 'b'], smart_split(u'a,b'))
+        self.assertEquals(['a', 'b'], smart_split('a,b,'))
+        self.assertEquals(['a', 'b'], smart_split(' a , b ,'))
 
 
 class ToLowerCaseTests(unittest.TestCase):

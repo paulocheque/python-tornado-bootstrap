@@ -1,11 +1,12 @@
 # coding: utf-8
 
 
-def split_by_commas(text, comma=','):
+def smart_split(text, comma=','):
     if isinstance(text, (str, unicode)):
         text = text.strip()
         text = text.split(comma)
         text = map(lambda x: x.strip(), text)
+        text = filter(str, text)
     return text
 
 
