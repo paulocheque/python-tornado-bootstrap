@@ -88,6 +88,8 @@ namespace :heroku do
   SERVER = "server"
   WORKER = "worker"
   DOMAIN = nil
+  DEFAULT = SERVER
+  DEFAULT = WORKER if not DEFAULT
 
   task :create => [] do
     # sh "heroku apps:create #{SERVER}" if SERVER
@@ -110,21 +112,21 @@ namespace :heroku do
   task :status => [] do
     sh "heroku login"
     sh "heroku config --app #{SERVER}" if SERVER
-    sh "heroku config --app #{WORKER}"
+    sh "heroku config --app #{WORKER}" if WORKER
 
     sh "heroku ps --app #{SERVER}" if SERVER
-    sh "heroku ps --app #{WORKER}"
+    sh "heroku ps --app #{WORKER}" if WORKER
     sh "heroku open"
     sh "heroku logs -t -p worker"
   end
 
   task :logs => [] do
     sh "heroku logs --tail --app #{SERVER}" if SERVER
-    sh "heroku logs --tail --app #{WORKER}"
+    sh "heroku logs --tail --app #{WORKER}" if WORKER
   end
 
   task :console => [] do
-    sh "heroku run python --app #{WORKER}" if WORKER
+    sh "heroku run python --app #{DEFAULT}"
   end
 
   task :deploy => [] do
@@ -151,9 +153,7 @@ namespace :heroku do
   end
 
   task :report do
-    APP = SERVER
-    APP = WORKER if not APP
-    sh "heroku run fab report --app #{APP}"
+    sh "heroku run fab report --app #{DEFAULT}"
   end
 end
 
