@@ -202,8 +202,8 @@ task :logos do
     sh "convert #{LOGO_SQUARE} -resize 114x114\! logo-114x114.png"
     sh "convert #{LOGO_SQUARE} -resize 72x72\! logo-72x72.png"
     sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-57x57.png"
-    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-32x32.png"
-    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-16x16.png" # FB app small logo
+    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-32x32.png" # favicon
+    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-16x16.png" # favicon and FB app small logo
     # Mobile Portrait
     LOGO_PORTRAIT = "logo-1024x1024.png"
     sh "convert #{LOGO_PORTRAIT} -resize 1536x2008\! logo-1536x2008.png"
