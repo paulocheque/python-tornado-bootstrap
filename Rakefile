@@ -48,7 +48,7 @@ task :dev_env => [] do
   create_virtual_env("env#{PYTHON}", "python#{PYTHON}")
 end
 
-task :dependencies => [:dev_env] do
+task :deps => [:dev_env] do
   virtual_env("pip install -r requirements.txt")
   virtual_env("pip install -r requirements-test.txt")
 end
@@ -122,7 +122,7 @@ namespace :heroku do
     # sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if SERVER and DOMAIN
   end
 
-  task :status => [] do
+  task :config => [] do
     sh "heroku config --app #{SERVER}" if SERVER
     sh "heroku config --app #{WORKER}" if WORKER
     sh "heroku ps --app #{SERVER}" if SERVER
@@ -142,7 +142,7 @@ namespace :heroku do
     sh "heroku run fab report --app #{DEFAULT}"
   end
 
-  task :set_vars do
+  task :setvars do
     REDISTOGO_URL = `heroku config:get REDISTOGO_URL --app #{SERVER}` if SERVER
     REDISTOGO_URL.strip! if SERVER
     sh "heroku config:set REDIS_URL=#{REDISTOGO_URL} REDISTOGO_URL=#{REDISTOGO_URL} --app #{WORKER}" if WORKER
@@ -153,18 +153,18 @@ namespace :heroku do
 
     [SERVER, WORKER].each { |app|
       if app
-        sh "heroku config:set BSALT=yoursalt --app #{app}"
-        sh "heroku config:set GOOGLE_CONSUMER_KEY= --app #{app}"
-        sh "heroku config:set GOOGLE_CONSUMER_SECRET= --app #{app}"
-        sh "heroku config:set FACEBOOK_API_KEY= --app #{app}"
-        sh "heroku config:set FACEBOOK_SECRET= --app #{app}"
-        sh "heroku config:set FACEBOOK_API_SECRET= --app #{app}"
-        sh "heroku config:set TWITTER_API_KEY= --app #{app}"
-        sh "heroku config:set TWITTER_API_SECRET= --app #{app}"
-        sh "heroku config:set TWITTER_CONSUMER_KEY= --app #{app}"
-        sh "heroku config:set TWITTER_CONSUMER_SECRET= --app #{app}"
-        sh "heroku config:set TWITTER_ACCESS_TOKEN= --app #{app}"
-        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET= --app #{app}"
+        sh "heroku config:set BSALT=#{BSALT} --app #{app}"
+        sh "heroku config:set GOOGLE_CONSUMER_KEY=#{GOOGLE_CONSUMER_KEY} --app #{app}"
+        sh "heroku config:set GOOGLE_CONSUMER_SECRET=#{GOOGLE_CONSUMER_SECRET} --app #{app}"
+        sh "heroku config:set FACEBOOK_API_KEY=#{FACEBOOK_API_KEY} --app #{app}"
+        sh "heroku config:set FACEBOOK_SECRET=#{FACEBOOK_SECRET} --app #{app}"
+        sh "heroku config:set FACEBOOK_API_SECRET=#{FACEBOOK_API_SECRET} --app #{app}"
+        sh "heroku config:set TWITTER_API_KEY=#{TWITTER_API_KEY} --app #{app}"
+        sh "heroku config:set TWITTER_API_SECRET=#{TWITTER_API_SECRET} --app #{app}"
+        sh "heroku config:set TWITTER_CONSUMER_KEY=#{TWITTER_CONSUMER_KEY} --app #{app}"
+        sh "heroku config:set TWITTER_CONSUMER_SECRET=#{TWITTER_CONSUMER_SECRET} --app #{app}"
+        sh "heroku config:set TWITTER_ACCESS_TOKEN=#{TWITTER_ACCESS_TOKEN} --app #{app}"
+        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET=#{TWITTER_ACCESS_TOKEN_SECRET} --app #{app}"
       end
     }
   end
@@ -226,6 +226,6 @@ task :logos do
   end
 end
 
-task :all => [:dev_env, :dependencies, :tests]
+task :all => [:dev_env, :deps, :tests]
 
 task :default => [:tests]
