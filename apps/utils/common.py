@@ -21,10 +21,10 @@ def to_lower_case(text):
 
 
 def taggify(text_or_list, comma=','):
-    text_or_list = smart_split(text_or_list, comma=comma)
-    text_or_list = to_lower_case(text_or_list)
-    if text_or_list and isinstance(text_or_list, (list, set)):
-        text_or_list = map(lambda x: x.strip(), text_or_list)
-        text_or_list = filter(str, text_or_list)
-        text_or_list = list(set(text_or_list))
-    return text_or_list
+    a_list = smart_split(text_or_list, comma=comma)
+    a_list = to_lower_case(a_list)
+    if a_list and isinstance(a_list, (list, set)):
+        a_list = map(lambda x: x.strip(), a_list)
+        a_list = filter(str, a_list)
+        a_list = list(set(a_list))
+    return a_list
