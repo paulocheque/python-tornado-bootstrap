@@ -44,6 +44,7 @@ def async_send_admin_mail(subject, body):
 
 
 def async_tweet(msg, debug=False):
+    logging.info('Tweeting %s' % msg)
     queue = connect_redis.default_queue()
     queue.enqueue(tweet, msg, debug=debug)
 
