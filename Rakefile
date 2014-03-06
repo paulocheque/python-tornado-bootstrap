@@ -151,20 +151,20 @@ namespace :heroku do
     MONGOHQ_URL.strip! if SERVER
     sh "heroku config:set MONGOHQ_URL=#{MONGOHQ_URL} --app #{WORKER}" if WORKER
 
-    [SERVER, WORKER].each { |APP|
-      if APP
-        sh "heroku config:set BSALT=yoursalt --app #{APP}"
-        sh "heroku config:set GOOGLE_CONSUMER_KEY= --app #{APP}"
-        sh "heroku config:set GOOGLE_CONSUMER_SECRET= --app #{APP}"
-        sh "heroku config:set FACEBOOK_API_KEY= --app #{APP}"
-        sh "heroku config:set FACEBOOK_SECRET= --app #{APP}"
-        sh "heroku config:set FACEBOOK_API_SECRET= --app #{APP}"
-        sh "heroku config:set TWITTER_API_KEY= --app #{APP}"
-        sh "heroku config:set TWITTER_API_SECRET= --app #{APP}"
-        sh "heroku config:set TWITTER_CONSUMER_KEY= --app #{APP}"
-        sh "heroku config:set TWITTER_CONSUMER_SECRET= --app #{APP}"
-        sh "heroku config:set TWITTER_ACCESS_TOKEN= --app #{APP}"
-        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET= --app #{APP}"
+    [SERVER, WORKER].each { |app|
+      if app
+        sh "heroku config:set BSALT=yoursalt --app #{app}"
+        sh "heroku config:set GOOGLE_CONSUMER_KEY= --app #{app}"
+        sh "heroku config:set GOOGLE_CONSUMER_SECRET= --app #{app}"
+        sh "heroku config:set FACEBOOK_API_KEY= --app #{app}"
+        sh "heroku config:set FACEBOOK_SECRET= --app #{app}"
+        sh "heroku config:set FACEBOOK_API_SECRET= --app #{app}"
+        sh "heroku config:set TWITTER_API_KEY= --app #{app}"
+        sh "heroku config:set TWITTER_API_SECRET= --app #{app}"
+        sh "heroku config:set TWITTER_CONSUMER_KEY= --app #{app}"
+        sh "heroku config:set TWITTER_CONSUMER_SECRET= --app #{app}"
+        sh "heroku config:set TWITTER_ACCESS_TOKEN= --app #{app}"
+        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET= --app #{app}"
       end
     }
   end
