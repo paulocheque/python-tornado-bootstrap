@@ -7,6 +7,13 @@ import sys
 import requests
 import sendgrid
 
+from py_social.facebook_services import *
+from py_social.twitter_services import tweet
+
+import settings # import to set env variables
+import connect_mongo # import to connect to the database
+import connect_redis # import to connect to redis
+
 
 def get_lat_long_from_ip(ip):
     try:
@@ -29,6 +36,16 @@ def send_admin_mail(subject, body):
     except Exception as e:
         logging.error(str(e))
         logging.exception(e)
+
+
+def async_send_admin_mail(subject, body):
+    queue = connect_redis.default_queue()
+    queue.enqueue(send_admin_mail, subject, body)
+
+
+def async_tweet(msg, debug=False):
+    queue = connect_redis.default_queue()
+    queue.enqueue(tweet, msg, debug=debug)
 
 
 def add_contact_to_propagation(email=None, fb_id=None, tags=None, languages=None, debug=False):
