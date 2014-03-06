@@ -169,7 +169,7 @@ namespace :heroku do
     }
   end
 
-  task :deploy => [:set_vars] do
+  task :deploy => [] do # :set_vars
     sh "git push heroku master"
     sh "heroku ps:scale web=1 --app #{SERVER}" if SERVER
     sh "heroku ps:scale worker=0 --app #{SERVER}" if SERVER
