@@ -25,18 +25,13 @@ class SystemSettingsTests(MongoEngineTestCase):
 
     def test_refresh_avoid_memory_cache(self):
         ss1 = SystemSettings.get()
-        ss1.max_emails_per_day = 33
-        ss1.save()
         ss2 = SystemSettings.refresh()
         self.assertEquals(1, SystemSettings.objects.count())
         self.assertNotEquals(id(ss1), id(ss2))
-        self.assertEquals(33, ss2.max_emails_per_day)
 
     def test_save_refresh_the_memory_cache(self):
         ss1 = SystemSettings.get()
-        ss1.max_emails_per_day = 33
         ss1.save()
         ss2 = SystemSettings.get()
         self.assertEquals(1, SystemSettings.objects.count())
         self.assertNotEquals(id(ss1), id(ss2))
-        self.assertEquals(33, ss2.max_emails_per_day)

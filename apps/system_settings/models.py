@@ -10,9 +10,6 @@ class SystemSettings(Document):
     singleton = StringField(unique=True, choices=('1', '1'), default='1')
     date_updated = DateTimeField(default=datetime.utcnow)
     # custom settings
-    max_emails_per_day = IntField(default=200)
-    # ex1 = BooleanField()
-    # ex2 = StringField(choices=(('A'),('A')), max_length=2)
 
     @classmethod
     def get(cls):
