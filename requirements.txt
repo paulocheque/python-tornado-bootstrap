@@ -10,7 +10,7 @@ six==1.4.1
 
 mongoengine==0.8.7
 pymongo==2.6.3
-pil==1.1.7
+pillow==2.3.0
 
 redis==2.8.0
 #rq==0.3.11
