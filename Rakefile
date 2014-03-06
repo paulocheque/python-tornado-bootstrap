@@ -90,6 +90,18 @@ namespace :heroku do
   DOMAIN = nil
   DEFAULT = SERVER
   DEFAULT = WORKER if not DEFAULT
+  BSALT = "yoursalt"
+  GOOGLE_CONSUMER_KEY =
+  GOOGLE_CONSUMER_SECRET = ""
+  FACEBOOK_API_KEY = ""
+  FACEBOOK_SECRET = ""
+  FACEBOOK_API_SECRET = ""
+  TWITTER_API_KEY = ""
+  TWITTER_API_SECRET = ""
+  TWITTER_CONSUMER_KEY = ""
+  TWITTER_CONSUMER_SECRET = ""
+  TWITTER_ACCESS_TOKEN = ""
+  TWITTER_ACCESS_TOKEN_SECRET = ""
 
   task :create => [] do
     # sh "heroku apps:create #{SERVER}" if SERVER
@@ -105,31 +117,32 @@ namespace :heroku do
     sh "heroku addons:add mongohq --app #{SERVER}" if SERVER
     sh "heroku addons:add scheduler --app #{WORKER}" if WORKER
     sh "heroku addons:add sendgrid --app #{WORKER}" if WORKER
+    # sh "heroku addons:add postmark --app #{WORKER}" if WORKER
     # sh "heroku addons:add mongolab --app #{SERVER}" if SERVER
     # sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if SERVER and DOMAIN
   end
 
   task :status => [] do
-    sh "heroku login"
     sh "heroku config --app #{SERVER}" if SERVER
     sh "heroku config --app #{WORKER}" if WORKER
-
     sh "heroku ps --app #{SERVER}" if SERVER
     sh "heroku ps --app #{WORKER}" if WORKER
-    sh "heroku open"
-    sh "heroku logs -t -p worker"
   end
 
   task :logs => [] do
-    sh "heroku logs --tail --app #{SERVER}" if SERVER
-    sh "heroku logs --tail --app #{WORKER}" if WORKER
+    sh "heroku logs -n=10 --app #{SERVER}" if SERVER
+    sh "heroku logs -n=10 --app #{WORKER}" if WORKER
   end
 
   task :console => [] do
     sh "heroku run python --app #{DEFAULT}"
   end
 
-  task :deploy => [] do
+  task :report do
+    sh "heroku run fab report --app #{DEFAULT}"
+  end
+
+  task :set_vars do
     REDISTOGO_URL = `heroku config:get REDISTOGO_URL --app #{SERVER}` if SERVER
     REDISTOGO_URL.strip! if SERVER
     sh "heroku config:set REDIS_URL=#{REDISTOGO_URL} REDISTOGO_URL=#{REDISTOGO_URL} --app #{WORKER}" if WORKER
@@ -138,6 +151,25 @@ namespace :heroku do
     MONGOHQ_URL.strip! if SERVER
     sh "heroku config:set MONGOHQ_URL=#{MONGOHQ_URL} --app #{WORKER}" if WORKER
 
+    [SERVER, WORKER].each { |APP|
+      if APP
+        sh "heroku config:set BSALT=yoursalt --app #{APP}"
+        sh "heroku config:set GOOGLE_CONSUMER_KEY= --app #{APP}"
+        sh "heroku config:set GOOGLE_CONSUMER_SECRET= --app #{APP}"
+        sh "heroku config:set FACEBOOK_API_KEY= --app #{APP}"
+        sh "heroku config:set FACEBOOK_SECRET= --app #{APP}"
+        sh "heroku config:set FACEBOOK_API_SECRET= --app #{APP}"
+        sh "heroku config:set TWITTER_API_KEY= --app #{APP}"
+        sh "heroku config:set TWITTER_API_SECRET= --app #{APP}"
+        sh "heroku config:set TWITTER_CONSUMER_KEY= --app #{APP}"
+        sh "heroku config:set TWITTER_CONSUMER_SECRET= --app #{APP}"
+        sh "heroku config:set TWITTER_ACCESS_TOKEN= --app #{APP}"
+        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET= --app #{APP}"
+      end
+    }
+  end
+
+  task :deploy => [:set_vars] do
     sh "git push heroku master"
     sh "heroku ps:scale web=1 --app #{SERVER}" if SERVER
     sh "heroku ps:scale worker=0 --app #{SERVER}" if SERVER
@@ -150,10 +182,6 @@ namespace :heroku do
     sh "heroku ps --app #{WORKER}" if WORKER
     sh "heroku config --app #{SERVER}" if SERVER
     sh "heroku config --app #{WORKER}" if WORKER
-  end
-
-  task :report do
-    sh "heroku run fab report --app #{DEFAULT}"
   end
 end
 
