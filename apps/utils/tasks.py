@@ -41,12 +41,13 @@ def send_admin_mail(subject, body):
 def async_send_admin_mail(subject, body):
     queue = connect_redis.default_queue()
     queue.enqueue(send_admin_mail, subject, body)
+    logging.info('Sending admin email %s' % subject)
 
 
 def async_tweet(msg, debug=False):
-    logging.info('Tweeting %s' % msg)
     queue = connect_redis.default_queue()
     queue.enqueue(tweet, msg, debug=debug)
+    logging.info('Tweeting %s' % msg)
 
 
 def add_contact_to_propagation(email=None, fb_id=None, tags=None, languages=None, debug=False):
