@@ -197,13 +197,13 @@ task :logos do
   Dir.chdir("static/img") do
     LOGO_SQUARE = "logo-1024x1024.png"
     sh "convert #{LOGO_SQUARE} -resize 512x512\! logo-512x512.png" # FB logo
-    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-180x180.png" # FB logo
+    sh "convert #{LOGO_SQUARE} -resize 180x180\! logo-180x180.png" # FB logo
     sh "convert #{LOGO_SQUARE} -resize 144x144\! logo-144x144.png"
     sh "convert #{LOGO_SQUARE} -resize 114x114\! logo-114x114.png"
     sh "convert #{LOGO_SQUARE} -resize 72x72\! logo-72x72.png"
     sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-57x57.png"
-    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-32x32.png" # favicon
-    sh "convert #{LOGO_SQUARE} -resize 57x57\! logo-16x16.png" # favicon and FB app small logo
+    sh "convert #{LOGO_SQUARE} -resize 32x32\! logo-32x32.png" # favicon
+    sh "convert #{LOGO_SQUARE} -resize 16x16\! logo-16x16.png" # favicon and FB app small logo
     # Mobile Portrait
     LOGO_PORTRAIT = "logo-1024x1024.png"
     sh "convert #{LOGO_PORTRAIT} -resize 1536x2008\! logo-1536x2008.png"
@@ -217,12 +217,12 @@ task :logos do
     sh "convert #{LOGO_LANDSCAPE} -resize 1024x748\! logo-1024x748.png"
     # Banners
     LOGO_BANNER = "logo-1024x1024.png"
-    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-800x150.png" # FB app cover image
-    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-400x150.png" # FB cover image
-    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-155x100.png" # FB app web banner
-    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-200x60.png" # Site logo
-    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-150x50.png" # Site logo
-    sh "convert #{LOGO_BANNER} -resize 57x57\! logo-140x40.png" # Site logo
+    sh "convert #{LOGO_BANNER} -resize 800x150\! logo-800x150.png" # FB app cover image
+    sh "convert #{LOGO_BANNER} -resize 400x150\! logo-400x150.png" # FB cover image
+    sh "convert #{LOGO_BANNER} -resize 155x100\! logo-155x100.png" # FB app web banner
+    sh "convert #{LOGO_BANNER} -resize 200x60\! logo-200x60.png" # Site logo
+    sh "convert #{LOGO_BANNER} -resize 150x50\! logo-150x50.png" # Site logo
+    sh "convert #{LOGO_BANNER} -resize 140x40\! logo-140x40.png" # Site logo
   end
 end
 
