@@ -30,7 +30,7 @@ class ToLowerCaseTests(unittest.TestCase):
 
 
 class TaggifyTests(unittest.TestCase):
-    def test_1(self):
+    def test_accepts_strings(self):
         self.assertEquals(None, taggify(None))
         self.assertEquals([], taggify(''))
         self.assertEquals(['a'], taggify('a'))
@@ -43,3 +43,14 @@ class TaggifyTests(unittest.TestCase):
         self.assertEquals(['a', 'b'], taggify(' a , b , a,b'))
         self.assertEquals(['a', 'b'], taggify(' a , B , A,b'))
         self.assertEquals(['a', 'b'], taggify(' a \n B \n A\r\nb', comma='\n'))
+
+    def test_accepts_lists(self):
+        self.assertEquals(None, taggify(None))
+        self.assertEquals([], taggify(['']))
+        self.assertEquals(['a'], taggify(['a']))
+        self.assertEquals(['a'], taggify([u'a']))
+        self.assertEquals(['a'], taggify(['a']))
+        self.assertEquals(['a', 'b'], taggify(['a', 'b']))
+        self.assertEquals(['a', 'b'], taggify([u'a', u'b']))
+        self.assertEquals(['a', 'b'], taggify([' a ',' b ',' a', 'b']))
+        self.assertEquals(['a', 'b'], taggify([' a ',' B ',' A', 'b']))
