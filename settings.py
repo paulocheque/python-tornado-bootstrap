@@ -19,6 +19,7 @@ TORNADO_SETTINGS = dict(
     autoescape=None,
     cookie_secret=os.environ.get('BSALT', 'your salt'),
 
+    google_api_key=os.environ.get('GOOGLE_API_KEY', '')
     google_consumer_key=os.environ.get('GOOGLE_CONSUMER_KEY', ''),
     google_consumer_secret=os.environ.get('GOOGLE_CONSUMER_SECRET', ''),
 
@@ -38,6 +39,8 @@ TORNADO_SETTINGS = dict(
     twitter_access_token=os.environ.get('TWITTER_ACCESS_TOKEN', ''),
     twitter_access_token_secret=os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', ''),
 )
+
+os.environ['GOOGLE_API_KEY'] = TORNADO_SETTINGS['google_api_key']
 
 os.environ['FACEBOOK_API_KEY'] = TORNADO_SETTINGS['facebook_api_key']
 os.environ['FACEBOOK_SECRET'] = TORNADO_SETTINGS['facebook_secret']

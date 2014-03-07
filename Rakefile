@@ -91,6 +91,7 @@ namespace :heroku do
   DEFAULT = SERVER
   DEFAULT = WORKER if not DEFAULT
   BSALT = "yoursalt"
+  GOOGLE_API_KEY = ""
   GOOGLE_CONSUMER_KEY = ""
   GOOGLE_CONSUMER_SECRET = ""
   FACEBOOK_API_KEY = ""
