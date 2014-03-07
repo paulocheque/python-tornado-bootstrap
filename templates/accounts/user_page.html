@@ -1,19 +1,5 @@
 {% extends "../base.html" %}
 
-{% block js %}
-  <script language="JavaScript">
-
-    // confirm that the two passwords match before the user can submit
-    function pwConfirm(){
-      if ($('#password1').val() != $('#password2').val() || $('#password1').val().trim() == ''){
-        $('#pw_button').val('New passwords must match').attr('disabled', 'disabled');
-      } else {
-        $('#pw_button').val('Change password').removeAttr('disabled');
-      }
-    }
-  </script>
-{% end %}
-
 {% block content %}
 <div class="page-header">
   <h1>Account information <small>management</small></h1>
