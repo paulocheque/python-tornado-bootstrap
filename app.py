@@ -35,14 +35,14 @@ logging.basicConfig(
 TORNADO_ROUTES = [
     (r'/?', HomeHandler),
 
-    (r'/auth/facebook', FacebookLoginHandler),
-    (r'/auth/google', GoogleLoginHandler),
+    (r'/auth/facebook/?', FacebookLoginHandler),
+    (r'/auth/google/?', GoogleLoginHandler),
 
-    (r'/register', RegisterHandler),
-    (r'/login', LoginHandler),
-    (r'/logout', LogoutHandler),
-    (r'/change_password', ResetPasswordHandler),
-    (r'/account', UserPageHandler),
+    (r'/register/?', RegisterHandler),
+    (r'/login/?', LoginHandler),
+    (r'/logout/?', LogoutHandler),
+    (r'/change_password/?', ResetPasswordHandler),
+    (r'/account/?', UserPageHandler),
 
     # (r'/api/model/?', ModelCrudHandler),
     # (r'/api/model/([0-9a-fA-F]{24,})/?', ModelCrudHandler),
