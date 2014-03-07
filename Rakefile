@@ -178,11 +178,6 @@ namespace :heroku do
     sh "git push heroku2 master"
     sh "heroku ps:scale web=0 --app #{WORKER}" if WORKER
     sh "heroku ps:scale worker=1 --app #{WORKER}" if WORKER
-
-    sh "heroku ps --app #{SERVER}" if SERVER
-    sh "heroku ps --app #{WORKER}" if WORKER
-    sh "heroku config --app #{SERVER}" if SERVER
-    sh "heroku config --app #{WORKER}" if WORKER
   end
 end
 
