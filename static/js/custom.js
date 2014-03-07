@@ -39,6 +39,10 @@ function getQueryVariable(variable) {
   return null;
 }
 
+function small(text) {
+  return "<small>" + text + "</small>";
+}
+
 function createLink(href, label) {
     var link = $("<a/>").attr("href", href).html(label);
     return link;
