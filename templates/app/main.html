@@ -15,11 +15,13 @@
       </ul>
 
       <p>
+          {% if not current_user or current_user == 'None' %}
           <a href="/register" class="btn btn-info btn-block">Sign up</a>
 
           <a href="/auth/facebook" class="btn btn-primary btn-block btn-custom"><i class="glyphicon icon-facebook-sign"></i> Login with Facebook</a>
 
           <a href="/auth/google" class="btn btn-primary btn-block btn-custom"><i class="glyphicon icon-google-plus-sign"></i> Login with Google</a>
+          {% end %}
       </p>
   </p>
 </div>
