@@ -7,11 +7,15 @@
 
 <div class='col-md-12'>
   <ul>
+    {% if current_user.admin %}
+    <li><b>Administrator</b></li>
+    {% end %}
     <li>Email address: {{ current_user.email }}</li>
     <li>Registered on: {{ current_user.registered_on }}</li>
   </ul>
 </div>
 
+{% if not current_user.social %}
 <div class='col-md-12'>
   <h2>Reset your password</h2>
 
@@ -36,8 +40,11 @@
 </div>
 {% end %}
 
+{% end %}
+
 
 {% block js %}
+    {% if not current_user.social %}
     <script language="JavaScript">
     $(document).ready(function() {
         $("#btnRandomPassword").click(function() {
@@ -49,4 +56,5 @@
         $("#btnRandomPassword").click();
     });
   </script>
+  {% end %}
 {% end %}
