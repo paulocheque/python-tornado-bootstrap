@@ -5,19 +5,19 @@
     <h1>Registration <small>(new account)</small></h1>
   </div>
   {% if current_user is None %}
-      <form id="form-create" class="form-create form" role="form" action="/register" method="POST">
+      <form id="form-create" class="form-create form form-horizontal" role="form" action="/register" method="POST">
           <div class="form-group">
               <label for="email">Email</label>
-              <input id="email" name="email" type="email" placeholder="email@dns.com" class="input-xlarge form-control" required="" autofocus/>
+              <input id="email" name="email" type="email" placeholder="email@dns.com" class="form-control input-lg" required="" autofocus/>
           </div>
           <div class="form-group">
               <label for="password">Password</label>
-              <input id="password" name="password" type="password" placeholder="" class="input-xlarge form-control" required="" autocomplete="off"/>
+              <input id="password" name="password" type="password" placeholder="" class="form-control input-lg " required="" autocomplete="off"/>
           </div>
-          <button type="submit" class="btn btn-primary" style="vertical-align: bottom;">Sign up</button>
+          <button type="submit" class="btn btn-primary">Sign up</button>
       </form>
       <div class="control-group">
-          <label class="control-label"></label>
+          <label class="btnRandomPassword"></label>
           <div class="controls">
             <button type="button" id="btnRandomPassword" class="btn btn-info btn-inverse btnRandomPassword" onclick="">New Random Password</button>
             <input id="generated-password" class="input-xsmall generated-password"/>

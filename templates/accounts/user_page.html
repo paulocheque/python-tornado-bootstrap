@@ -22,16 +22,16 @@
   <form id="form-create" class="form-create form" role="form" action="/change_password" method="POST">
       <div class="form-group">
           <label for="current_password">Current Password</label>
-          <input id="current_password" name="current_password" type="password" placeholder="" class="input-xlarge form-control" required="" autocomplete="off"/>
+          <input id="current_password" name="current_password" type="password" placeholder="" class="form-control input-lg" required="" autocomplete="off"/>
       </div>
       <div class="form-group">
           <label for="new_password">New Password</label>
-          <input id="new_password" name="new_password" type="password" placeholder="" class="input-xlarge form-control" required="" autocomplete="off"/>
+          <input id="new_password" name="new_password" type="password" placeholder="" class="form-control input-lg" required="" autocomplete="off"/>
       </div>
       <button type="submit" class="btn btn-primary" style="vertical-align: bottom;">Change password</button>
   </form>
   <div class="control-group">
-      <label class="control-label"></label>
+      <label class="btnRandomPassword"></label>
       <div class="controls">
         <button type="button" id="btnRandomPassword" class="btn btn-info btn-inverse btnRandomPassword" onclick="">New Random Password</button>
         <input id="generated-password" class="input-xsmall generated-password"/>
