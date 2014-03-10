@@ -6,8 +6,10 @@ import sha
 
 from mongoengine import *
 
-
 SOCIAL_CHOICES = (('GH', 'GitHub'), ('F', 'Facebook'), ('G', 'Google'), ('T', 'Twitter'), ('FF', 'FriendFinder'), )
+
+COUNTRIES = 'ad,ae,af,ag,ai,al,am,an,ao,ar,as,at,au,aw,az,ba,bb,bd,be,bf,bg,bh,bi,bj,bm,bn,bo,br,bs,bt,bv,bw,by,bz,ca,catalonia,cd,cf,cg,ch,ci,ck,cl,cm,cn,co,cr,cu,cv,cw,cy,cz,de,dj,dk,dm,do,dz,ec,ee,eg,eh,en,er,es,et,eu,fi,fj,fk,fm,fo,fr,ga,gb,gd,ge,gf,gg,gh,gi,gl,gm,gn,gp,gq,gr,gs,gt,gu,gw,gy,hk,hm,hn,hr,ht,hu,ic,id,ie,il,im,in,io,iq,ir,is,it,je,jm,jo,jp,ke,kg,kh,ki,km,kn,kp,kr,ku,kw,ky,kz,la,lb,lc,li,lk,lr,ls,lt,lu,lv,ly,ma,mc,md,me,mg,mh,mk,ml,mm,mn,mo,mp,mq,mr,ms,mt,mu,mv,mw,mx,my,mz,na,nc,ne,nf,ng,ni,nl,no,np,nr,nu,nz,om,pa,pe,pf,pg,ph,pk,pl,pm,pn,pr,ps,pt,pw,py,qa,re,ro,rs,ru,rw,sa,sb,sc,scotland,sd,se,sg,sh,si,sk,sl,sm,sn,so,somaliland,sr,ss,st,sv,sx,sy,sz,tc,td,tf,tg,th,tj,tk,tl,tm,tn,to,tr,tt,tv,tw,tz,ua,ug,um,us,uy,uz,va,vc,ve,vg,vi,vn,vu,wa,wf,ws,ye,yt,za,zanzibar,zm,zw'.split(',')
+COUNTRY_CHOICES = tuple([(c, c) for c in COUNTRIES])
 
 class User(Document):
     email = EmailField(required=True, max_length=1024)
@@ -15,7 +17,9 @@ class User(Document):
     secret_key = StringField(required=True, max_length=1024)
     admin = BooleanField()
 
+    username = StringField(required=False)
     social = StringField(required=False, choices=SOCIAL_CHOICES, max_length=2)
+    country = StringField(required=False, choices=COUNTRY_CHOICES)
     registered_on = DateTimeField(required=True, default=datetime.utcnow)
 
     @classmethod
@@ -78,6 +82,12 @@ class User(Document):
             raise ValidationError('ValidationError', errors=errors)
         self.password = new_password
         self.save(encrypt_pass=True)
+
+    def update_country(self, ip):
+        import connect_redis # import to connect to redis
+        from .tasks import update_country
+        queue = connect_redis.default_queue()
+        queue.enqueue(update_country, self.id, ip)
 
 
 # Migration
