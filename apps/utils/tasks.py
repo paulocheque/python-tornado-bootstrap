@@ -17,11 +17,24 @@ import connect_redis # import to connect to redis
 
 def get_lat_long_from_ip(ip):
     try:
-        r = requests.get('http://secret-ips.herokuapp.com/api/ip-city?ip=%s' % ip)
+        url = 'http://secret-ips.herokuapp.com/api/ip-city?ip=%s' % ip
+        r = requests.get(url)
         r = r.json()
         return (float(r['latitude']), float(r['longitude']))
-    except KeyError as e:
+    except Exception as e:
+        logging.error(str(e))
         raise e, None, sys.exc_info()[2]
+
+
+def get_country_from_ip(ip):
+    try:
+        url = 'http://secret-ips.herokuapp.com/api/ip-country?ip=%s' % ip
+        r = requests.get(url)
+        r = r.json()
+        country_code = r['country_code'].lower()
+        return country_code
+    except Exception as e:
+        logging.error(str(e))
 
 
 def send_admin_mail(subject, body):
