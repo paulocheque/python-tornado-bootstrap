@@ -55,7 +55,9 @@ def slugify(value):
     value = space_out_camel_case(value)
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
     value = unicode(STRIP_REGEXP.sub('', value).strip().lower())
-    return HYPHENATE_REGEXP.sub('-', value)
+    value = HYPHENATE_REGEXP.sub('-', value)
+    value = re.sub('-{2,}', '-', value)
+    return value
 
 
 def slugify_with_date(value):

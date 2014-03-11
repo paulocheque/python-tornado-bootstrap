@@ -85,6 +85,7 @@ class SlugifyTests(unittest.TestCase):
         self.assertEquals('bota-dentro-odonto-usp', slugify('BOTA DENTRO Odonto USP'))
         self.assertEquals('sanfriendly-apresenta-tran-slinda-casti', slugify('Sanfriendly apresenta: "TRANSlinda casti'))
         self.assertEquals('xi-ffa-da-rateria', slugify('XI FFA DA RATERIA'))
+        self.assertEquals('example-x-with-hyphen', slugify('EXAMPLE X - - With Hyphen'))
 
     def test_date_slugify(self):
         self.assertEquals(datetime.today().strftime('%Y-%m-%d') + '-camel-case', slugify_with_date('CamelCase'))
