@@ -9,14 +9,15 @@ import connect_redis
 
 
 class MyDoc(Document):
-    a = EmailField(required=True)
-    b = StringField()
-    c = StringField()
+    email = EmailField(required=True)
+    name = StringField()
+    slug = StringField()
     tags = ListField(StringField(max_length=20))
     date_created = DateTimeField(default=datetime.utcnow)
 
     def save(self, **kwargs):
         self.tags = taggify(self.tags)
+        self.slug = slugify(self.name)
         return super(MyDoc, self).save(**kwargs)
 
     def async_task(self):

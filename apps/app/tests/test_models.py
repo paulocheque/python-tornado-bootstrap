@@ -15,7 +15,9 @@ class AlgorithmTests(unittest.TestCase):
 class MyDocTests(MongoEngineTestCase):
     # @raises(Exception)
     def test_(self):
-        self.assertEquals(True, True)
+        t = MyDoc(email='a@a.com', name='TestXyz')
+        t.save()
+        self.assertEquals('test-xyz', t.slug)
 
     @raises(Exception)
     def test_raises(self):
