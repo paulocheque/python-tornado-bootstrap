@@ -103,6 +103,8 @@ namespace :heroku do
   TWITTER_CONSUMER_SECRET = ""
   TWITTER_ACCESS_TOKEN = ""
   TWITTER_ACCESS_TOKEN_SECRET = ""
+  PAGSEGURO_EMAIL = ""
+  PAGSEGURO_TOKEN = ""
 
   task :create => [] do
     # sh "heroku apps:create #{SERVER}" if SERVER
@@ -155,17 +157,19 @@ namespace :heroku do
     [SERVER, WORKER].each { |app|
       if app
         sh "heroku config:set BSALT=#{BSALT} --app #{app}"
-        sh "heroku config:set GOOGLE_CONSUMER_KEY=#{GOOGLE_CONSUMER_KEY} --app #{app}"
-        sh "heroku config:set GOOGLE_CONSUMER_SECRET=#{GOOGLE_CONSUMER_SECRET} --app #{app}"
-        sh "heroku config:set FACEBOOK_API_KEY=#{FACEBOOK_API_KEY} --app #{app}"
-        sh "heroku config:set FACEBOOK_SECRET=#{FACEBOOK_SECRET} --app #{app}"
-        sh "heroku config:set FACEBOOK_API_SECRET=#{FACEBOOK_API_SECRET} --app #{app}"
-        sh "heroku config:set TWITTER_API_KEY=#{TWITTER_API_KEY} --app #{app}"
-        sh "heroku config:set TWITTER_API_SECRET=#{TWITTER_API_SECRET} --app #{app}"
-        sh "heroku config:set TWITTER_CONSUMER_KEY=#{TWITTER_CONSUMER_KEY} --app #{app}"
-        sh "heroku config:set TWITTER_CONSUMER_SECRET=#{TWITTER_CONSUMER_SECRET} --app #{app}"
-        sh "heroku config:set TWITTER_ACCESS_TOKEN=#{TWITTER_ACCESS_TOKEN} --app #{app}"
-        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET=#{TWITTER_ACCESS_TOKEN_SECRET} --app #{app}"
+        sh "heroku config:set GOOGLE_CONSUMER_KEY=#{GOOGLE_CONSUMER_KEY} --app #{app}" if GOOGLE_CONSUMER_KEY != ""
+        sh "heroku config:set GOOGLE_CONSUMER_SECRET=#{GOOGLE_CONSUMER_SECRET} --app #{app}" if GOOGLE_CONSUMER_SECRET != ""
+        sh "heroku config:set FACEBOOK_API_KEY=#{FACEBOOK_API_KEY} --app #{app}" if FACEBOOK_API_KEY != ""
+        sh "heroku config:set FACEBOOK_SECRET=#{FACEBOOK_SECRET} --app #{app}" if FACEBOOK_SECRET != ""
+        sh "heroku config:set FACEBOOK_API_SECRET=#{FACEBOOK_API_SECRET} --app #{app}" if FACEBOOK_API_SECRET != ""
+        sh "heroku config:set TWITTER_API_KEY=#{TWITTER_API_KEY} --app #{app}" if TWITTER_API_KEY != ""
+        sh "heroku config:set TWITTER_API_SECRET=#{TWITTER_API_SECRET} --app #{app}" if TWITTER_API_SECRET != ""
+        sh "heroku config:set TWITTER_CONSUMER_KEY=#{TWITTER_CONSUMER_KEY} --app #{app}" if TWITTER_CONSUMER_KEY != ""
+        sh "heroku config:set TWITTER_CONSUMER_SECRET=#{TWITTER_CONSUMER_SECRET} --app #{app}" if TWITTER_CONSUMER_SECRET != ""
+        sh "heroku config:set TWITTER_ACCESS_TOKEN=#{TWITTER_ACCESS_TOKEN} --app #{app}" if TWITTER_ACCESS_TOKEN != ""
+        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET=#{TWITTER_ACCESS_TOKEN_SECRET} --app #{app}" if TWITTER_ACCESS_TOKEN_SECRET != ""
+        sh "heroku config:set PAGSEGURO_EMAIL=#{PAGSEGURO_EMAIL} --app #{app}" if PAGSEGURO_EMAIL != ""
+        sh "heroku config:set PAGSEGURO_TOKEN=#{PAGSEGURO_TOKEN} --app #{app}" if PAGSEGURO_TOKEN != ""
       end
     }
   end
