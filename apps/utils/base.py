@@ -57,7 +57,8 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 class AuthenticatedBaseHandler(BaseHandler):
-    LOGIN_MSG = 'You have to login first.'
+    LOGIN_MSG = 'You have to login first. It is simple and fast.'
+    ADMIN_PERMISSION = False
 
     def prepare(self):
         super(AuthenticatedBaseHandler, self).prepare()
@@ -66,7 +67,7 @@ class AuthenticatedBaseHandler(BaseHandler):
             alert = self.LOGIN_MSG
             url = self.settings.get('login_url', '/')
             self.redirect(url, alert=alert, alert_type='alert-warning')
-        elif not user.admin:
+        elif self.ADMIN_PERMISSION and not user.admin:
             self.raise403()
 
 
