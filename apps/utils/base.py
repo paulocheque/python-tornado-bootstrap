@@ -56,6 +56,20 @@ class BaseHandler(tornado.web.RequestHandler):
         return super(BaseHandler, self).render(template_name, **kwargs)
 
 
+class AuthenticatedBaseHandler(BaseHandler):
+    LOGIN_MSG = 'You have to login first.'
+
+    def prepare(self):
+        super(AuthenticatedBaseHandler, self).prepare()
+        user = self.get_current_user()
+        if not user:
+            alert = self.LOGIN_MSG
+            url = self.settings.get('login_url', '/')
+            self.redirect(url, alert=alert, alert_type='alert-warning')
+        elif not user.admin:
+            self.raise403()
+
+
 class CachedBaseHandler(BaseHandler):
     expire_timeout = 60 * 60 * 24 # in seconds
 

@@ -42,6 +42,9 @@ class RegisterHandler(AccountsHandler):
 
 
 class LoginHandler(AccountsHandler):
+    def get(self):
+        self.render('accounts/login.html')
+
     def post(self):
         email = self.get_argument('email', None)
         pw = self.get_argument('password', None)
