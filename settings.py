@@ -9,6 +9,9 @@ if DEBUG:
 else:
     DOMAIN = os.environ.get('APP_DOMAIN', 'yourapp.herokuapp.com')
 
+SYSTEM_EMAIL = "no-reply@gmail.com"
+ADMIN_EMAIL = "paulocheque@gmail.com"
+
 TORNADO_SETTINGS = dict(
     gzip=True,
     debug=DEBUG,
@@ -39,6 +42,10 @@ TORNADO_SETTINGS = dict(
     twitter_access_token=os.environ.get('TWITTER_ACCESS_TOKEN', ''),
     twitter_access_token_secret=os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', ''),
 )
+
+os.environ['SYSTEM_URL'] = 'http://%s' % DOMAIN
+os.environ['SYSTEM_EMAIL'] = SYSTEM_EMAIL
+os.environ['ADMIN_EMAIL'] = ADMIN_EMAIL
 
 os.environ['GOOGLE_API_KEY'] = TORNADO_SETTINGS['google_api_key']
 

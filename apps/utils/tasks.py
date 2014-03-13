@@ -37,23 +37,33 @@ def get_country_from_ip(ip):
         logging.error(str(e))
 
 
-def send_admin_mail(subject, body):
+def send_email(to, subject, body):
     try:
         sg = sendgrid.SendGridClient(os.getenv('SENDGRID_USERNAME'), os.getenv('SENDGRID_PASSWORD'))
-        message = sendgrid.Mail(to='paulocheque@gmail.com',
-            subject=subject,
-            html=body,
-            text=body,
-            from_email='contact@paulocheque.com')
+        message = sendgrid.Mail(to=to,
+                                subject=subject,
+                                html=body,
+                                text=body,
+                                from_email=os.getenv('SYSTEM_EMAIL'))
         sg.send(message)
     except Exception as e:
         logging.error(str(e))
         logging.exception(e)
 
 
-def async_send_admin_mail(subject, body):
+def send_admin_email(subject, body):
+    send_email(os.getenv('ADMIN_EMAIL'), subject, body)
+
+
+def async_send_email(to, subject, body):
     queue = connect_redis.default_queue()
-    queue.enqueue(send_admin_mail, subject, body)
+    queue.enqueue(send_email, to, subject, body)
+    logging.info('Sending email %s-%s' % (to, subject))
+
+
+def async_send_admin_email(subject, body):
+    queue = connect_redis.default_queue()
+    queue.enqueue(send_admin_email, subject, body)
     logging.info('Sending admin email %s' % subject)
 
 
