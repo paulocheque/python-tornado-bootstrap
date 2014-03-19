@@ -1,5 +1,11 @@
 TODO
 ========================
 
-*
-*
+base.html + cache => login problem
+
+bootstrap: redirect_current_page(alert)
+decorator login
+decorator admin
+
+rest: get_or_create
+rest: boolean authentication signature no prepare. yes/no

@@ -89,11 +89,11 @@ class User(Document):
         queue = connect_redis.default_queue()
         queue.enqueue(update_country, self.id, ip)
 
-    def add_contact_to_propagation(self, fb_id=None, tags=None, languages=None, debug=False):
+    def add_contact_to_propagation(self, fb_id=None, tags=None, languages=None):
         import connect_redis # import to connect to redis
         from apps.utils.tasks import add_contact_to_propagation
         queue = connect_redis.default_queue()
-        queue.enqueue(add_contact_to_propagation, email=self.email, fb_id=fb_id, tags=tags, languages=languages, debug=debug)
+        queue.enqueue(add_contact_to_propagation, email=self.email, fb_id=fb_id, tags=tags, languages=languages)
 
 # Migration
 # users = User.objects.filter(secret_key=None)
