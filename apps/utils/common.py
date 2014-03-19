@@ -4,6 +4,16 @@ import re
 import unicodedata
 
 
+def str2bool(string):
+    if not string:
+        return False
+    if isinstance(string, (str, unicode)):
+        string = string.lower()
+        options = ['none', 'null', 'nil', 'false', 'f', 'no', '0']
+        return not (string in options)
+    return string
+
+
 def smart_split(text, comma=','):
     if isinstance(text, (str, unicode)):
         text = text.strip()

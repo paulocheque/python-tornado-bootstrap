@@ -87,27 +87,51 @@ end
 namespace :heroku do
   SERVER = "server"
   WORKER = "worker"
-  DOMAIN = nil
   DEFAULT = SERVER
   DEFAULT = WORKER if not DEFAULT
-  SYSTEM_URL = "http://app.herokuapp.com"
-  SYSTEM_EMAIL = "no-reply@gmail.com"
+
+  # TEST_MODE = "" # disabled
+  # ASYNC_TASKS = "true" # active by default
+  DOMAIN = "app.herokuapp.com"
+  PROTOCOL = "http"
+  SYSTEM_URL = "#{PROTOCOL}://#{DOMAIN}"
+  SYSTEM_EMAIL = "no-reply@#{DOMAIN}"
   ADMIN_EMAIL = "paulocheque@gmail.com"
-  BSALT = "yoursalt"
+  BSALT = "#{DOMAIN}-yoursalt"
+
   GOOGLE_API_KEY = ""
   GOOGLE_CONSUMER_KEY = ""
   GOOGLE_CONSUMER_SECRET = ""
+
+  FACEBOOK_REDIRECT_URL = "#{PROTOCOL}://#{DOMAIN}/auth/facebook"
   FACEBOOK_API_KEY = ""
   FACEBOOK_SECRET = ""
   FACEBOOK_API_SECRET = ""
+
   TWITTER_API_KEY = ""
   TWITTER_API_SECRET = ""
   TWITTER_CONSUMER_KEY = ""
   TWITTER_CONSUMER_SECRET = ""
   TWITTER_ACCESS_TOKEN = ""
   TWITTER_ACCESS_TOKEN_SECRET = ""
+
+  GITHUB_REDIRECT_URL = "#{PROTOCOL}://#{DOMAIN}/auth/github"
+  GITHUB_CLIENT_ID = ""
+  GITHUB_SECRET = ""
+  GITHUB_SCOPE = ""
+
+  PAGSEGURO_MODE = "live"
   PAGSEGURO_EMAIL = ""
   PAGSEGURO_TOKEN = ""
+  MERCADOPAGO_MODE = "live"
+  MERCADOPAGO_CLIENT_ID = ""
+  MERCADOPAGO_CLIENT_SECRET = ""
+  PAYPAL_MODE = "live"
+  PAYPAL_CLIENT_ID = ""
+  PAYPAL_CLIENT_SECRET = ""
+  MOIP_MODE = "producao"
+  MOIP_TOKEN = ""
+  MOIP_KEY = ""
 
   task :create => [] do
     # sh "heroku apps:create #{SERVER}" if SERVER
@@ -125,7 +149,7 @@ namespace :heroku do
     sh "heroku addons:add sendgrid --app #{WORKER}" if WORKER
     # sh "heroku addons:add postmark --app #{WORKER}" if WORKER
     # sh "heroku addons:add mongolab --app #{SERVER}" if SERVER
-    # sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if SERVER and DOMAIN
+    sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if SERVER and not DOMAIN.end_with?("herokuapp.com")
   end
 
   task :config => [] do

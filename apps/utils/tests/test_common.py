@@ -4,6 +4,31 @@ import unittest
 from ..common import *
 
 
+class Str2BoolTests(unittest.TestCase):
+    def test_1(self):
+        self.assertEquals(False, str2bool(None))
+        self.assertEquals(False, str2bool(False))
+        self.assertEquals(False, str2bool(''))
+        self.assertEquals(False, str2bool('None'))
+        self.assertEquals(False, str2bool('none'))
+        self.assertEquals(False, str2bool('Null'))
+        self.assertEquals(False, str2bool('null'))
+        self.assertEquals(False, str2bool('Nil'))
+        self.assertEquals(False, str2bool('nil'))
+        self.assertEquals(False, str2bool('False'))
+        self.assertEquals(False, str2bool('false'))
+        self.assertEquals(False, str2bool('F'))
+        self.assertEquals(False, str2bool('f'))
+        self.assertEquals(False, str2bool('No'))
+        self.assertEquals(False, str2bool('no'))
+        self.assertEquals(False, str2bool('0'))
+        self.assertEquals(True, str2bool(True))
+        self.assertEquals(True, str2bool('True'))
+        self.assertEquals(True, str2bool('true'))
+        self.assertEquals(True, str2bool('1'))
+        self.assertEquals(True, str2bool('x'))
+
+
 class SmartSplitTests(unittest.TestCase):
     def test_1(self):
         self.assertEquals(None, smart_split(None))
