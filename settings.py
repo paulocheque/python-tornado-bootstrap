@@ -33,7 +33,7 @@ if DEBUG:
     os.environ['FACEBOOK_REDIRECT_URL'] = '{PROTOCOL}://{DOMAIN}/auth/facebook'.format(PROTOCOL=os.getenv('PROTOCOL'), DOMAIN=os.getenv('DOMAIN'))
     os.environ['FACEBOOK_API_KEY'] = ''
     os.environ['FACEBOOK_SECRET'] = ''
-    os.environ['FACEBOOK_API_SECRET'] = ''
+    os.environ['FACEBOOK_API_SECRET'] = os.environ['FACEBOOK_SECRET']
 
     os.environ['GITHUB_REDIRECT_URL'] = '{PROTOCOL}://{DOMAIN}/auth/github'.format(PROTOCOL=os.getenv('PROTOCOL'), DOMAIN=os.getenv('DOMAIN'))
     os.environ['GITHUB_CLIENT_ID'] = ''

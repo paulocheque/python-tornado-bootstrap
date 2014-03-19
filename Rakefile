@@ -89,49 +89,52 @@ namespace :heroku do
   WORKER = "worker"
   DEFAULT = SERVER
   DEFAULT = WORKER if not DEFAULT
-
-  # TEST_MODE = "" # disabled
-  # ASYNC_TASKS = "true" # active by default
   DOMAIN = "app.herokuapp.com"
   PROTOCOL = "http"
-  SYSTEM_URL = "#{PROTOCOL}://#{DOMAIN}"
-  SYSTEM_EMAIL = "no-reply@#{DOMAIN}"
-  ADMIN_EMAIL = "paulocheque@gmail.com"
-  BSALT = "#{DOMAIN}-yoursalt"
+  ENV_VARS = {
+    # TEST_MODE: "", # disabled
+    # ASYNC_TASKS: "true", # active by default
+    DOMAIN: "#{DOMAIN}",
+    PROTOCOL: "#{PROTOCOL}",
+    SYSTEM_URL: "#{PROTOCOL}://#{DOMAIN}",
+    SYSTEM_EMAIL: "no-reply@#{DOMAIN}",
+    ADMIN_EMAIL: "paulocheque@gmail.com",
+    BSALT: "#{DOMAIN}-yoursalt",
 
-  GOOGLE_API_KEY = ""
-  GOOGLE_CONSUMER_KEY = ""
-  GOOGLE_CONSUMER_SECRET = ""
+    GOOGLE_API_KEY: "",
+    GOOGLE_CONSUMER_KEY: "",
+    GOOGLE_CONSUMER_SECRET: "",
 
-  FACEBOOK_REDIRECT_URL = "#{PROTOCOL}://#{DOMAIN}/auth/facebook"
-  FACEBOOK_API_KEY = ""
-  FACEBOOK_SECRET = ""
-  FACEBOOK_API_SECRET = ""
+    FACEBOOK_REDIRECT_URL: "#{PROTOCOL}://#{DOMAIN}/auth/facebook",
+    FACEBOOK_API_KEY: "",
+    FACEBOOK_SECRET: "",
+    FACEBOOK_API_SECRET: "", # FACEBOOK_SECRET
 
-  TWITTER_API_KEY = ""
-  TWITTER_API_SECRET = ""
-  TWITTER_CONSUMER_KEY = ""
-  TWITTER_CONSUMER_SECRET = ""
-  TWITTER_ACCESS_TOKEN = ""
-  TWITTER_ACCESS_TOKEN_SECRET = ""
+    TWITTER_API_KEY: "",
+    TWITTER_API_SECRET: "",
+    TWITTER_CONSUMER_KEY: "", # TWITTER_API_KEY
+    TWITTER_CONSUMER_SECRET: "", # TWITTER_API_SECRET
+    TWITTER_ACCESS_TOKEN: "",
+    TWITTER_ACCESS_TOKEN_SECRET: "",
 
-  GITHUB_REDIRECT_URL = "#{PROTOCOL}://#{DOMAIN}/auth/github"
-  GITHUB_CLIENT_ID = ""
-  GITHUB_SECRET = ""
-  GITHUB_SCOPE = ""
+    GITHUB_REDIRECT_URL: "#{PROTOCOL}://#{DOMAIN}/auth/github",
+    GITHUB_CLIENT_ID: "",
+    GITHUB_SECRET: "",
+    GITHUB_SCOPE: "",
 
-  PAGSEGURO_MODE = "live"
-  PAGSEGURO_EMAIL = ""
-  PAGSEGURO_TOKEN = ""
-  MERCADOPAGO_MODE = "live"
-  MERCADOPAGO_CLIENT_ID = ""
-  MERCADOPAGO_CLIENT_SECRET = ""
-  PAYPAL_MODE = "live"
-  PAYPAL_CLIENT_ID = ""
-  PAYPAL_CLIENT_SECRET = ""
-  MOIP_MODE = "producao"
-  MOIP_TOKEN = ""
-  MOIP_KEY = ""
+    PAGSEGURO_MODE: "live",
+    PAGSEGURO_EMAIL: "",
+    PAGSEGURO_TOKEN: "",
+    MERCADOPAGO_MODE: "live",
+    MERCADOPAGO_CLIENT_ID: "",
+    MERCADOPAGO_CLIENT_SECRET: "",
+    PAYPAL_MODE: "live",
+    PAYPAL_CLIENT_ID: "",
+    PAYPAL_CLIENT_SECRET: "",
+    MOIP_MODE: "producao",
+    MOIP_TOKEN: "",
+    MOIP_KEY: "",
+  }
 
   task :create => [] do
     # sh "heroku apps:create #{SERVER}" if SERVER
@@ -149,7 +152,7 @@ namespace :heroku do
     sh "heroku addons:add sendgrid --app #{WORKER}" if WORKER
     # sh "heroku addons:add postmark --app #{WORKER}" if WORKER
     # sh "heroku addons:add mongolab --app #{SERVER}" if SERVER
-    sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if SERVER and not DOMAIN.end_with?("herokuapp.com")
+    sh "heroku domains:add #{DOMAIN} --app #{SERVER}" if SERVER and not ENV_VARS[:DOMAIN].end_with?("herokuapp.com")
   end
 
   task :config => [] do
@@ -183,25 +186,9 @@ namespace :heroku do
 
     [SERVER, WORKER].each { |app|
       if app
-        sh "heroku config:set SYSTEM_URL=#{SYSTEM_URL} --app #{app}" if SYSTEM_URL != ""
-        sh "heroku config:set SYSTEM_EMAIL=#{SYSTEM_EMAIL} --app #{app}" if SYSTEM_EMAIL != ""
-        sh "heroku config:set ADMIN_EMAIL=#{ADMIN_EMAIL} --app #{app}" if ADMIN_EMAIL != ""
-        sh "heroku config:set BSALT=#{BSALT} --app #{app}" if BSALT != ""
-
-        sh "heroku config:set GOOGLE_CONSUMER_KEY=#{GOOGLE_CONSUMER_KEY} --app #{app}" if GOOGLE_CONSUMER_KEY != ""
-        sh "heroku config:set GOOGLE_CONSUMER_SECRET=#{GOOGLE_CONSUMER_SECRET} --app #{app}" if GOOGLE_CONSUMER_SECRET != ""
-        sh "heroku config:set FACEBOOK_API_KEY=#{FACEBOOK_API_KEY} --app #{app}" if FACEBOOK_API_KEY != ""
-        sh "heroku config:set FACEBOOK_SECRET=#{FACEBOOK_SECRET} --app #{app}" if FACEBOOK_SECRET != ""
-        sh "heroku config:set FACEBOOK_API_SECRET=#{FACEBOOK_API_SECRET} --app #{app}" if FACEBOOK_API_SECRET != ""
-        sh "heroku config:set TWITTER_API_KEY=#{TWITTER_API_KEY} --app #{app}" if TWITTER_API_KEY != ""
-        sh "heroku config:set TWITTER_API_SECRET=#{TWITTER_API_SECRET} --app #{app}" if TWITTER_API_SECRET != ""
-        sh "heroku config:set TWITTER_CONSUMER_KEY=#{TWITTER_CONSUMER_KEY} --app #{app}" if TWITTER_CONSUMER_KEY != ""
-        sh "heroku config:set TWITTER_CONSUMER_SECRET=#{TWITTER_CONSUMER_SECRET} --app #{app}" if TWITTER_CONSUMER_SECRET != ""
-        sh "heroku config:set TWITTER_ACCESS_TOKEN=#{TWITTER_ACCESS_TOKEN} --app #{app}" if TWITTER_ACCESS_TOKEN != ""
-        sh "heroku config:set TWITTER_ACCESS_TOKEN_SECRET=#{TWITTER_ACCESS_TOKEN_SECRET} --app #{app}" if TWITTER_ACCESS_TOKEN_SECRET != ""
-
-        sh "heroku config:set PAGSEGURO_EMAIL=#{PAGSEGURO_EMAIL} --app #{app}" if PAGSEGURO_EMAIL != ""
-        sh "heroku config:set PAGSEGURO_TOKEN=#{PAGSEGURO_TOKEN} --app #{app}" if PAGSEGURO_TOKEN != ""
+        ENV_VARS.each{ |var_name, value|
+          sh "heroku config:set #{var_name}=#{value} --app #{app}" if value != ""
+        }
       end
     }
   end
