@@ -1,3 +1,4 @@
+# coding: utf-8
 import logging
 import os
 import re
@@ -13,6 +14,63 @@ from py_social.twitter_services import tweet
 import settings # import to set env variables
 import connect_mongo # import to connect to the database
 import connect_redis # import to connect to redis
+from .common import str2bool
+
+
+def send_email(to, subject, body):
+    test_mode = str2bool(os.getenv('TEST_MODE', False))
+    if test_mode:
+        logging.info('Sending e-mail {subject} to {to}'.format(subject=subject, to=to))
+    else:
+        try:
+            sg = sendgrid.SendGridClient(os.getenv('SENDGRID_USERNAME'), os.getenv('SENDGRID_PASSWORD'))
+            message = sendgrid.Mail(to=to,
+                                    subject=subject,
+                                    html=body,
+                                    text=body,
+                                    from_email=os.getenv('SYSTEM_EMAIL'))
+            sg.send(message)
+        except Exception as e:
+            logging.error(str(e))
+            logging.exception(e)
+
+
+def send_admin_email(subject, body):
+    send_email(os.getenv('ADMIN_EMAIL'), subject, body)
+
+
+def async_send_email(to, subject, body):
+    async = str2bool(os.getenv('ASYNC_TASKS', True))
+    if async:
+        queue = connect_redis.default_queue()
+        queue.enqueue(send_email, to, subject, body)
+        logging.info('Sending email %s-%s' % (to, subject))
+    else:
+        send_email(to, subject, body)
+
+
+def async_send_admin_email(subject, body):
+    async = str2bool(os.getenv('ASYNC_TASKS', True))
+    if async:
+        queue = connect_redis.default_queue()
+        queue.enqueue(send_admin_email, subject, body)
+        logging.info('Sending admin email %s' % subject)
+    else:
+        send_admin_email(subject, body)
+
+
+def async_tweet(msg):
+    test_mode = str2bool(os.getenv('TEST_MODE', False))
+    if test_mode:
+        logging.info('Tweeting {smg}'.format(msg=msg))
+    else:
+        async = str2bool(os.getenv('ASYNC_TASKS', True))
+        if async:
+            queue = connect_redis.default_queue()
+            queue.enqueue(tweet, msg)
+            logging.info('Tweeting %s' % msg)
+        else:
+            tweet(msg)
 
 
 def get_lat_long_from_ip(ip):
@@ -37,48 +95,9 @@ def get_country_from_ip(ip):
         logging.error(str(e))
 
 
-def send_email(to, subject, body):
-    try:
-        sg = sendgrid.SendGridClient(os.getenv('SENDGRID_USERNAME'), os.getenv('SENDGRID_PASSWORD'))
-        message = sendgrid.Mail(to=to,
-                                subject=subject,
-                                html=body,
-                                text=body,
-                                from_email=os.getenv('SYSTEM_EMAIL'))
-        sg.send(message)
-    except Exception as e:
-        logging.error(str(e))
-        logging.exception(e)
-
-
-def send_admin_email(subject, body):
-    send_email(os.getenv('ADMIN_EMAIL'), subject, body)
-
-
-def async_send_email(to, subject, body):
-    queue = connect_redis.default_queue()
-    queue.enqueue(send_email, to, subject, body)
-    logging.info('Sending email %s-%s' % (to, subject))
-
-
-def async_send_admin_email(subject, body):
-    queue = connect_redis.default_queue()
-    queue.enqueue(send_admin_email, subject, body)
-    logging.info('Sending admin email %s' % subject)
-
-
-def async_tweet(msg, debug=False):
-    queue = connect_redis.default_queue()
-    queue.enqueue(tweet, msg, debug=debug)
-    logging.info('Tweeting %s' % msg)
-
-
-def add_contact_to_propagation(email=None, fb_id=None, tags=None, languages=None, debug=False):
+def add_contact_to_propagation(email=None, fb_id=None, tags=None, languages=None):
     if email or fb_id:
-        if debug:
-            domain = 'http://localhost:5000'
-        else:
-            domain = 'http://propagation.herokuapp.com'
+        domain = 'http://propagation.herokuapp.com'
         try:
             payload = {}
             if email:
