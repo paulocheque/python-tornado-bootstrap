@@ -19,6 +19,11 @@ if DEBUG:
     print('='*80)
     print('RUNNING ON TEST MODE')
     print('='*80)
+    os.environ['DATE_FORMAT'] = '%Y-%m-%d'
+    os.environ['TIME_FORMAT'] = '%H:%M'
+    os.environ['DATETIME_FORMAT'] = '{DATE_FORMAT} {TIME_FORMAT}'.format(
+        DATE_FORMAT=os.environ['DATE_FORMAT'], TIME_FORMAT=os.environ['TIME_FORMAT'])
+
     os.environ['DOMAIN'] = 'localhost:5000'
     os.environ['PROTOCOL'] = 'http'
     os.environ['SYSTEM_URL'] = '{PROTOCOL}://{DOMAIN}'.format(PROTOCOL=os.getenv('PROTOCOL'), DOMAIN=os.getenv('DOMAIN'))

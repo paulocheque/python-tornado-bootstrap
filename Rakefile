@@ -94,6 +94,10 @@ namespace :heroku do
   ENV_VARS = {
     # TEST_MODE: "", # disabled
     # ASYNC_TASKS: "true", # active by default
+    DATE_FORMAT: "%Y-%m-%d",
+    TIME_FORMAT: "%H:%M",
+    DATETIME_FORMAT: "%Y-%m-%d %H:%M",
+
     DOMAIN: "#{DOMAIN}",
     PROTOCOL: "#{PROTOCOL}",
     SYSTEM_URL: "#{PROTOCOL}://#{DOMAIN}",
