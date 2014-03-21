@@ -29,32 +29,15 @@
   </head>
 
   <body>
-    {% include "header.html" %}
-
     <div class="container">
-      {% if alert is not None %}
-        <div class="alert {{ alert_type }} alert-dismissable">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          {{ alert }}
-        </div>
-      {% end %}
-
       <div class="row">
-        <div class="col-xs-8 col-md-8 col-lg-8">
-          {% include "ads/boobox_horizontal_banner.html" %}
-
+        <div class="col-xs-12 col-md-12 col-lg-12">
           {% block content %}{% end %}
-        </div>
-
-        <div class="col-xs-4 col-md-4 col-lg-4">
-            {% include "ads/boobox_square.html" %}
         </div>
       </div>
 
       <hr/>
     </div>
-
-    {% include "footer.html" %}
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://weblibraries.s3.amazonaws.com/jquery-2.0.3.min.js"></script>
@@ -73,7 +56,5 @@
     {% block js %}{% end %}
 
     {% include "social/script_google_analytics.html %}
-    {% include "social/script_facebook_like_button.html %}
-    {% include "social/script_twitter_follow_button.html %}
   </body>
 </html>
