@@ -47,7 +47,11 @@
         </div>
 
         <div class="col-xs-4 col-md-4 col-lg-4">
+            {% include "social/social_buttons.html" %}
+
             {% include "ads/boobox_square.html" %}
+
+            {% include "ads/boobox_vertical_banner.html" %}
         </div>
       </div>
 
@@ -72,8 +76,8 @@
     <script src="/static/js/custom.js"></script>
     {% block js %}{% end %}
 
-    {% include "social/script_google_analytics.html %}
-    {% include "social/script_facebook_like_button.html %}
-    {% include "social/script_twitter_follow_button.html %}
+    {% include "social/script_google_analytics.html" %}
+    {% include "social/script_facebook_like_button.html" %}
+    {% include "social/script_twitter_follow_button.html" %}
   </body>
 </html>
