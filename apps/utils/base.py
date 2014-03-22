@@ -69,6 +69,11 @@ class AuthenticatedBaseHandler(BaseHandler):
             self.redirect(url, alert=alert, alert_type='alert-warning')
         elif self.ADMIN_PERMISSION and not user.admin:
             self.raise403()
+        elif not self.user_has_permission():
+            self.raise403()
+
+    def user_has_permission(self):
+        return True
 
 
 class CachedBaseHandler(BaseHandler):
