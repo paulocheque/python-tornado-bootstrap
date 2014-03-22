@@ -69,10 +69,12 @@ class AuthenticatedBaseHandler(BaseHandler):
             self.redirect(url, alert=alert, alert_type='alert-warning')
         elif self.ADMIN_PERMISSION and not user.admin:
             self.raise403()
-        elif not self.user_has_permission():
+        elif (not user.admin) and (not self.user_has_permission()):
             self.raise403()
 
     def user_has_permission(self):
+        # Tornado hack to get identifier begore GET/POST
+        # identifier = self.request.path replace/split/etc
         return True
 
 
