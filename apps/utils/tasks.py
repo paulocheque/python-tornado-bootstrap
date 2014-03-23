@@ -25,7 +25,7 @@ def send_email(to, subject, body):
         try:
             sg = sendgrid.SendGridClient(os.getenv('SENDGRID_USERNAME'), os.getenv('SENDGRID_PASSWORD'))
             message = sendgrid.Mail(to=to,
-                                    subject=subject,
+                                    subject='[%s] %s' % (os.getenv('SYSTEM_NAME'), subject),
                                     html=body,
                                     text=body,
                                     from_email=os.getenv('SYSTEM_EMAIL'))
