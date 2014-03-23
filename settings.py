@@ -24,6 +24,7 @@ if DEBUG:
     os.environ['DATETIME_FORMAT'] = '{DATE_FORMAT} {TIME_FORMAT}'.format(
         DATE_FORMAT=os.environ['DATE_FORMAT'], TIME_FORMAT=os.environ['TIME_FORMAT'])
 
+    os.environ['SYSTEM_NAME'] = 'MyApp'
     os.environ['DOMAIN'] = 'localhost:5000'
     os.environ['PROTOCOL'] = 'http'
     os.environ['SYSTEM_URL'] = '{PROTOCOL}://{DOMAIN}'.format(PROTOCOL=os.getenv('PROTOCOL'), DOMAIN=os.getenv('DOMAIN'))

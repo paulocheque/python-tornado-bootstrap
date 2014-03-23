@@ -98,6 +98,7 @@ namespace :heroku do
     TIME_FORMAT: "%H:%M",
     DATETIME_FORMAT: "%Y-%m-%d %H:%M",
 
+    SYSTEM_NAME = "MyApp"
     DOMAIN: "#{DOMAIN}",
     PROTOCOL: "#{PROTOCOL}",
     SYSTEM_URL: "#{PROTOCOL}://#{DOMAIN}",
