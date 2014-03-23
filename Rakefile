@@ -106,15 +106,19 @@ namespace :heroku do
     ADMIN_EMAIL: "paulocheque@gmail.com",
     BSALT: "#{DOMAIN}-yoursalt",
 
+    GOOGLE_ANALYTICS: "", # UA-CHANGEHERE-1
+    GOOGLE_PLUS_ACCOUNT: "",
     GOOGLE_API_KEY: "",
     GOOGLE_CONSUMER_KEY: "",
     GOOGLE_CONSUMER_SECRET: "",
 
+    FACEBOOK_ACCOUNT: "",
     FACEBOOK_REDIRECT_URL: "#{PROTOCOL}://#{DOMAIN}/auth/facebook",
     FACEBOOK_API_KEY: "",
     FACEBOOK_SECRET: "",
     FACEBOOK_API_SECRET: "", # FACEBOOK_SECRET
 
+    TWITTER_ACCOUNT: "",
     TWITTER_API_KEY: "",
     TWITTER_API_SECRET: "",
     TWITTER_CONSUMER_KEY: "", # TWITTER_API_KEY
@@ -122,10 +126,13 @@ namespace :heroku do
     TWITTER_ACCESS_TOKEN: "",
     TWITTER_ACCESS_TOKEN_SECRET: "",
 
+    GITHUB_ACCOUNT: "",
     GITHUB_REDIRECT_URL: "#{PROTOCOL}://#{DOMAIN}/auth/github",
     GITHUB_CLIENT_ID: "",
     GITHUB_SECRET: "",
     GITHUB_SCOPE: "",
+
+    SKYPE_ACCOUNT: "",
 
     PAGSEGURO_MODE: "live",
     PAGSEGURO_EMAIL: "",

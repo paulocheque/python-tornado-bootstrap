@@ -1,9 +1,31 @@
 <ul class="nav navbar-nav social-icons">
-    <li><a href="http://github.com/" class="nav-right img-rounded glyphicon fa fa-lg fa-github-square" target="_blank"></a></li>
+    {% if GITHUB_ACCOUNT %}
+    <li>
+    <a href="http://github.com/{{ GITHUB_ACCOUNT }}" class="img-rounded fa fa-lg fa-github-square" target="_blank"></a>
+    </li>
+    {% end %}
 
-    <li><a href="http://twitter.com/" class="nav-right img-rounded fa fa-lg fa-twitter-square" target="_blank"></a></li>
+    {% if TWITTER_ACCOUNT %}
+    <li>
+    <a href="http://twitter.com/{{ TWITTER_ACCOUNT }}" class="img-rounded fa fa-lg fa-twitter-square" target="_blank"></a>
+    </li>
+    {% end %}
 
-    <li><a href="http://facebook.com/" class="nav-right img-rounded fa fa-lg fa-facebook-square" target="_blank"></a></li>
+    {% if FACEBOOK_ACCOUNT %}
+    <li>
+    <a href="http://facebook.com/{{ FACEBOOK_ACCOUNT }}" class="img-rounded fa fa-lg fa-facebook-square" target="_blank"></a>
+    </li>
+    {% end %}
 
-    <li><a href="https://plus.google.com/b/" class="nav-right img-rounded fa fa-lg fa-google-plus-square" target="_blank"></a></li>
+    {% if GOOGLE_PLUS_ACCOUNT %}
+    <li>
+    <a href="https://plus.google.com/b/{{ GOOGLE_PLUS_ACCOUNT }}" class="img-rounded fa fa-lg fa-google-plus-square" target="_blank"></a>
+    </li>
+    {% end %}
+
+    {% if SKYPE_ACCOUNT %}
+    <li>
+    <a href="skype:{{ SKYPE_ACCOUNT }}?userinfo"><span class="img-rounded fa fa-lg fa-skype"></span> Skype</a>
+    </li>
+    {% end %}
 </ul>

@@ -3,16 +3,26 @@
         <h3 class="panel-title">Contact</h3>
     </div>
     <div class="panel-body">
-        <p>email@dns.com</p>
+        <p>{{ SYSTEM_EMAIL }}</p>
 
-        <a href="http://github.com/" class="img-rounded fa fa-github-square" target="_blank"></a>
+        {% if GITHUB_ACCOUNT %}
+        <a href="http://github.com/{{ GITHUB_ACCOUNT }}" class="img-rounded fa fa-github-square" target="_blank"></a>
+        {% end %}
 
-        <a href="http://twitter.com/" class="img-rounded fa fa-twitter-square" target="_blank"></a>
+        {% if TWITTER_ACCOUNT %}
+        <a href="http://twitter.com/{{ TWITTER_ACCOUNT }}" class="img-rounded fa fa-twitter-square" target="_blank"></a>
+        {% end %}
 
-        <a href="http://facebook.com/" class="img-rounded fa fa-facebook-square" target="_blank"></a>
+        {% if FACEBOOK_ACCOUNT %}
+        <a href="http://facebook.com/{{ FACEBOOK_ACCOUNT }}" class="img-rounded fa fa-facebook-square" target="_blank"></a>
+        {% end %}
 
-        <a href="https://plus.google.com/b/" class="img-rounded fa fa-google-plus-square" target="_blank"></a>
+        {% if GOOGLE_PLUS_ACCOUNT %}
+        <a href="https://plus.google.com/b/{{ GOOGLE_PLUS_ACCOUNT }}" class="img-rounded fa fa-google-plus-square" target="_blank"></a>
+        {% end %}
 
-        <a href="skype:CHANGE_HERE?userinfo"><span class="img-rounded fa fa-skype"></span> Skype</a>
+        {% if SKYPE_ACCOUNT %}
+        <a href="skype:{{ SKYPE_ACCOUNT }}?userinfo"><span class="img-rounded fa fa-skype"></span> Skype</a>
+        {% end %}
     </div>
 </div>

@@ -32,26 +32,33 @@ if DEBUG:
     os.environ['ADMIN_EMAIL'] = 'paulocheque@gmail.com'
     os.environ['BSALT'] = '{DOMAIN}-yoursalt'.format(DOMAIN=os.environ['DOMAIN'])
 
+    os.environ['GOOGLE_ANALYTICS'] = ''
+    os.environ['GOOGLE_PLUS_ACCOUNT'] = ''
     os.environ['GOOGLE_API_KEY'] = ''
     os.environ['GOOGLE_CONSUMER_KEY'] = ''
     os.environ['GOOGLE_CONSUMER_SECRET'] = ''
 
+    os.environ['FACEBOOK_ACCOUNT'] = ''
     os.environ['FACEBOOK_REDIRECT_URL'] = '{PROTOCOL}://{DOMAIN}/auth/facebook'.format(PROTOCOL=os.getenv('PROTOCOL'), DOMAIN=os.getenv('DOMAIN'))
     os.environ['FACEBOOK_API_KEY'] = ''
     os.environ['FACEBOOK_SECRET'] = ''
     os.environ['FACEBOOK_API_SECRET'] = os.environ['FACEBOOK_SECRET']
 
+    os.environ['GITHUB_ACCOUNT'] = ''
     os.environ['GITHUB_REDIRECT_URL'] = '{PROTOCOL}://{DOMAIN}/auth/github'.format(PROTOCOL=os.getenv('PROTOCOL'), DOMAIN=os.getenv('DOMAIN'))
     os.environ['GITHUB_CLIENT_ID'] = ''
     os.environ['GITHUB_SECRET'] = ''
     os.environ['GITHUB_SCOPE'] = ''
 
+    os.environ['TWITTER_ACCOUNT'] = ''
     os.environ['TWITTER_API_KEY'] = ''
     os.environ['TWITTER_API_SECRET'] = ''
     os.environ['TWITTER_CONSUMER_KEY'] = os.environ['TWITTER_API_KEY']
     os.environ['TWITTER_CONSUMER_SECRET'] = os.environ['TWITTER_API_SECRET']
     os.environ['TWITTER_ACCESS_TOKEN'] = ''
     os.environ['TWITTER_ACCESS_TOKEN_SECRET'] = ''
+
+    os.environ['SKYPE_ACCOUNT'] = ''
 
     os.environ['PAGSEGURO_MODE'] = 'sandbox'
     os.environ['PAGSEGURO_EMAIL'] = ''

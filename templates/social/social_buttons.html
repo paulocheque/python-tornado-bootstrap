@@ -1,7 +1,9 @@
 <p>
-    <div class="fb-like" data-href="http://CHANGE_HERE" data-width="100" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+    <div class="fb-like" data-href="{{ SYSTEM_URL }}" data-width="100" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 </p>
 
+{% if TWITTER_ACCOUNT %}
 <p>
-    <a href="https://twitter.com/CHANGE_HERE" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow</a>
+    <a href="https://twitter.com/{{ TWITTER_ACCOUNT }}" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow</a>
 </p>
+{% end %}

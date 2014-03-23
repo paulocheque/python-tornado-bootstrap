@@ -3,42 +3,12 @@
 {% block content %}
 
 <div class="page-header">
-  <h1>Title</h1>
+  <h1>Print</h1>
 </div>
 
 <div class="jumbotron">
   <p>
-      <h1>Python Tornado Bootstrap</h1>
-      <ul>
-        <li>Login or Social login</li>
-        <li>Edit title, menu etc</li>
-      </ul>
-
-      <p>
-          {% if not current_user or current_user == 'None' %}
-          <a href="/register" class="btn btn-info btn-block">Sign up</a>
-
-          <a href="/auth/facebook" class="btn btn-primary btn-block btn-custom"><i class="glyphicon icon-facebook-sign"></i> Login with Facebook</a>
-
-          <a href="/auth/google" class="btn btn-primary btn-block btn-custom"><i class="glyphicon icon-google-plus-sign"></i> Login with Google</a>
-          {% end %}
-      </p>
+      <h1>Print</h1>
   </p>
-</div>
-
-<div class="row">
-  <div class="col-md-6 col-lg=6">
-    <h3>Left items</h3>
-    <ul>
-      <li>Item 1</li>
-      <li>Item 2</li>
-    </ul>
-  </div>
-  <div class="col-md-6 col-lg=6">
-    <h3>Right items</h3>
-    <ul>
-      <li>Item 1</li>
-      <li>Item 2</li>
-  </div>
 </div>
 {% end %}
