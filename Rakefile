@@ -188,19 +188,20 @@ namespace :heroku do
   end
 
   task :setvars do
-    REDISTOGO_URL = `heroku config:get REDISTOGO_URL --app #{SERVER}` if SERVER
-    REDISTOGO_URL.strip! if SERVER
-    sh "heroku config:set REDIS_URL=#{REDISTOGO_URL} REDISTOGO_URL=#{REDISTOGO_URL} --app #{WORKER}" if WORKER
-
-    MONGOHQ_URL = `heroku config:get MONGOHQ_URL --app #{SERVER}` if SERVER
-    MONGOHQ_URL.strip! if SERVER
-    sh "heroku config:set MONGOHQ_URL=#{MONGOHQ_URL} --app #{WORKER}" if WORKER
+    redistogo_url = `heroku config:get REDISTOGO_URL --app #{SERVER}` if SERVER
+    redistogo_url.strip! if SERVER
+    mongohq_url = `heroku config:get MONGOHQ_URL --app #{SERVER}` if SERVER
+    mongohq_url.strip! if SERVER
 
     [SERVER, WORKER].each { |app|
       if app
-        ENV_VARS.each{ |var_name, value|
-          sh "heroku config:set #{var_name}=#{value} --app #{app}" if value != ""
-        }
+        vars = ENV_VARS.map{ |k,v| "#{k}=#{v}" }.join(' ')
+        puts vars
+        if app == WORKER
+          complement = " REDIS_URL=#{redistogo_url} REDISTOGO_URL=#{redistogo_url} MONGOHQ_URL=#{mongohq_url}"
+          vars = vars + complement
+        end
+        sh "heroku config:set #{vars} --app #{app}"
       end
     }
   end
