@@ -96,7 +96,7 @@ namespace :heroku do
     # ASYNC_TASKS: "true", # active by default
     DATE_FORMAT: "%Y-%m-%d",
     TIME_FORMAT: "%H:%M",
-    DATETIME_FORMAT: "%Y-%m-%d %H:%M",
+    DATETIME_FORMAT: "\"%Y-%m-%d %H:%M\"",
 
     SYSTEM_NAME: "MyApp",
     DOMAIN: "#{DOMAIN}",
