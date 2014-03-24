@@ -73,6 +73,22 @@ class BaseHandler(tornado.web.RequestHandler):
         return super(BaseHandler, self).render(template_name, **kwargs)
 
 
+class ImageHandler(BaseHandler):
+    def get_image(self, identifier, index=0):
+        return None
+
+    def get(self, identifier, index=0):
+        try:
+            index = int(index)
+            img = self.get_image(identifier, index)
+            if img:
+                self.set_header('Content-type', img.content_type)
+                self.write(img.read())
+            self.finish()
+        except (DoesNotExist, IndexError):
+            self.raise404()
+
+
 class AuthenticatedBaseHandler(BaseHandler):
     LOGIN_MSG = 'You have to login first. It is simple and fast.'
     ADMIN_PERMISSION = False
