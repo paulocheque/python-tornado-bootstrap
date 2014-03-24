@@ -89,7 +89,7 @@ namespace :heroku do
   WORKER = "worker"
   DEFAULT = SERVER
   DEFAULT = WORKER if not DEFAULT
-  DOMAIN = "app.herokuapp.com"
+  DOMAIN = "#{SERVER}.herokuapp.com"
   PROTOCOL = "http"
   ENV_VARS = {
     # TEST_MODE: "", # disabled
