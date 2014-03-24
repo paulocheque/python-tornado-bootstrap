@@ -149,8 +149,13 @@ namespace :heroku do
   }
 
   task :create => [] do
-    # sh "heroku apps:create #{SERVER}" if SERVER
-    # sh "heroku apps:create #{WORKER}" if WORKER
+    # sh "git remote add bootstrap git@github.com:paulocheque/python-tornado-bootstrap.git"
+    # sh "git pull bootstrap master"
+    sh "heroku apps:create #{SERVER}" if SERVER
+    sh "heroku apps:create #{WORKER}" if WORKER
+    sh "git remote add heroku git@heroku.com:#{SERVER}.git" if SERVER
+    sh "git remote add heroku2 git@heroku.com:#{WORKER}.git" if WORKER
+
     sh "heroku addons:add newrelic --app #{SERVER}" if SERVER
     sh "heroku addons:add newrelic --app #{WORKER}" if WORKER
     # sh "newrelic-admin generate-config YOUR_ID newrelic.ini"
