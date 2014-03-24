@@ -42,8 +42,14 @@ class MyDoc(Document):
         self.tags = taggify(self.tags)
         self.slug = slugify(self.name)
         if not self.qr_code:
-            generate_qrcode(self.qr_code, '{system_url}'.format(system_url=SYSTEM_URL))
+            generate_qrcode(self.qr_code, self.url())
         return super(MyDoc, self).save(**kwargs)
+
+    def url(self):
+        return '{system_url}/{slug}'.format(system_url=SYSTEM_URL, slug=self.slug)
+
+    def qrcode_url(self):
+        return '{system_url}/{slug}/qrcode'.format(system_url=SYSTEM_URL, slug=self.slug)
 
     def async_task(self):
         queue = connect_redis.default_queue()
