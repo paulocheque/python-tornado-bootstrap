@@ -13,22 +13,33 @@ pymongo==2.6.3
 pillow==2.3.0
 
 redis==2.8.0
-#rq==0.3.11
+#rq==0.3.13
 git+git://github.com/nvie/rq.git#egg=rq
+#rq-scheduler==0.4.0
+git+git://github.com/ui/rq-scheduler.git#egg=rq-scheduler
 
 flask==0.10.1
 #rq-dashboard==0.3.3
 git+git://github.com/nvie/rq-dashboard.git#egg=rq-dashboard
 
-#rq-scheduler==0.3.6
-git+git://github.com/ui/rq-scheduler.git#egg=rq-scheduler
-
 simplejson==3.3.0
 jsonpickle==0.6.1
 #git+git://github.com/paulocheque/jsonpickle.git#egg=jsonpickle
+#xmltodict==0.8.6
 
+tweepy==2.2
 py-social==0.1.7
 
 newrelic==2.10.1.9
 sendgrid==0.2.5
 fabric==1.8.1
+
+#python-cielo==0.5
+#pagseguro==0.1.6.dev0
+#mercadopago==0.2.0
+#moipy==0.1
+#paypal==1.2.1
+#paypalrestsdk==0.7.0
+
+#pyBarcode==0.7
+#qrcode==4.0.4
