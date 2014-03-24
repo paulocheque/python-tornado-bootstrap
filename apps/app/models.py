@@ -13,6 +13,7 @@ import urllib
 from apps.utils.serializer import *
 from apps.utils.common import *
 from apps.utils.security import *
+from apps.utils.qr_code import *
 from apps.utils.tasks import *
 from apps.accounts.models import User
 
@@ -34,11 +35,14 @@ class MyDoc(Document):
     name = StringField()
     slug = StringField()
     tags = ListField(StringField(max_length=20))
+    qr_code = ImageField(size=(256,256,False))
     date_created = DateTimeField(default=datetime.utcnow)
 
     def save(self, **kwargs):
         self.tags = taggify(self.tags)
         self.slug = slugify(self.name)
+        if not self.qr_code:
+            generate_qrcode(self.qr_code, '{system_url}'.format(system_url=SYSTEM_URL))
         return super(MyDoc, self).save(**kwargs)
 
     def async_task(self):

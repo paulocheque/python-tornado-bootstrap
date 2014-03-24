@@ -42,4 +42,4 @@ fabric==1.8.1
 #paypalrestsdk==0.7.0
 
 #pyBarcode==0.7
-#qrcode==4.0.4
+qrcode==4.0.4
