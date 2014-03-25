@@ -95,7 +95,7 @@ class ComplexRestHandler(ApiHandler):
         if obj:
             self.answer(obj)
         else:
-            self.answer(obj)
+            self.raise404()
 
     # LIST /objs/
     # READ /objs/:id
@@ -108,7 +108,7 @@ class ComplexRestHandler(ApiHandler):
             if obj:
                 self.answer(obj)
             else:
-                self.answer(obj)
+                self.raise404()
         else:
             self.check_permission('L')
             # FIXME pagination
@@ -127,7 +127,7 @@ class ComplexRestHandler(ApiHandler):
         if obj:
             self.answer(obj)
         else:
-            self.answer(obj)
+            self.raise404()
 
     # DELETE /objs/:id
     def delete(self, *identifiers, **kwargs):
@@ -136,4 +136,4 @@ class ComplexRestHandler(ApiHandler):
         if obj:
             self.answer(obj)
         else:
-            self.answer(obj)
+            self.raise404()

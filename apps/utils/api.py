@@ -16,7 +16,11 @@ from apps.accounts.models import User # FIXME need refactoring
 class ApiHandler(BaseHandler):
     def prepare_data_obj(self, data):
         if hasattr(data, 'to_api_dict'):
-            return data.to_api_dict()
+            identifier = str(data.id)
+            data = data.to_api_dict()
+            data['id'] = identifier
+            data['_id'] = identifier
+            return data
         return data
 
     def prepare_data(self, data):
