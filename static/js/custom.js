@@ -59,3 +59,62 @@ function createCheckbox(name, value) {
     }
     return input;
 }
+
+// var columns = [];
+// loadDataTable("{{ current_user.secret_key }}", "{{ current_user.id }}", "/api/", columns);
+function loadDataTable(secretKey, userId, apiUrl, columns, amount, create, edit, del) {
+  var defaultErrorHandler = function(response, status) {
+      $.pnotify({
+          type: 'notice',
+          delay: 3000,
+          title: 'Invalid action',
+          text: 'Could not retrieve server data right now'
+      });
+  };
+
+  var client = new SecretRestClient(secretKey, userId, apiUrl, "1");
+
+  var secretTable = new SecretDataTable({
+      table: $("#table-list"),
+      formCreate: $("#form-create"),
+      formEdit: $("#form-create"),
+      columns: columns,
+      create: create || true,
+      edit: edit || true,
+      del: del || true,
+      onTableLoad: function(table) {
+          client.list(0, amount || 500, function(lines, status) {
+              for (var i in lines) {
+                  var data = lines[i];
+                  //console.debug(data);
+                  table.createLine(data._id, data);
+              }
+          }, defaultErrorHandler);
+      },
+      onCreate: function(table, data) {
+          var successHandler = function(response, status) {
+              table.createLine(response._id, data);
+          };
+          client.create(data, successHandler, defaultErrorHandler);
+      },
+      onUpdate: function(table, id, data) {
+          var successHandler = function(response, status) {
+              var handler = function(response, status) {
+                  table.updateLine(id, response);
+              }
+              client.read(id, handler);
+          };
+          client.update(id, data, successHandler, defaultErrorHandler);
+      },
+      onDelete: function(table, id, data) {
+          var successHandler = function(response, status) {
+              table.deleteLine(id, data);
+          };
+          client.del(id, successHandler, defaultErrorHandler);
+      },
+      onTableChange: function(table) {
+      },
+      onModalReady: function(modal) {
+      }
+  });
+}
