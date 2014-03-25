@@ -1,4 +1,5 @@
 # coding: utf-8
+import collections
 import datetime
 import hmac
 import hashlib
@@ -13,9 +14,22 @@ from apps.accounts.models import User # FIXME need refactoring
 
 
 class ApiHandler(BaseHandler):
+    def prepare_data_obj(self, data):
+        if hasattr(data, 'to_api_dict'):
+            return data.to_api_dict()
+        return data
+
+    def prepare_data(self, data):
+        is_iterable = isinstance(data, collections.Iterable) and hasattr(data, '__iter__') and not hasattr(data, 'to_mongo')
+        if isinstance(data, Document):
+            return self.prepare_data_obj(data)
+        elif is_iterable:
+            return [self.prepare_data_obj(d) for d in data]
+        return data
+
     def answer(self, data):
         self.set_header("Content-Type", "application/json")
-        data_json = data_to_json(data)
+        data_json = data_to_json(self.prepare_data(data))
         self.write(data_json)
 
     def prepare(self):
