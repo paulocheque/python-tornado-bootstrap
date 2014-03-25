@@ -3,6 +3,7 @@ import os
 import urllib
 
 import tornado.web
+from mongoengine import DoesNotExist
 
 from apps.accounts.models import User
 import connect_redis
