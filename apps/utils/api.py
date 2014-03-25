@@ -103,4 +103,5 @@ class ApiHandler(BaseHandler):
                 data[arg] = True
         data['ip'] = self.request.remote_ip
         data['files'] = self.request.files
+        data['user'] = self.get_current_user()
         return data
