@@ -6,7 +6,7 @@ import hashlib
 import base64
 
 import tornado.web
-from mongoengine import Document
+from mongoengine.base import BaseDocument
 
 from .base import BaseHandler
 from .serializer import data_to_json
@@ -20,14 +20,15 @@ class ApiHandler(BaseHandler):
             if hasattr(data, 'id'):
                 identifier = str(data.id)
             data = data.to_api_dict()
-            data['id'] = identifier
-            data['_id'] = identifier
+            if identifier and 'id' not in data:
+                data['id'] = identifier
+                data['_id'] = identifier
             return data
         return data
 
     def prepare_data(self, data):
         is_iterable = isinstance(data, collections.Iterable) and hasattr(data, '__iter__') and not hasattr(data, 'to_mongo')
-        if isinstance(data, Document):
+        if isinstance(data, BaseDocument):
             return self.prepare_data_obj(data)
         elif is_iterable:
             return [self.prepare_data_obj(d) for d in data]
