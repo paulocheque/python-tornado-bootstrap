@@ -32,7 +32,8 @@ class MongoEngineDataManager(object):
         if obj:
             update_query = {}
             for key, value in data.items():
-                update_query['set__%s' % key] = value
+                if hasattr(obj, key):
+                    update_query['set__%s' % key] = value
             obj.update(**update_query)
             obj.reload()
         return obj
