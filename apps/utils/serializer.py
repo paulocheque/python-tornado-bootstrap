@@ -8,7 +8,7 @@ except ImportError:
 import collections
 from datetime import date, time, datetime
 
-from mongoengine import BaseDocument
+from mongoengine.base import BaseDocument
 from mongoengine import *
 from bson import Binary
 from bson.objectid import ObjectId
