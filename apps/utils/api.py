@@ -101,4 +101,6 @@ class ApiHandler(BaseHandler):
                 data[arg] = False
             elif data[arg] and data[arg].lower() in ['true']:
                 data[arg] = True
+        data['ip'] = self.request.remote_ip
+        data['files'] = self.request.files
         return data
