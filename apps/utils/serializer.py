@@ -8,6 +8,7 @@ except ImportError:
 import collections
 from datetime import date, time, datetime
 
+from mongoengine import BaseDocument
 from mongoengine import *
 from bson import Binary
 from bson.objectid import ObjectId
@@ -102,7 +103,7 @@ def document_to_data_obj(document):
 
 def data_to_native_objects(data): # {}, [{}], Document or [Document]
     is_iterable = isinstance(data, collections.Iterable) and hasattr(data, '__iter__') and not hasattr(data, 'to_mongo')
-    if isinstance(data, Document):
+    if isinstance(data, BaseDocument): # Document and EmbeddedDocument
         data_obj = document_to_data_obj(data)
     elif isinstance(data, dict):
         data_obj = data
