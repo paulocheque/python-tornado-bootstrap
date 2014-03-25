@@ -60,6 +60,15 @@ function createCheckbox(name, value) {
     return input;
 }
 
+function createImage(src, extraClass) {
+    return '<img src="'+src+'" class="img-responsive "'+(extraClass || "")+'/>';
+}
+
+function createImages(srcs, extraClass) {
+    var imgs = srcs.map(function(url) { return createImage(url, extraClass); })
+    return imgs.join(" ");
+}
+
 // var columns = [];
 // loadDataTable("{{ current_user.secret_key }}", "{{ current_user.id }}", "/api/", columns);
 function loadDataTable(secretKey, userId, apiUrl, columns, amount, create, edit, del) {
