@@ -10,13 +10,15 @@
         <div class="col-lg-6">
         <h2>Social login</h2>
 
-        <a href="/auth/facebook" class="btn btn-primary btn-block"><i class="fa fa-facebook-square"></i> Login with Facebook</a>
+        <a href="/auth/facebook" class="btn btn-primary btn-block social-login-button"><i class="fa fa-facebook-square login-with-next"></i> Login with Facebook</a>
 
         <a href="/auth/google" class="btn btn-primary btn-block"><i class="fa fa-google-plus-square"></i> Login with Google</a>
 
+        <hr/>
+
         <h2>Default login</h2>
 
-        <form class="form form-horizontal" role="form" action="/login" method="POST">
+        <form id="login-form" class="form form-horizontal" role="form" action="/login?next=" method="POST">
           <div class="form-group">
             <label for="email">Email</label>
             <input id="email" name="email" type="text" placeholder="Email" class="form-control input-lg" required="" autofocus>
@@ -25,8 +27,10 @@
             <label for="password">Password</label>
             <input id="password" name="password" type="password" placeholder="Password" class="form-control input-lg" required="">
           </div>
-          <button type="submit" class="btn btn-primary pull-right">Login in</button>
+          <button type="submit" class="btn btn-primary pull-right">Login in</button><br/>
         </form>
+
+        <hr/>
 
         <h2>Not registered?</h2>
         <a href="/register" class="btn btn-primary">Register</a>
@@ -42,6 +46,10 @@
 {% block js %}
     <script language="JavaScript">
     $(document).ready(function() {
+        var next = getQueryVariable("next");
+        if (next) {
+            $("#login-form").attr("action", $("#login-form").attr("action") + next);
+        }
     });
   </script>
 {% end %}

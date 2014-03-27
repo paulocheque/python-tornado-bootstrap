@@ -10,12 +10,12 @@ from apps.utils.serializer import *
 
 
 class Address(EmbeddedDocument):
-    zip_code = StringField(required=True, max_length=20)
-    street = StringField(required=True, max_length=50)
-    number = StringField(required=True, max_length=10)
-    city = StringField(required=True, max_length=30)
-    state = StringField(required=False, max_length=30)
-    country = StringField(required=False, max_length=20)
+    zip_code = StringField(max_length=20)
+    street = StringField(max_length=50)
+    number = StringField(max_length=10)
+    city = StringField(max_length=30)
+    state = StringField(max_length=30)
+    country = StringField(max_length=20)
 
     def to_dict(self):
         return ObjectDict(zip_code=self.zip_code, street=self.street, number=self.number,
@@ -23,8 +23,8 @@ class Address(EmbeddedDocument):
 
 
 class Phone(EmbeddedDocument):
-    number = StringField(required=True, max_length=20)
-    reference = StringField(required=False, max_length=20)
+    number = StringField(max_length=20)
+    reference = StringField(max_length=20)
 
     def to_dict(self):
         return ObjectDict(number=self.number, reference=self.reference)
