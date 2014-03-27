@@ -56,7 +56,8 @@ class MongoEngineDataManagerPerUser(MongoEngineDataManager):
             return objs(user=self.user)
         else:
             # Only for small collections
-            return [obj for obj in objs if eval('obj.' + self.user_mapping_path) == self.user]
+            ids = [obj.id for obj in objs if eval('obj.' + self.user_mapping_path) == self.user]
+            return objs.filter(id__in=ids)
 
     def create(self, data, persist=True):
         obj = super(MongoEngineDataManagerPerUser, self).create(data, persist=False)
