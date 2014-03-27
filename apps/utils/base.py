@@ -20,6 +20,9 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             self.raise403()
 
+    def raise400(self):
+        raise tornado.web.HTTPError(400, 'Invalid request')
+
     def raise401(self):
         raise tornado.web.HTTPError(401, 'Not enough permissions to perform this action')
 
@@ -28,6 +31,9 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def raise404(self):
         raise tornado.web.HTTPError(404, 'Object not found')
+
+    def raise422(self):
+        raise tornado.web.HTTPError(422, 'Invalid request')
 
     def get_current_user(self):
         email = self.get_secure_cookie('user')
@@ -83,7 +89,8 @@ class ImageHandler(BaseHandler):
             index = int(index)
             img = self.get_image(identifier, index)
             if img:
-                self.set_header('Content-type', img.content_type)
+                if img.content_type:
+                    self.set_header('Content-type', img.content_type)
                 self.write(img.read())
             self.finish()
         except (DoesNotExist, IndexError):
