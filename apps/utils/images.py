@@ -11,6 +11,8 @@ def save_from_file(field, filepath):
     content_type = mime.guess_type(filepath)[0]
     field.replace(img, content_type=content_type)
     img.seek(0)
+    img.close()
+    return img
 
 
 def save_from_url(field, url):
@@ -19,9 +21,12 @@ def save_from_url(field, url):
     content_type = r.headers['content-type']
     field.replace(img, content_type=content_type)
     img.seek(0)
+    return img
 
 
 def save_from_request(field, fileinfo):
     content = fileinfo['body']
     content_type = fileinfo['content_type']
-    field.replace(StringIO(content), content_type=content_type)
+    img = StringIO(content)
+    field.replace(img, content_type=content_type)
+    return img
