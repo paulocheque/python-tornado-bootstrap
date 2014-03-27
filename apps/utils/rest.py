@@ -46,13 +46,25 @@ class MongoEngineDataManager(object):
 
 
 class MongoEngineDataManagerPerUser(MongoEngineDataManager):
+    def __init__(self, model, user=None, ip=None, user_mapping_path=None):
+        super(MongoEngineDataManagerPerUser, self).__init__(model, user=user, ip=ip)
+        self.user_mapping_path = user_mapping_path
+
     def read_list(self, initial=0, amount=50):
         objs = super(MongoEngineDataManagerPerUser, self).read_list(initial=initial, amount=amount)
-        return objs(user=self.user)
+        if not self.user_mapping_path:
+            return objs(user=self.user)
+        else:
+            # Only for small collections
+            return [obj for obj in objs if eval('obj.' + self.user_mapping_path) == self.user]
 
     def create(self, data, persist=True):
         obj = super(MongoEngineDataManagerPerUser, self).create(data, persist=False)
-        obj.user = self.user
+        if not self.user_mapping_path:
+            obj.user = self.user
+        else:
+            pass
+            # eval('obj.' + self.user_mapping_path + ' = self.user')
         if persist:
             obj.save()
         return obj
