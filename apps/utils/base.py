@@ -140,3 +140,32 @@ class CachedBaseHandler(BaseHandler):
         redis_connection.expire(self.request.uri, self.expire_timeout)
         # print('Page %s cached' % self.request.uri)
         return html_generated
+
+
+class ObjectHandlerMixin(object):
+    model = None
+    template = ''
+    template_list = ''
+    var = 'obj'
+    var_list = 'objs'
+    CHECK_USER = False
+
+    def get(self, identifier=None):
+        user = self.get_current_user()
+        if identifier:
+            try:
+                objs = self.model.objects.filter(id=identifier)
+                if self.CHECK_USER:
+                    obj = objs.filter(user=user).get()
+                else:
+                    obj = objs.get()
+                template_vars = {self.var: obj}
+                self.render(self.template, **template_vars)
+            except self.model.DoesNotExist:
+                self.raise404()
+        else:
+            objs = self.model.objects
+            if self.CHECK_USER:
+                objs = objs.filter(user=user)
+            template_vars = {self.var_list: obj}
+            self.render(self.template_list, **template_vars)
