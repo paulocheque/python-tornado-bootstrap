@@ -20,20 +20,23 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             self.raise403()
 
-    def raise400(self):
-        raise tornado.web.HTTPError(400, 'Invalid request')
+    def raise400(self, msg=None):
+        raise tornado.web.HTTPError(400, msg or 'Invalid request')
 
-    def raise401(self):
-        raise tornado.web.HTTPError(401, 'Not enough permissions to perform this action')
+    def raise401(self, msg=None):
+        raise tornado.web.HTTPError(401, msg or 'Not enough permissions to perform this action')
 
-    def raise403(self):
-        raise tornado.web.HTTPError(403, 'Not enough permissions to perform this action')
+    def raise403(self, msg=None):
+        raise tornado.web.HTTPError(403, msg or 'Not enough permissions to perform this action')
 
-    def raise404(self):
-        raise tornado.web.HTTPError(404, 'Object not found')
+    def raise404(self, msg=None):
+        raise tornado.web.HTTPError(404, msg or 'Object not found')
 
-    def raise422(self):
-        raise tornado.web.HTTPError(422, 'Invalid request')
+    def raise422(self, msg=None):
+        raise tornado.web.HTTPError(422, msg or 'Invalid request')
+
+    def raise500(self, msg=None):
+        raise tornado.web.HTTPError(500, msg or 'Something is not right')
 
     def get_current_user(self):
         email = self.get_secure_cookie('user')

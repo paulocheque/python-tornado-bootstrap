@@ -2,6 +2,8 @@
 from .api import ApiHandler
 from apps.accounts.models import User # FIXME need refactoring
 
+from mongoengine.errors import DoesNotExist, MultipleObjectsReturned, NotUniqueError, ValidationError
+
 
 class MongoEngineDataManager(object):
     # user_mapping_path must be in the format: a.b.c where all fiels are required to avoid AttributeError for None
@@ -101,11 +103,15 @@ class RestHandler(ApiHandler):
     def post(self):
         self.check_permission('C')
         data = self.get_request_data()
-        obj = self.data_manager.create(data)
-        if obj:
-            self.answer(obj)
+        try:
+            obj = self.data_manager.create(data)
+        except (NotUniqueError, ValidationError) as e:
+            self.raise400(msg=str(e))
         else:
-            self.raise404()
+            if obj:
+                self.answer(obj)
+            else:
+                self.raise404()
 
     # LIST /objs/
     # READ /objs/:id
@@ -115,11 +121,18 @@ class RestHandler(ApiHandler):
             if identifier == 'count':
                 self.answer(self.data_manager.count())
             else:
-                obj = self.data_manager.read(identifier)
-                if obj:
-                    self.answer(obj)
+                try:
+                    obj = self.data_manager.read(identifier)
+                except (MultipleObjectsReturned) as e:
+                    logging.error(str(e))
+                    logging.error(data)
+                    logging.exception(e)
+                    self.raise500()
                 else:
-                    self.raise404()
+                    if obj:
+                        self.answer(obj)
+                    else:
+                        self.raise404()
         else:
             self.check_permission('L')
             # FIXME pagination
@@ -134,17 +147,32 @@ class RestHandler(ApiHandler):
     def put(self, identifier):
         self.check_permission('U')
         data = self.get_request_data()
-        obj = self.data_manager.update(identifier, data)
-        if obj:
-            self.answer(obj)
+        try:
+            obj = self.data_manager.update(identifier, data)
+        except (NotUniqueError, ValidationError) as e:
+            self.raise400(str(e))
+        except (MultipleObjectsReturned) as e:
+            logging.error(str(e))
+            logging.error(data)
+            logging.exception(e)
+            self.raise500()
         else:
-            self.raise404()
+            if obj:
+                self.answer(obj)
+            else:
+                self.raise404()
 
     # DELETE /objs/:id
     def delete(self, identifier):
         self.check_permission('D')
-        obj = self.data_manager.delete(identifier)
-        if obj:
-            self.answer(obj)
-        else:
-            self.raise404()
+        try:
+            obj = self.data_manager.delete(identifier)
+            if obj:
+                self.answer(obj)
+            else:
+                self.raise404()
+        except (MultipleObjectsReturned) as e:
+            logging.error(str(e))
+            logging.error(data)
+            logging.exception(e)
+            self.raise500()
