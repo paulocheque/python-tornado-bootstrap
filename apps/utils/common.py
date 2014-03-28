@@ -80,3 +80,10 @@ def slugify_with_date(value):
         return value
     value = slugify(value)
     return datetime.today().strftime('%Y-%m-%d') + '-' + value
+
+
+def slugify_with_datetime(value):
+    if not value:
+        return value
+    value = slugify(value)
+    return datetime.now().strftime('%Y-%m-%dT%H:%M:%S') + '-' + value
