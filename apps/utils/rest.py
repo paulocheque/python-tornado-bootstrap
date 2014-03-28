@@ -33,18 +33,18 @@ class MongoEngineDataManager(object):
             objs = objs.filter(id__in=ids)
         return objs
 
-    def read_list(self, initial=0, amount=50):
+    def read_list(self, initial=0, amount=50, data=None):
         objs = self.model.objects.all()[initial:initial+amount]
         if self.user and self.user_mapping_path:
             objs = self.filter_by_user(objs)
         return objs
 
-    def count(self):
-        return self.read_list().count()
+    def count(self, data=None):
+        return self.read_list(data=data).count()
 
-    def read(self, identifier):
+    def read(self, identifier, data=None):
         try:
-            return self.read_list().get(pk=identifier)
+            return self.read_list(data=data).get(pk=identifier)
         except self.model.DoesNotExist:
             return None
 
@@ -65,7 +65,7 @@ class MongoEngineDataManager(object):
         return obj
 
     def update(self, identifier, data):
-        obj = self.read(identifier)
+        obj = self.read(identifier, data=data)
         if obj:
             update_query = {}
             for key, value in data.items():
@@ -75,8 +75,8 @@ class MongoEngineDataManager(object):
             obj.reload()
         return obj
 
-    def delete(self, identifier):
-        obj = self.read(identifier)
+    def delete(self, identifier, data=None):
+        obj = self.read(identifier, data=data)
         if obj:
             obj.delete()
         return obj
@@ -84,6 +84,7 @@ class MongoEngineDataManager(object):
 
 class RestHandler(ApiHandler):
     model = None
+    dependencies = []
     user_mapping_path = None
     data_manager = MongoEngineDataManager
     perm_public = 'CRLUD'
@@ -103,10 +104,33 @@ class RestHandler(ApiHandler):
         else:
             self.raise403()
 
-    # CREATE /objs
-    def post(self):
-        self.check_permission('C')
+    def get_identifier(self, identifiers):
+        if len(identifiers) > 1:
+            return identifiers[-1], identifiers[0:-1]
+        elif len(identifiers) == 1:
+            # return identifiers[0], None
+            return None, [identifiers[0]]
+        else:
+            return None, None
+
+    def prepare_data_from_identifiers(self, data, identifiers):
+        for dependency, identifier in zip(self.dependencies, identifiers):
+            data[dependency.__name__.lower()] = dependency.objects.get(id=identifier)
+        return data
+
+    def get_identifier_and_data(self, identifiers):
         data = self.get_request_data()
+        data = self.prepare_data_from_identifiers(data, identifiers)
+        if len(identifiers) > len(self.dependencies):
+            identifier = identifiers[-1]
+        else:
+            identifier = None
+        return identifier, data
+
+    # CREATE /objs
+    def post(self, *identifiers):
+        self.check_permission('C')
+        identifier, data = self.get_identifier_and_data(identifiers)
         try:
             obj = self.data_manager.create(data)
         except (NotUniqueError, ValidationError) as e:
@@ -119,14 +143,15 @@ class RestHandler(ApiHandler):
 
     # LIST /objs/
     # READ /objs/:id
-    def get(self, identifier=None):
+    def get(self, *identifiers):
+        identifier, data = self.get_identifier_and_data(identifiers)
         if identifier:
             self.check_permission('R')
             if identifier == 'count':
-                self.answer(self.data_manager.count())
+                self.answer(self.data_manager.count(data=data))
             else:
                 try:
-                    obj = self.data_manager.read(identifier)
+                    obj = self.data_manager.read(identifier, data=data)
                 except (MultipleObjectsReturned) as e:
                     logging.error(str(e))
                     logging.error(data)
@@ -144,13 +169,13 @@ class RestHandler(ApiHandler):
             amount = int(self.get_argument('amount', default=50))
             amount = max(amount, initial) # amount < initial validation
             amount = min(amount, initial+500) # more than 500 records protection
-            objs = self.data_manager.read_list(initial=initial, amount=amount)
+            objs = self.data_manager.read_list(initial=initial, amount=amount, data=data)
             self.answer(objs)
 
     # UPDATE /objs/:id
-    def put(self, identifier):
+    def put(self, *identifiers):
         self.check_permission('U')
-        data = self.get_request_data()
+        identifier, data = self.get_identifier_and_data(identifiers)
         try:
             obj = self.data_manager.update(identifier, data)
         except (NotUniqueError, ValidationError) as e:
@@ -167,10 +192,11 @@ class RestHandler(ApiHandler):
                 self.raise404()
 
     # DELETE /objs/:id
-    def delete(self, identifier):
+    def delete(self, *identifiers):
         self.check_permission('D')
+        identifier, data = self.get_identifier_and_data(identifiers)
         try:
-            obj = self.data_manager.delete(identifier)
+            obj = self.data_manager.delete(identifier, data=data)
             if obj:
                 self.answer(obj)
             else:
