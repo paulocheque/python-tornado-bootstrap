@@ -4,13 +4,34 @@ from apps.accounts.models import User # FIXME need refactoring
 
 
 class MongoEngineDataManager(object):
-    def __init__(self, model, user=None, ip=None):
+    # user_mapping_path must be in the format: a.b.c where all fiels are required to avoid AttributeError for None
+    def __init__(self, model, user=None, ip=None, user_mapping_path=None):
         self.model = model
         self.user = user
         self.ip = ip
+        self.user_mapping_path = user_mapping_path
+
+    def filter_by_user(self, objs):
+        if hasattr(self.model, 'user'):
+            objs = objs(user=self.user)
+        elif self.user_mapping_path:
+            # Only for small collections
+            ids = []
+            for obj in objs:
+                try:
+                    user = eval('obj.' + self.user_mapping_path)
+                except AttributeError: # some field is not required
+                    user = None
+                if user == self.user:
+                    ids.append(obj.id)
+            objs = objs.filter(id__in=ids)
+        return objs
 
     def read_list(self, initial=0, amount=50):
-        return self.model.objects.all()[initial:initial+amount]
+        objs = self.model.objects.all()[initial:initial+amount]
+        if self.user and self.user_mapping_path:
+            objs = self.filter_by_user(objs)
+        return objs
 
     def count(self):
         return self.read_list().count()
@@ -23,6 +44,16 @@ class MongoEngineDataManager(object):
 
     def create(self, data, persist=True):
         obj = self.model(**data)
+        if hasattr(self.model, 'user'):
+            obj.user = self.user
+        elif self.user and self.user_mapping_path:
+            try:
+                user = eval('obj.' + self.user_mapping_path)
+            except AttributeError:
+                print('obj.' + self.user_mapping_path)
+                user = None
+            if user != self.user:
+                raise AssertionError('Not enough permissions to create this object')
         if persist:
             obj.save()
         return obj
@@ -45,36 +76,18 @@ class MongoEngineDataManager(object):
         return obj
 
 
-class MongoEngineDataManagerPerUser(MongoEngineDataManager):
-    def __init__(self, model, user=None, ip=None, user_mapping_path=None):
-        super(MongoEngineDataManagerPerUser, self).__init__(model, user=user, ip=ip)
-        self.user_mapping_path = user_mapping_path
-
-    def read_list(self, initial=0, amount=50):
-        objs = super(MongoEngineDataManagerPerUser, self).read_list(initial=initial, amount=amount)
-        if not self.user_mapping_path:
-            return objs(user=self.user)
-        else:
-            # Only for small collections
-            ids = [obj.id for obj in objs if eval('obj.' + self.user_mapping_path) == self.user]
-            return objs.filter(id__in=ids)
-
-    def create(self, data, persist=True):
-        obj = super(MongoEngineDataManagerPerUser, self).create(data, persist=False)
-        if not self.user_mapping_path:
-            obj.user = self.user
-        else:
-            pass
-            # eval('obj.' + self.user_mapping_path + ' = self.user')
-        if persist:
-            obj.save()
-        return obj
-
-
 class RestHandler(ApiHandler):
+    model = None
+    user_mapping_path = None
+    data_manager = MongoEngineDataManager
     perm_public = 'CRLUD'
     perm_user = 'CRLUD'
     perm_admin = 'CRLUD'
+
+    def prepare(self):
+        super(RestHandler, self).prepare()
+        self.data_manager = self.data_manager(self.model, user=self.get_current_user(),
+            ip=self.request.remote_ip, user_mapping_path=self.user_mapping_path)
 
     def check_permission(self, action):
         user = self.get_current_user()
