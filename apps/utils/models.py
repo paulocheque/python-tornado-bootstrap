@@ -4,6 +4,9 @@ from mongoengine import *
 from apps.utils.serializer import *
 
 
+# address = EmbeddedDocumentField(Address)
+# phone = EmbeddedDocumentField(Phone)
+# credit_card = EmbeddedDocumentField(CreditCard)
 # addresses = ListField(EmbeddedDocumentField(Address), required=False)
 # phones = ListField(EmbeddedDocumentField(Phone), required=False)
 # credit_cards = ListField(EmbeddedDocumentField(CreditCard), required=False)

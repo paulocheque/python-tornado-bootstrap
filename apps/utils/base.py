@@ -79,6 +79,10 @@ class BaseHandler(tornado.web.RequestHandler):
         kwargs['SKYPE_ACCOUNT'] = os.getenv('SKYPE_ACCOUNT')
         return super(BaseHandler, self).render(template_name, **kwargs)
 
+    def get_indentifiers(self):
+        # Tornado hack to get identifier begore GET/POST (in prepare method, for example)
+        return self.request.path.split('/')
+
 
 class ImageHandler(BaseHandler):
     def get_image(self, identifier, index=0):

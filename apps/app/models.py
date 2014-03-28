@@ -15,6 +15,7 @@ from apps.utils.common import *
 from apps.utils.security import *
 from apps.utils.qr_code import *
 from apps.utils.tasks import *
+from apps.utils.models import *
 from apps.accounts.models import User
 
 from mongoengine import *
@@ -33,16 +34,27 @@ DATETIME_FORMAT = os.getenv('DATETIME_FORMAT')
 class MyDoc(Document):
     email = EmailField(required=True)
     name = StringField()
-    slug = StringField()
     tags = ListField(StringField(max_length=20))
+
+    address = EmbeddedDocumentField(Address)
+    phone = EmbeddedDocumentField(Phone)
+    credit_card = EmbeddedDocumentField(CreditCard)
+    addresses = ListField(EmbeddedDocumentField(Address), required=False)
+    phones = ListField(EmbeddedDocumentField(Phone), required=False)
+    credit_cards = ListField(EmbeddedDocumentField(CreditCard), required=False)
+
+    # Internal
+    slug = StringField()
     qr_code = ImageField(size=(256,256,False))
     date_created = DateTimeField(default=datetime.utcnow)
+    date_updated = DateTimeField(default=datetime.utcnow)
 
     def save(self, **kwargs):
         self.tags = taggify(self.tags)
         self.slug = slugify(self.name)
         if not self.qr_code:
             generate_qrcode(self.qr_code, self.url())
+        self.date_updated = datetime.now()
         return super(MyDoc, self).save(**kwargs)
 
     def url(self):
