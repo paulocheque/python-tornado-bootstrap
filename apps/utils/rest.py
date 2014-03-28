@@ -104,15 +104,6 @@ class RestHandler(ApiHandler):
         else:
             self.raise403()
 
-    def get_identifier(self, identifiers):
-        if len(identifiers) > 1:
-            return identifiers[-1], identifiers[0:-1]
-        elif len(identifiers) == 1:
-            # return identifiers[0], None
-            return None, [identifiers[0]]
-        else:
-            return None, None
-
     def prepare_data_from_identifiers(self, data, identifiers):
         for dependency, identifier in zip(self.dependencies, identifiers):
             data[dependency.__name__.lower()] = dependency.objects.get(id=identifier)
