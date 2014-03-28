@@ -12,6 +12,10 @@ class MongoEngineDataManager(object):
         self.user = user
         self.ip = ip
         self.user_mapping_path = user_mapping_path
+        self.prepare()
+
+    def prepare(self):
+        pass
 
     def filter_by_user(self, objs):
         if hasattr(self.model, 'user'):
