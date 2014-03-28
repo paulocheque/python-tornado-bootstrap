@@ -33,12 +33,19 @@ def to_lower_case(text):
     return text
 
 
+def normalize(string):
+    if not isinstance(string, unicode):
+        string = unicode(string, encoding='utf-8', errors='ignore')
+    return unicodedata.normalize('NFKD', string).encode('ascii', 'ignore')
+
+
 def taggify(text_or_list, comma=','):
     a_list = smart_split(text_or_list, comma=comma)
     a_list = to_lower_case(a_list)
     if a_list and isinstance(a_list, (list, set)):
         a_list = map(lambda x: x.strip(), a_list)
         a_list = filter(str, a_list)
+        a_list = map(normalize, a_list)
         a_list = list(set(a_list))
     return a_list
 
@@ -60,10 +67,8 @@ HYPHENATE_REGEXP = re.compile(r'[-\s]+')
 def slugify(value):
     if not value:
         return value
-    if not isinstance(value, unicode):
-        value = unicode(value, encoding='utf-8', errors='ignore')
     value = space_out_camel_case(value)
-    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+    value = normalize(value)
     value = unicode(STRIP_REGEXP.sub('', value).strip().lower())
     value = HYPHENATE_REGEXP.sub('-', value)
     value = re.sub('-{2,}', '-', value)

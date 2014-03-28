@@ -68,6 +68,7 @@ class TaggifyTests(unittest.TestCase):
         self.assertEquals(['a', 'b'], taggify(' a , b , a,b'))
         self.assertEquals(['a', 'b'], taggify(' a , B , A,b'))
         self.assertEquals(['a', 'b'], taggify(' a \n B \n A\r\nb', comma='\n'))
+        self.assertEquals(['aaaa'], taggify('áàãâ'))
 
     def test_accepts_lists(self):
         self.assertEquals(None, taggify(None))
