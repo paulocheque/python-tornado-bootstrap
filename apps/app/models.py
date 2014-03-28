@@ -46,15 +46,15 @@ class MyDoc(Document):
     # Internal
     slug = StringField()
     qr_code = ImageField(size=(256,256,False))
-    date_created = DateTimeField(default=datetime.utcnow)
-    date_updated = DateTimeField(default=datetime.utcnow)
+    creation_date = DateTimeField(default=datetime.utcnow)
+    update_date = DateTimeField(default=datetime.utcnow)
 
     def save(self, **kwargs):
         self.tags = taggify(self.tags)
         self.slug = slugify(self.name)
         if not self.qr_code:
             generate_qrcode(self.qr_code, self.url())
-        self.date_updated = datetime.now()
+        self.update_date = datetime.now()
         return super(MyDoc, self).save(**kwargs)
 
     def url(self):
