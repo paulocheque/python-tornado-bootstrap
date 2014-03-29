@@ -61,7 +61,7 @@ function createCheckbox(name, value) {
 }
 
 function createImage(src, extraClass) {
-    return '<img src="'+src+'" class="img-responsive '+(extraClass || "")+'"/>';
+    return '<img src="'+src+'" class="img-responsive admin-image '+(extraClass || "")+'"/>';
 }
 
 function createImages(srcs, extraClass) {
