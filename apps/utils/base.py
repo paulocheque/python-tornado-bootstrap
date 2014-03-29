@@ -149,20 +149,29 @@ class CachedBaseHandler(BaseHandler):
         return html_generated
 
 
-class ObjectHandlerMixin(object):
+class ObjectReadListHandler(BaseHandler):
     model = None
-    template = ''
-    template_list = ''
-    var = 'obj'
-    var_list = 'objs'
-    CHECK_USER = False
+    # model_ref = model.__names__.lower()
+    template = '' # '{model}s/{model}.html'.format(model=model_ref)
+    template_list = '' # '{model}s/{model}s.html'.format(model=model_ref)
+    var = 'obj' # '{model}.format(model=model_ref)
+    var_list = 'objs' # '{model}s.format(model=model_ref)
+    filter_by_user = False
+    use_slug_instead_of_id = False
+
+    def get_objects(self, id_or_slug):
+        if self.use_slug_instead_of_id:
+            return self.model.objects.filter(slug=id_or_slug)
+        else:
+            return self.model.objects.filter(id=id_or_slug)
 
     def get(self, identifier=None):
         user = self.get_current_user()
+        # READ
         if identifier:
             try:
-                objs = self.model.objects.filter(id=identifier)
-                if self.CHECK_USER:
+                objs = self.get_objects(identifier)
+                if self.filter_by_user and (not user.admin):
                     obj = objs.filter(user=user).get()
                 else:
                     obj = objs.get()
@@ -170,9 +179,10 @@ class ObjectHandlerMixin(object):
                 self.render(self.template, **template_vars)
             except self.model.DoesNotExist:
                 self.raise404()
+        # LIST
         else:
             objs = self.model.objects
-            if self.CHECK_USER:
+            if self.filter_by_user:
                 objs = objs.filter(user=user)
             template_vars = {self.var_list: obj}
             self.render(self.template_list, **template_vars)
