@@ -52,3 +52,11 @@ def save_from_request(field, fileinfo, persist=False, place_holder_url=None, pla
     if persist:
         field.instance.save()
     return img
+
+
+def save_from_content(field, content, content_type, persist=False, place_holder_url=None, place_holder_filepath=None):
+    img = StringIO(content)
+    replace_with_placeholder(field, img, content_type, place_holder_url=place_holder_url, place_holder_filepath=place_holder_filepath)
+    if persist:
+        field.instance.save()
+    return img
