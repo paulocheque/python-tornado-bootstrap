@@ -62,6 +62,14 @@
     <script src="/static/js/custom.js"></script>
     <script language="JavaScript">
     $(document).ready(function() {
+        {% if not current_user or current_user == 'None' %}
+        var links = $("a.current-url").each(function() {
+            if ($(this).attr("href").endsWith("?next=")) {
+                $(this).attr("href", $(this).attr("href") + currentUrl());
+            }
+        });
+        {% else %}
+        {% end %}
     });
     </script>
     {% block js %}{% end %}
