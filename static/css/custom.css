@@ -8,6 +8,11 @@
     height:40px;
 }
 
+ul.social-icons li a {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 .progress { position:relative; width:300px; border: 1px solid #ddd; border-radius: 3px; margin-top:5px; margin-bottom:5px; }
 .bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
 .bar-error { background-color: #FF0000; }
