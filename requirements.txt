@@ -28,7 +28,7 @@ jsonpickle==0.6.1
 #xmltodict==0.8.6
 
 tweepy==2.2
-py-social==0.1.8
+py-social==0.1.9
 
 newrelic==2.10.1.9
 sendgrid==0.2.5
