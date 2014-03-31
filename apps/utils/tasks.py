@@ -62,7 +62,7 @@ def async_send_admin_email(subject, body):
 def async_tweet(msg):
     test_mode = str2bool(os.getenv('TEST_MODE', False))
     if test_mode:
-        logging.info('Tweeting {smg}'.format(msg=msg))
+        logging.info('Tweeting {msg}'.format(msg=msg))
     else:
         async = str2bool(os.getenv('ASYNC_TASKS', True))
         if async:
