@@ -7,6 +7,7 @@ from rq import Worker, Queue, Connection
 import connect_mongo
 import connect_redis
 
+# logging.getLogger().setLevel(logging.INFO)
 
 def task_timeout_handler(job, exc_type, exc_value, traceback):
     logging.error('Worker error handler')
