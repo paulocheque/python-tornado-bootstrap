@@ -6,23 +6,23 @@
         <p>{{ SYSTEM_EMAIL }}</p>
 
         {% if GITHUB_ACCOUNT %}
-        <a href="http://github.com/{{ GITHUB_ACCOUNT }}" class="img-rounded fa fa-github-square" target="_blank"></a>
+        <a href="http://github.com/{{ GITHUB_ACCOUNT }}" target="_blank"><span class="img-rounded fa fa-github-square"></span></a>
         {% end %}
 
         {% if TWITTER_ACCOUNT %}
-        <a href="http://twitter.com/{{ TWITTER_ACCOUNT }}" class="img-rounded fa fa-twitter-square" target="_blank"></a>
+        <a href="http://twitter.com/{{ TWITTER_ACCOUNT }}" target="_blank"><span class="img-rounded fa fa-twitter-square"></span></a>
         {% end %}
 
         {% if FACEBOOK_ACCOUNT %}
-        <a href="http://facebook.com/{{ FACEBOOK_ACCOUNT }}" class="img-rounded fa fa-facebook-square" target="_blank"></a>
+        <a href="http://facebook.com/{{ FACEBOOK_ACCOUNT }}" target="_blank"><span class="img-rounded fa fa-facebook-square"></span></a>
         {% end %}
 
         {% if GOOGLE_PLUS_ACCOUNT %}
-        <a href="https://plus.google.com/b/{{ GOOGLE_PLUS_ACCOUNT }}" class="img-rounded fa fa-google-plus-square" target="_blank"></a>
+        <a href="https://plus.google.com/b/{{ GOOGLE_PLUS_ACCOUNT }}" target="_blank"><span class="img-rounded fa fa-google-plus-square"></span></a>
         {% end %}
 
         {% if SKYPE_ACCOUNT %}
-        <a href="skype:{{ SKYPE_ACCOUNT }}?userinfo"><span class="img-rounded fa fa-skype"></span> Skype</a>
+        <a href="skype:{{ SKYPE_ACCOUNT }}?userinfo"><span class="img-rounded fa fa-skype"></span></a>
         {% end %}
     </div>
 </div>
