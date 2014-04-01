@@ -10,4 +10,4 @@ def generate_qrcode(field, url):
     img_bytes = StringIO()
     img.save(img_bytes, 'png')
     img_bytes.seek(0)
-    field.put(img_bytes, content_type='image/png')
+    field.replace(img_bytes, content_type='image/png')
