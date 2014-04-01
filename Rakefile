@@ -258,6 +258,7 @@ task :logos do
     sh "convert #{LOGO_BANNER} -resize 400x150\! logo-400x150.png" # FB cover image
     sh "convert #{LOGO_BANNER} -resize 155x100\! logo-155x100.png" # FB app web banner
     sh "convert #{LOGO_BANNER} -resize 200x60\! logo-200x60.png" # Site logo
+    sh "convert #{LOGO_BANNER} -resize 150x50\! logo-150x55.png" # PagSeguro logo
     sh "convert #{LOGO_BANNER} -resize 150x50\! logo-150x50.png" # Site logo
     sh "convert #{LOGO_BANNER} -resize 140x40\! logo-140x40.png" # Site logo
   end
