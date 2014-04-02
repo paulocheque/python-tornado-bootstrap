@@ -1,9 +1,10 @@
 # coding: utf-8
+import base64
 import collections
 import datetime
-import hmac
 import hashlib
-import base64
+import hmac
+import re
 
 import tornado.web
 from mongoengine.base import BaseDocument
@@ -69,7 +70,11 @@ class ApiHandler(BaseHandler):
     def get_signature(self, secret_key, data):
         data_prepared = []
         for key in sorted(data.keys()):
-            token = key.lower() + "=" + (data[key] if data[key] is not None else '')
+            value = data[key] if data[key] is not None else ''
+            # https://api.jquery.com/serializeArray/
+            # https://github.com/jquery/jquery/blob/master/src/serialize.js
+            value = re.sub('\\s', '', value)
+            token = key.lower() + "=" + value
             # print(token)
             data_prepared.append(token)
         data_prepared = '&'.join(data_prepared)
