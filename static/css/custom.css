@@ -28,7 +28,33 @@ ul.social-icons li a {
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#flags{padding-bottom:20px;clear:both}#flags span,.flags-container span{background:transparent url(/static/img/order/sprite_flags.125.gif) no-repeat 0 0;display:block;float:left;height:20px;margin-bottom:5px;margin-right:5px;text-indent:-9999px;width:42px}#flags #flag_visa,.flags-container .flag_visa{background-position:-42px 0}#flags #flag_mastercard,.flags-container .flag_mastercard{background-position:-84px 0}#flags #flag_diners,.flags-container .flag_diners{background-position:-126px 0}#flags #flag_americanexpress,.flags-container .flag_americanexpress{background-position:-168px 0}#flags #flag_hipercard,.flags-container .flag_hipercard{background-position:-210px 0}#flags #flag_aura,.flags-container .flag_aura{background-position:-252px 0}#flags #flag_elo,.flags-container .flag_elo{background-position:-294px 0}#flags #flag_personalcard,.flags-container .flag_personalcard{background-position:-672px 0}#flags #flag_cardban,.flags-container .flag_cardban{background-position:-840px 0}#flags #flag_valecard,.flags-container .flag_valecard{background-position:-882px 0;margin-right:0}#flags #flag_plenocard,.flags-container .flag_plenocard{background-position:-336px 0}#flags #flag_brasilcard,.flags-container .flag_brasilcard{background-position:-756px 0}#flags #flag_fortbrasil,.flags-container .flag_fortbrasil{background-position:-798px 0}#flags #flag_Cabal,.flags-container .flag_Cabal{background-position:-714px 0}#flags #flag_oipaggo,.flags-container .flag_oipaggo{background-position:-378px 0}#flags #flag_bradesco,.flags-container .flag_bradesco{background-position:-420px 0}#flags #flag_itau,.flags-container .flag_itau{background-position:-462px 0}#flags #flag_bb,.flags-container .flag_bb{background-position:-504px 0}#flags #flag_banrisul,.flags-container .flag_banrisul{background-position:-546px 0}#flags #flag_hsbc,.flags-container .flag_hsbc{background-position:-588px 0}#flags #flag_mais,.flags-container .flag_mais{background-position:-1008px 0}#flags #flag_avista,.flags-container .flag_avista{background-position:-1050px 0}#flags #flag_grandcard,.flags-container .flag_grandcard{background-position:-1092px 0}#flags #flag_boleto,.flags-container .flag_boleto{background-position:-630px 0}#ferramentas #flags{margin-left:-11px}img.flag.big{background:url("/static/img/order/title_cards.gif") no-repeat 0 0 transparent;height:55px;width:110px;display:inline-block}img.flag.big.mastercard{background-position:-15px -110px!important}img.flag.big.visa{background-position:-20px -55px!important}img.flag.big.amex{background-position:-28px -222px!important}img.flag.big.diners{background-position:-18px -165px!important}img.flag.big.aura{background-position:-15px -330px!important}img.flag.big.hipercard{background-position:-10px -275px!important}img.flag.big.elo{background-position:-25px -822px!important}img.flag.big.plenocard{background-position:-8px -876px!important}img.flag.big.personalcard{background-position:-2px -925px!important}img.flag.big.brasilcard{background-position:-8px -983px!important}img.flag.big.jcb{background-position:-15px -1047px!important}img.flag.big.discover{background-position:0 -1115px!important}img.flag.big.fortbrasil{background-position:3px -1175px!important}img.flag.big.cardban{background-position:-10px -1232px!important}img.flag.big.valecard{background-position:-10px -1287px!important}img.flag.big.cabal{background-position:-10px -1340px!important}img.flag.big.mais{background-position:-10px -1394px!important}img.flag.big.avista{background-position:-10px -1445px!important}img.flag.big.grandcard{background-position:-10px -1496px!important}#pci-certified{background-image:url(/static/img/order/pci_certified.png);background-position:0 0;background-repeat:no-repeat;font-size:12px;color:#999;line-height:27px;padding:0 0 0 5px;margin:1em 0}
+.payment-flags{}
+.payment-flags span {background:transparent url(/static/img/order/sprite_flags.125.gif) no-repeat 0 0;float:left;height:20px;margin-bottom:5px;margin-right:5px;text-indent:-9999px;width:42px}
+.payment-flags .flag_visa{background-position:-42px 0}
+.payment-flags .flag_mastercard{background-position:-84px 0}
+.payment-flags .flag_diners{background-position:-126px 0}
+.payment-flags .flag_americanexpress{background-position:-168px 0}
+.payment-flags .flag_hipercard{background-position:-210px 0}
+.payment-flags .flag_aura{background-position:-252px 0}
+.payment-flags .flag_elo{background-position:-294px 0}
+.payment-flags .flag_personalcard{background-position:-672px 0}
+.payment-flags .flag_cardban{background-position:-840px 0}
+.payment-flags .flag_valecard{background-position:-882px 0;margin-right:0}
+.payment-flags .flag_plenocard{background-position:-336px 0}
+.payment-flags .flag_brasilcard{background-position:-756px 0}
+.payment-flags .flag_fortbrasil{background-position:-798px 0}
+.payment-flags .flag_Cabal{background-position:-714px 0}
+.payment-flags .flag_oipaggo{background-position:-378px 0}
+.payment-flags .flag_bradesco{background-position:-420px 0}
+.payment-flags .flag_itau{background-position:-462px 0}
+.payment-flags .flag_bb{background-position:-504px 0}
+.payment-flags .flag_banrisul{background-position:-546px 0}
+.payment-flags .flag_hsbc{background-position:-588px 0}
+.payment-flags .flag_mais{background-position:-1008px 0}
+.payment-flags .flag_avista{background-position:-1050px 0}
+.payment-flags .flag_grandcard{background-position:-1092px 0}
+.payment-flags .flag_boleto{background-position:-630px 0}
+.payment-flags .flag_mercadopago {background:transparent url(/static/img/order/mercadopago-icon.gif) no-repeat 0 0;display:block;float:left;height:20px;margin-bottom:5px;margin-right:5px;width:42px;}
 
 .box-ratio {
     width: 100%;
