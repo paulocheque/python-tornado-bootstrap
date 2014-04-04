@@ -14,7 +14,7 @@ from .serializer import data_to_json
 from apps.accounts.models import User # FIXME need refactoring
 
 
-class ApiHandler(BaseHandler):
+class ApiBaseHandler(BaseHandler):
     def prepare_data_obj(self, data):
         if hasattr(data, 'to_api_dict'):
             identifier = None
@@ -40,6 +40,25 @@ class ApiHandler(BaseHandler):
         data_json = data_to_json(self.prepare_data(data))
         self.write(data_json)
 
+    def get_request_data(self):
+        data = {}
+        for arg in list(self.request.arguments.keys()):
+            if arg in ['auth_version', 'auth_public_key', 'auth_timestamp', 'auth_signature']:
+                continue
+            data[arg] = self.get_argument(arg)
+            if data[arg] == '': # Tornado 3.0+ compatibility
+                data[arg] = None
+            elif data[arg] and data[arg].lower() in ['false']:
+                data[arg] = False
+            elif data[arg] and data[arg].lower() in ['true']:
+                data[arg] = True
+        data['ip'] = self.request.remote_ip
+        data['files'] = self.request.files
+        data['user'] = self.get_current_user()
+        return data
+
+
+class ApiHandler(ApiBaseHandler):
     def prepare(self):
         super(ApiHandler, self).prepare()
         self.authenticate()
@@ -95,21 +114,4 @@ class ApiHandler(BaseHandler):
             if arg in ['auth_version', 'auth_public_key', 'auth_timestamp', 'auth_signature']:
                 continue
             data[arg] = self.get_argument(arg)
-        return data
-
-    def get_request_data(self):
-        data = {}
-        for arg in list(self.request.arguments.keys()):
-            if arg in ['auth_version', 'auth_public_key', 'auth_timestamp', 'auth_signature']:
-                continue
-            data[arg] = self.get_argument(arg)
-            if data[arg] == '': # Tornado 3.0+ compatibility
-                data[arg] = None
-            elif data[arg] and data[arg].lower() in ['false']:
-                data[arg] = False
-            elif data[arg] and data[arg].lower() in ['true']:
-                data[arg] = True
-        data['ip'] = self.request.remote_ip
-        data['files'] = self.request.files
-        data['user'] = self.get_current_user()
         return data
