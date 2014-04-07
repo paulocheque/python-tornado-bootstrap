@@ -31,6 +31,11 @@ class ApiBaseHandler(BaseHandler):
         is_iterable = isinstance(data, collections.Iterable) and hasattr(data, '__iter__') and not hasattr(data, 'to_mongo')
         if isinstance(data, BaseDocument):
             return self.prepare_data_obj(data)
+        elif isinstance(data, dict):
+            data_obj = {}
+            for k, v in data.items():
+                data_obj[k] = self.prepare_data(v)
+            return data_obj
         elif is_iterable:
             return [self.prepare_data_obj(d) for d in data]
         return data

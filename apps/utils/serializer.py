@@ -106,7 +106,9 @@ def data_to_native_objects(data): # {}, [{}], Document or [Document]
     if isinstance(data, BaseDocument): # Document and EmbeddedDocument
         data_obj = document_to_data_obj(data)
     elif isinstance(data, dict):
-        data_obj = data
+        data_obj = {}
+        for k, v in data.items():
+            data_obj[k] = data_to_native_objects(v)
     elif isinstance(data, (str, unicode)):
         data_obj = data
     elif is_iterable:
