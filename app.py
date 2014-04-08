@@ -55,7 +55,6 @@ application = tornado.web.Application(TORNADO_ROUTES, **TORNADO_SETTINGS)
 
 
 if __name__ == '__main__':
-    # http://www.tornadoweb.org/documentation/wsgi.html
     # to use with newrelic
     import newrelic.agent
     application = newrelic.agent.wsgi_application()(application)

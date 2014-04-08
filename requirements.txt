@@ -30,7 +30,7 @@ jsonpickle==0.6.1
 tweepy==2.2
 py-social==0.1.9
 
-newrelic==2.10.1.9
+newrelic==2.18.1.15
 sendgrid==0.2.5
 fabric==1.8.1
 

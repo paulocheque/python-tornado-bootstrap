@@ -105,6 +105,8 @@ namespace :heroku do
     SYSTEM_EMAIL: "no-reply@#{DOMAIN}",
     ADMIN_EMAIL: "paulocheque@gmail.com",
     BSALT: "#{DOMAIN}-yoursalt",
+    NEW_RELIC_APP_NAME: "#{SERVER}",
+    NEW_RELIC_CONFIG_FILE: "newrelic.ini",
 
     GOOGLE_ANALYTICS: "", # UA-CHANGEHERE-1
     GOOGLE_PLUS_ACCOUNT: "",
