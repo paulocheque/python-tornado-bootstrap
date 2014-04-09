@@ -71,7 +71,7 @@ function createImages(srcs, extraClass) {
 
 // var columns = [];
 // loadDataTable("{{ current_user.secret_key }}", "{{ current_user.id }}", "/api/", columns);
-function loadDataTable(secretKey, userId, apiUrl, columns, amount, create, edit, del, htmlFields) {
+function loadDataTable(secretKey, userId, apiUrl, columns, amount, create, update, del, htmlFields, log) {
   var defaultErrorHandler = function(response, status) {
       $.pnotify({
           type: 'notice',
@@ -88,9 +88,10 @@ function loadDataTable(secretKey, userId, apiUrl, columns, amount, create, edit,
       formCreate: $("#form-create"),
       formEdit: $("#form-create"),
       columns: columns,
-      create: create || true,
-      edit: edit || true,
-      del: del || true,
+      create: create != undefined ? create : true,
+      update: update != undefined ? update : true,
+      del: del != undefined ? del : true,
+      log: log != undefined ? log : false,
       htmlFields: htmlFields || [],
       onTableLoad: function(table) {
           client.list(0, amount || 500, function(lines, status) {
