@@ -79,6 +79,7 @@ else:
     # heroku config:set VARIABLE=value
 
 
+import tornado.web
 class CachedStaticFileHandler(tornado.web.StaticFileHandler):
     def set_extra_headers(self, path):
         if DEBUG:
