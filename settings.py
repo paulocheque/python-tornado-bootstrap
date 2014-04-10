@@ -1,6 +1,8 @@
 # coding: utf-8
 import os
 
+from apps.utils.base import CachedStaticFileHandler
+
 def str2bool(string):
     if not string:
         return False
@@ -85,6 +87,8 @@ TORNADO_SETTINGS = dict(
     login_url='/login',
     post_login_redirect_url='/',
     static_path=os.path.join(os.path.dirname(__file__), 'static'),
+    static_hash_cache=not DEBUG,
+    static_handler_class=CachedStaticFileHandler,
     template_path='templates',
     autoescape=None,
     cookie_secret=os.environ.get('BSALT'),

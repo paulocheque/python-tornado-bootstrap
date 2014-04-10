@@ -98,10 +98,19 @@ class ImageHandler(BaseHandler):
             if img:
                 if img.content_type:
                     self.set_header('Content-type', img.content_type)
+                self.set_header("Cache-Control", "max-age=31536000")
+                self.set_header("Expires", "Thu, 31 Dec 2015 23:59:59 GM")
                 self.write(img.read())
             self.finish()
         except (DoesNotExist, IndexError):
             self.raise404()
+
+
+class CachedStaticFileHandler(tornado.web.StaticFileHandler):
+    def set_extra_headers(self, path):
+        # self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        self.set_header("Cache-Control", "max-age=31536000")
+        self.set_header("Expires", "Thu, 31 Dec 2015 23:59:59 GM")
 
 
 class AuthenticatedBaseHandler(BaseHandler):
