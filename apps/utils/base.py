@@ -106,13 +106,6 @@ class ImageHandler(BaseHandler):
             self.raise404()
 
 
-class CachedStaticFileHandler(tornado.web.StaticFileHandler):
-    def set_extra_headers(self, path):
-        # self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
-        self.set_header("Cache-Control", "max-age=31536000")
-        self.set_header("Expires", "Thu, 31 Dec 2015 23:59:59 GM")
-
-
 class AuthenticatedBaseHandler(BaseHandler):
     LOGIN_MSG = 'You have to login first. It is simple and fast.'
     ADMIN_PERMISSION = False

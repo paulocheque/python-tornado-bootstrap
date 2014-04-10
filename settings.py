@@ -1,8 +1,6 @@
 # coding: utf-8
 import os
 
-from apps.utils.base import CachedStaticFileHandler
-
 def str2bool(string):
     if not string:
         return False
@@ -79,6 +77,15 @@ else:
     print('RUNNING ON PRODUCTION MODE')
     print('='*80)
     # heroku config:set VARIABLE=value
+
+
+class CachedStaticFileHandler(tornado.web.StaticFileHandler):
+    def set_extra_headers(self, path):
+        if DEBUG:
+            self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        else:
+            self.set_header("Cache-Control", "max-age=31536000")
+            self.set_header("Expires", "Thu, 31 Dec 2015 23:59:59 GM")
 
 
 TORNADO_SETTINGS = dict(
