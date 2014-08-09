@@ -12,6 +12,13 @@ redis_connection = connect_redis.connect_to_redis()
 
 
 class BaseHandler(tornado.web.RequestHandler):
+    def prepare(self):
+        self.clear_header('Server')
+        self.set_header('X-FRAME-OPTIONS', 'Deny')
+        self.set_header('X-XSS-Protection', '1; mode=block')
+        self.set_header('X-Content-Type-Options', 'nosniff')
+        self.set_header('Strict-Transport-Security', 'max-age=31536000; includeSubdomains')
+
     def check_permission(self, action):
         user = self.get_current_user()
         admin = self.is_admin_user()
