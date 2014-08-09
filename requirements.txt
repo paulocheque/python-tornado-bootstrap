@@ -1,45 +1,45 @@
-tornado==3.2
-gunicorn==0.17.2
+tornado==4.0
+gunicorn==19.1.0
 wsgiref==0.1.2
-#uWSGI==1.4.4
-#bottle==0.11.6
+#uWSGI==2.0.6
+#bottle==0.12.7
 
-python-dateutil==2.1
-requests==2.2.1
-six==1.4.1
+python-dateutil==2.2
+requests==2.3.0
+six==1.7.3
 
 mongoengine==0.8.7
-pymongo==2.6.3
-pillow==2.3.0
+pymongo==2.7.2
+pillow==2.5.1
 
-redis==2.8.0
-#rq==0.3.13
+redis==2.10.1
+#rq==0.4.6
 git+git://github.com/nvie/rq.git#egg=rq
-#rq-scheduler==0.4.0
+#rq-scheduler==0.5.0
 git+git://github.com/ui/rq-scheduler.git#egg=rq-scheduler
 
 flask==0.10.1
-#rq-dashboard==0.3.3
+#rq-dashboard==0.3.4
 git+git://github.com/nvie/rq-dashboard.git#egg=rq-dashboard
 
 simplejson==3.3.0
-jsonpickle==0.6.1
+jsonpickle==0.7.2
 #git+git://github.com/paulocheque/jsonpickle.git#egg=jsonpickle
-#xmltodict==0.8.6
+#xmltodict==0.9.0
 
-tweepy==2.2
+tweepy==2.3
 py-social==0.1.9
 
-newrelic==2.18.1.15
-sendgrid==0.2.5
-fabric==1.8.1
+newrelic==2.24.0.21
+sendgrid==1.0.1
+fabric==1.9.1
 
 #python-cielo==0.5
 #pagseguro==0.1.6.dev0
 #mercadopago==0.2.0
 #moipy==0.1
 #paypal==1.2.1
-#paypalrestsdk==0.7.0
+#paypalrestsdk==1.3.0
 
 #pyBarcode==0.7
-qrcode==4.0.4
+qrcode==5.0.1
